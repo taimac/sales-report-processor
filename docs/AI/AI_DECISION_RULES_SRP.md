@@ -9,7 +9,19 @@ Principles live in `AI_OS_SRP.md`. This file is mechanics only.
 
 ## Backend Framework
 
-Always Django + DRF. No exceptions for MVP.
+Always Django / DRF. No exceptions for MVP.
+
+---
+
+## Database
+
+| Phase | Database | Reason |
+|-------|----------|--------|
+| MVP (now) | SQLite | Zero config, built into Django, sufficient for MVP |
+| Production | PostgreSQL | Swap `DATABASES` in settings + run migrate |
+
+No SQLite-specific features — keep all queries standard Django ORM
+to ensure zero friction when migrating to PostgreSQL.
 
 ---
 
@@ -17,9 +29,8 @@ Always Django + DRF. No exceptions for MVP.
 
 | File type | Tool | Notes |
 |-----------|------|-------|
-| TXT | Python built-in (`open`, `str`, `re`) | Start with line iteration; add regex only if needed |
-| PDF | `pdfplumber` | Primary choice — handles text and tables cleanly |
-| PDF fallback | `PyPDF2` | Only if `pdfplumber` fails for a specific file |
+| TXT | Python built-in (`open`, `re`) | Line iteration + key:value regex |
+| PDF | `pdfplumber` | Future phase — accepted on upload, not parsed yet |
 
 ---
 
@@ -27,9 +38,9 @@ Always Django + DRF. No exceptions for MVP.
 
 | Situation | Decision |
 |-----------|----------|
-| Structured extracted data | Django model → PostgreSQL |
-| Raw uploaded file | `FileField` on the Report model |
-| File already parsed | Store result in related `ReportData` model |
+| Uploaded file | `FileField` on `UploadedReport` model |
+| Parsed TXT fields | Separate `ParsedReport` model with `JSONField` |
+| SQLite DB file | `backend/db.sqlite3` — never commit to repo |
 
 ---
 
@@ -37,10 +48,32 @@ Always Django + DRF. No exceptions for MVP.
 
 | Need | Decision |
 |------|----------|
-| File upload | `POST /api/reports/` with `multipart/form-data` |
+| File upload | `POST /api/reports/upload/` — `multipart/form-data` |
 | List reports | `GET /api/reports/` |
-| Get one report + data | `GET /api/reports/{id}/` |
+| Get one report | `GET /api/reports/{id}/` |
 | No auth for MVP | Skip authentication — not in MVP scope |
+
+---
+
+## Frontend (MVP)
+
+| Need | Decision |
+|------|----------|
+| Dashboard | Simple Django template or minimal HTML view |
+| No React for MVP | React SPA is a future phase |
+| Data display | Summary stats + table of extracted records |
+
+---
+
+## File Locations
+
+| What | Where |
+|------|-------|
+| Django project | `backend/` |
+| Uploaded files | `backend/media/reports/` |
+| SQLite database | `backend/db.sqlite3` |
+| All Django commands | Run from `backend/` |
+| Venv activation | Run from repo root: `source venv/bin/activate` |
 
 ---
 

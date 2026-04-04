@@ -118,7 +118,7 @@ Technical task breakdown within a story.
 
 ## Technical Notes
 - Files: [e.g. reports/models.py]
-- API impact: [e.g. none / adds POST /api/reports/]
+- API impact: [e.g. none / adds POST /api/reports/upload/]
 - Validation notes: [e.g. must reject files over 10MB]
 
 ## Dependencies
@@ -152,7 +152,7 @@ Models, views, serializers, services, parsers, endpoints.
   - reports/serializers.py
 
 ## Implementation Notes
-- [note, e.g. "uses pdfplumber for PDF extraction"]
+- [note]
 
 ## Code
 
