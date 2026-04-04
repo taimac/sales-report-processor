@@ -3,38 +3,44 @@
 ## Purpose
 
 Guide AI behavior for building the SRP MVP.
+This file is the single authority on principles.
+All other files define mechanics only.
 
 ---
 
 ## Core Principles
 
-- Be practical and direct
-- Focus on implementation over theory
-- Avoid unnecessary complexity
-- Do not assume features exist
+1. Be practical and direct
+2. Focus on implementation over theory
+3. Avoid unnecessary complexity
+4. Do not assume features exist
+5. If unsure → do not assume → keep solution minimal
 
 ---
 
 ## Authority Order
 
-1. project_instructions_SRP.md
-2. current task (Jira or defined scope)
-3. actual codebase
+When there is a conflict, resolve in this order:
+
+1. `project_instructions_SRP.md`
+2. Current Jira ticket (from `jira_backlog_SRP.md`)
+3. `AI_CONTEXT_SRP.md` (actual state of the project)
+4. Codebase reality
 
 ---
 
-## Rules
+## Hard Rules
 
+- No features outside the current ticket scope
 - No over-engineering
-- No features outside MVP scope
-- Prefer simple solutions
-- Always produce working code
+- Prefer the simplest working solution
+- Always produce runnable, copy-paste ready code
+- Never invent project structure — use `AI_CONTEXT_SRP.md`
 
 ---
 
 ## Output Style
 
-- Structured
-- Clear
-- Copy-paste ready
-- Minimal explanation
+- Structured using `AI_OUTPUT_CONTRACTS_SRP.md`
+- Clear and direct
+- Minimal explanation — code speaks for itself

@@ -2,20 +2,15 @@
 
 ## Purpose
 
-Define standard output formats for SRP work.
+Standard output formats for SRP work.
 
-Outputs must be:
-- clear
-- structured
-- scoped
-- actionable
+Outputs must be: clear, structured, scoped, actionable.
 
 ---
 
 ## Core Rule
 
 Choose the smallest contract that fits the task.
-
 Do not over-structure simple answers.
 
 ---
@@ -30,18 +25,18 @@ Do not over-structure simple answers.
 
 ---
 
-## Contract 1 – Analysis Output
+## Contract 1 – Review Output
 
 ### Use for
-reviews, gap analysis, planning
+Gap analysis, code reviews, planning sessions.
 
 ### Format
 
-# Analysis
+```
+# Review
 
 ## Scope
 - Topic:
-- Relevant area:
 - Relevant files:
 
 ## Findings
@@ -52,21 +47,25 @@ reviews, gap analysis, planning
 
 ## Recommendation
 - [next step]
+```
+
+---
 
 ## Contract 2 – Jira Story Output
 
 ### Use for
-story creation or refinement
+Story creation or refinement.
 
 ### Format
 
+```
 # Jira Story: SRP-XXX – [Title]
 
 ## Description
-[clear description]
+[clear description of what this story delivers]
 
 ## Goal
-[what success looks like]
+[what success looks like — one sentence]
 
 ## Scope
 
@@ -83,88 +82,112 @@ story creation or refinement
 - [note]
 
 ## Dependencies
-- [dependency]
+- SRP-XXX must be Done before this starts
+- [or: No dependencies]
 
 ## Suggested Story Points
 - [number]
+```
+
+---
 
 ## Contract 3 – Jira Subtask Output
 
 ### Use for
-technical task breakdown
+Technical task breakdown within a story.
 
 ### Format
 
+```
 # Jira Subtask: SRP-XXX – [Title]
 
 ## Parent Story
 - SRP-XXX – [Parent title]
 
 ## Purpose
-[why this exists]
+[one sentence: why this subtask exists]
 
 ## Scope
 - [item]
 
 ## Deliverables
-- [deliverable]
+- [file or artifact produced]
 
 ## Acceptance Criteria
 - [ ] [criterion]
 
 ## Technical Notes
-- Files:
-- API impact:
-- Validation notes:
+- Files: [e.g. reports/models.py]
+- API impact: [e.g. none / adds POST /api/reports/]
+- Validation notes: [e.g. must reject files over 10MB]
+
+## Dependencies
+- SRP-XXX must be Done
+- [or: No dependencies]
 
 ## Suggested Story Points
 - [number]
+```
+
+---
 
 ## Contract 4 – Backend Implementation Output
 
 ### Use for
-models, views, serializers, services, endpoints
+Models, views, serializers, services, parsers, endpoints.
 
 ### Format
 
+```
 # Backend Implementation
 
 ## Objective
-[what is being implemented]
+[what is being implemented — one sentence]
 
 ## Scope
-- Ticket:
-- App:
+- Ticket: SRP-XXX
+- App: reports
 - Files:
+  - reports/models.py
+  - reports/serializers.py
 
 ## Implementation Notes
-- [note]
+- [note, e.g. "uses pdfplumber for PDF extraction"]
 
 ## Code
 
+[filename]
 ```python
-code here
+# code here
 ```
 
 ## Validation
 
-```
-command here
+```bash
+# command to verify it works
+python manage.py migrate
+python manage.py test reports
 ```
 
 ## Success Criteria
-[success path]
+[what the happy path looks like]
 
 ## Failure Cases
-[failure path]
+- Invalid file type → returns 400 with message "Unsupported file type"
+- File missing → returns 400 with message "No file provided"
+- Parse error → returns 422 with message "Could not extract data from file"
+```
+
+---
 
 ## Contract 5 – Documentation Output
 
 ### Use for
-README sections, architecture notes, setup docs
+README sections, setup docs, architecture notes.
 
 ### Format
 
+```
 # Documentation
 
 ## Purpose
@@ -175,3 +198,4 @@ README sections, architecture notes, setup docs
 
 ## Content
 [final markdown-ready content]
+```
