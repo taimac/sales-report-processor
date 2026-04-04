@@ -1,20 +1,21 @@
 # Jira Backlog for Project SRP
-_Exported: 2026-04-04 17:35:38_
+_Exported: 2026-04-04 18:18:05_
 
-**Total Issues:** 8
+**Total Issues:** 9
 
 ## Summary
 
-- **To Do:** 7 issues
+- **To Do:** 8 issues
 - **In Progress:** 0 issues
 - **Done:** 1 issues
 
 ---
 
-## To Do (7 issues)
+## To Do (8 issues)
 
 | Key | Summary | Status | Created | Updated | Sprint |
 |-----|---------|--------|---------|---------|--------|
+| SRP-9 | Django Project and App Scaffold | To Do | 2026-04-04 | 2026-04-04 | No Sprint |
 | SRP-8 | Document upload endpoint behavior | To Do | 2026-04-04 | 2026-04-04 | No Sprint |
 | SRP-7 | Add backend tests for upload endpoint | To Do | 2026-04-04 | 2026-04-04 | No Sprint |
 | SRP-6 | Add file validation for TXT/PDF uploads | To Do | 2026-04-04 | 2026-04-04 | No Sprint |
@@ -22,6 +23,61 @@ _Exported: 2026-04-04 17:35:38_
 | SRP-4 | Create upload data model | To Do | 2026-04-04 | 2026-04-04 | No Sprint |
 | SRP-3 | File Upload API | To Do | 2026-04-04 | 2026-04-04 | No Sprint |
 | SRP-2 | Sales Report Processor MVP | To Do | 2026-04-04 | 2026-04-04 | No Sprint |
+
+### SRP-9 – Django Project and App Scaffold
+
+- **Status:** To Do
+- **Created:** 2026-04-04
+- **Updated:** 2026-04-04
+- **Sprint:** No Sprint
+
+**Description**
+
+Create the Django project structure and the `reports` app, and configure the connection to PostgreSQL. This is the technical foundation that SRP-3 and all subsequent stories depend on.
+
+## Goal
+
+A runnable Django project connected to PostgreSQL with the `reports` app registered and ready for feature development.
+
+## Scope
+
+### Included
+
+* `django-admin startproject srp`
+* `python manage.py startapp reports`
+* Settings configuration (database, installed apps, media files)
+* `.env.example` committed to repo
+
+### Not Included
+
+* Models (SRP-4)
+* Any endpoints (SRP-5)
+* Parsing logic
+
+## Acceptance Criteria
+
+* [ ] `python manage.py check` passes with no issues
+* [ ] `python manage.py migrate` runs cleanly (default Django migrations only)
+* [ ] `python manage.py runserver` starts without errors
+* [ ] PostgreSQL connection configured via `.env`
+* [ ] `reports` app registered in `INSTALLED_APPS`
+* [ ] `.env.example` committed
+
+## Technical Notes
+
+* Use `python-decouple` for all environment variables
+* `MEDIA_ROOT = BASE_DIR / 'media'`
+* `media/` and `.env` must be in `.gitignore`
+
+## Dependencies
+
+* SRP-1 must be Done
+
+**Comments**
+
+_No comments_
+
+---
 
 ### SRP-8 – Document upload endpoint behavior
 
