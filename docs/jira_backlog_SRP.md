@@ -1,77 +1,129 @@
 # Jira Backlog for Project SRP
-_Exported: 2026-04-04 18:18:05_
+_Exported: 2026-04-04 20:20:17_
 
-**Total Issues:** 9
+**Total Issues:** 15
 
 ## Summary
 
-- **To Do:** 8 issues
+- **To Do:** 13 issues
 - **In Progress:** 0 issues
-- **Done:** 1 issues
+- **Done:** 2 issues
 
 ---
 
-## To Do (8 issues)
+## To Do (13 issues)
 
 | Key | Summary | Status | Created | Updated | Sprint |
 |-----|---------|--------|---------|---------|--------|
-| SRP-9 | Django Project and App Scaffold | To Do | 2026-04-04 | 2026-04-04 | No Sprint |
-| SRP-8 | Document upload endpoint behavior | To Do | 2026-04-04 | 2026-04-04 | No Sprint |
-| SRP-7 | Add backend tests for upload endpoint | To Do | 2026-04-04 | 2026-04-04 | No Sprint |
-| SRP-6 | Add file validation for TXT/PDF uploads | To Do | 2026-04-04 | 2026-04-04 | No Sprint |
-| SRP-5 | Implement upload API endpoint | To Do | 2026-04-04 | 2026-04-04 | No Sprint |
-| SRP-4 | Create upload data model | To Do | 2026-04-04 | 2026-04-04 | No Sprint |
-| SRP-3 | File Upload API | To Do | 2026-04-04 | 2026-04-04 | No Sprint |
+| SRP-15 | Documentation and Demo Readiness | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 4 |
+| SRP-14 | Error Handling and Validation | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 4 |
+| SRP-13 | Basic Dashboard View | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 3 |
+| SRP-12 | Processed Data Retrieval API | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 3 |
+| SRP-11 | Parsed Data Models | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 2 |
+| SRP-10 | TXT Parsing Engine | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 2 |
+| SRP-8 | Document upload endpoint behavior | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 1 |
+| SRP-7 | Add backend tests for upload endpoint | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 1 |
+| SRP-6 | Add file validation for TXT/PDF uploads | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 1 |
+| SRP-5 | Implement upload API endpoint | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 1 |
+| SRP-4 | Create upload data model | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 1 |
+| SRP-3 | File Upload API | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 1 |
 | SRP-2 | Sales Report Processor MVP | To Do | 2026-04-04 | 2026-04-04 | No Sprint |
 
-### SRP-9 – Django Project and App Scaffold
+### SRP-15 – Documentation and Demo Readiness
 
 - **Status:** To Do
 - **Created:** 2026-04-04
 - **Updated:** 2026-04-04
-- **Sprint:** No Sprint
+- **Sprint:** SRP Sprint 4
 
 **Description**
 
-Create the Django project structure and the `reports` app, and configure the connection to PostgreSQL. This is the technical foundation that SRP-3 and all subsequent stories depend on.
+_No content_
 
-## Goal
+**Comments**
 
-A runnable Django project connected to PostgreSQL with the `reports` app registered and ready for feature development.
+_No comments_
 
-## Scope
+---
 
-### Included
+### SRP-14 – Error Handling and Validation
 
-* `django-admin startproject srp`
-* `python manage.py startapp reports`
-* Settings configuration (database, installed apps, media files)
-* `.env.example` committed to repo
+- **Status:** To Do
+- **Created:** 2026-04-04
+- **Updated:** 2026-04-04
+- **Sprint:** SRP Sprint 4
 
-### Not Included
+**Description**
 
-* Models (SRP-4)
-* Any endpoints (SRP-5)
-* Parsing logic
+_No content_
 
-## Acceptance Criteria
+**Comments**
 
-* [ ] `python manage.py check` passes with no issues
-* [ ] `python manage.py migrate` runs cleanly (default Django migrations only)
-* [ ] `python manage.py runserver` starts without errors
-* [ ] PostgreSQL connection configured via `.env`
-* [ ] `reports` app registered in `INSTALLED_APPS`
-* [ ] `.env.example` committed
+_No comments_
 
-## Technical Notes
+---
 
-* Use `python-decouple` for all environment variables
-* `MEDIA_ROOT = BASE_DIR / 'media'`
-* `media/` and `.env` must be in `.gitignore`
+### SRP-13 – Basic Dashboard View
 
-## Dependencies
+- **Status:** To Do
+- **Created:** 2026-04-04
+- **Updated:** 2026-04-04
+- **Sprint:** SRP Sprint 3
 
-* SRP-1 must be Done
+**Description**
+
+_No content_
+
+**Comments**
+
+_No comments_
+
+---
+
+### SRP-12 – Processed Data Retrieval API
+
+- **Status:** To Do
+- **Created:** 2026-04-04
+- **Updated:** 2026-04-04
+- **Sprint:** SRP Sprint 3
+
+**Description**
+
+_No content_
+
+**Comments**
+
+_No comments_
+
+---
+
+### SRP-11 – Parsed Data Models
+
+- **Status:** To Do
+- **Created:** 2026-04-04
+- **Updated:** 2026-04-04
+- **Sprint:** SRP Sprint 2
+
+**Description**
+
+_No content_
+
+**Comments**
+
+_No comments_
+
+---
+
+### SRP-10 – TXT Parsing Engine
+
+- **Status:** To Do
+- **Created:** 2026-04-04
+- **Updated:** 2026-04-04
+- **Sprint:** SRP Sprint 2
+
+**Description**
+
+_No content_
 
 **Comments**
 
@@ -84,7 +136,7 @@ _No comments_
 - **Status:** To Do
 - **Created:** 2026-04-04
 - **Updated:** 2026-04-04
-- **Sprint:** No Sprint
+- **Sprint:** SRP Sprint 1
 
 **Description**
 
@@ -128,7 +180,7 @@ _No comments_
 - **Status:** To Do
 - **Created:** 2026-04-04
 - **Updated:** 2026-04-04
-- **Sprint:** No Sprint
+- **Sprint:** SRP Sprint 1
 
 **Description**
 
@@ -172,7 +224,7 @@ _No comments_
 - **Status:** To Do
 - **Created:** 2026-04-04
 - **Updated:** 2026-04-04
-- **Sprint:** No Sprint
+- **Sprint:** SRP Sprint 1
 
 **Description**
 
@@ -219,7 +271,7 @@ _No comments_
 - **Status:** To Do
 - **Created:** 2026-04-04
 - **Updated:** 2026-04-04
-- **Sprint:** No Sprint
+- **Sprint:** SRP Sprint 1
 
 **Description**
 
@@ -269,7 +321,7 @@ _No comments_
 - **Status:** To Do
 - **Created:** 2026-04-04
 - **Updated:** 2026-04-04
-- **Sprint:** No Sprint
+- **Sprint:** SRP Sprint 1
 
 **Description**
 
@@ -319,7 +371,7 @@ _No comments_
 - **Status:** To Do
 - **Created:** 2026-04-04
 - **Updated:** 2026-04-04
-- **Sprint:** No Sprint
+- **Sprint:** SRP Sprint 1
 
 **Description**
 
@@ -542,11 +594,77 @@ _No comments_
 
 ---
 
-## Done (1 issues)
+## Done (2 issues)
 
 | Key | Summary | Status | Created | Updated | Sprint |
 |-----|---------|--------|---------|---------|--------|
+| SRP-9 | Django Project and App Scaffold | Done | 2026-04-04 | 2026-04-04 | SRP Sprint 1 |
 | SRP-1 | Initial Project Setup | Done | 2026-04-04 | 2026-04-04 | No Sprint |
+
+### SRP-9 – Django Project and App Scaffold
+
+- **Status:** Done
+- **Created:** 2026-04-04
+- **Updated:** 2026-04-04
+- **Sprint:** SRP Sprint 1
+
+**Description**
+
+Create the Django project structure and the `reports` app, and configure the connection to PostgreSQL. This is the technical foundation that SRP-3 and all subsequent stories depend on.
+
+## Goal
+
+A runnable Django project connected to PostgreSQL with the `reports` app registered and ready for feature development.
+
+## Scope
+
+### Included
+
+* `django-admin startproject srp`
+* `python manage.py startapp reports`
+* Settings configuration (database, installed apps, media files)
+* `.env.example` committed to repo
+
+### Not Included
+
+* Models (SRP-4)
+* Any endpoints (SRP-5)
+* Parsing logic
+
+## Acceptance Criteria
+
+* [ ] `python manage.py check` passes with no issues
+* [ ] `python manage.py migrate` runs cleanly (default Django migrations only)
+* [ ] `python manage.py runserver` starts without errors
+* [ ] PostgreSQL connection configured via `.env`
+* [ ] `reports` app registered in `INSTALLED_APPS`
+* [ ] `.env.example` committed
+
+## Technical Notes
+
+* Use `python-decouple` for all environment variables
+* `MEDIA_ROOT = BASE_DIR / 'media'`
+* `media/` and `.env` must be in `.gitignore`
+
+## Dependencies
+
+* SRP-1 must be Done
+
+**Comments**
+
+- **Tailor Maciel** (2026-04-04): SRP-9 completed.
+
+Delivered:
+
+* Django project scaffold in backend/
+* reports app created and registered
+* SQLite-based MVP setup maintained
+* .env.example added
+* project validated with check, migrate, and runserver
+
+This establishes the technical foundation for SRP-3 and subsequent backend stories.
+
+---
 
 ### SRP-1 – Initial Project Setup
 
