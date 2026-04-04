@@ -8,6 +8,7 @@ idna==3.11
 jira==3.10.5
 oauthlib==3.3.1
 packaging==26.0
+python-decouple==3.8
 python-dotenv==1.2.2
 requests==2.33.1
 requests-oauthlib==2.0.0
