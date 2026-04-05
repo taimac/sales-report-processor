@@ -121,10 +121,10 @@ MVP is complete when:
 ```
 [Epic]  SRP-2 – Sales Report Processor MVP
   ├─ SRP-1    Initial Project Setup             ✅ Done
-  ├─ SRP-9    Django Project and App Scaffold   ⬜ To Do  ← next
-  ├─ SRP-3    File Upload API                   ⬜ To Do
-  │    ├─ SRP-4   Create UploadedReport model
-  │    ├─ SRP-5   Implement upload API endpoint
+  ├─ SRP-9    Django Project and App Scaffold   ✅ Done  
+  ├─ SRP-3    File Upload API                   ⬜ In Progress
+  │    ├─ SRP-4   Create UploadedReport model   ✅ Done  
+  │    ├─ SRP-5   Implement upload API endpoint ⬜ To Do  ← next
   │    ├─ SRP-6   Add file validation (TXT and PDF)
   │    ├─ SRP-7   Add backend tests for upload endpoint
   │    └─ SRP-8   Document upload endpoint behavior

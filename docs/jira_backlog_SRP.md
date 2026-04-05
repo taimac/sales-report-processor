@@ -1,17 +1,17 @@
 # Jira Backlog for Project SRP
-_Exported: 2026-04-04 20:20:17_
+_Exported: 2026-04-05 18:52:56_
 
 **Total Issues:** 15
 
 ## Summary
 
-- **To Do:** 13 issues
-- **In Progress:** 0 issues
-- **Done:** 2 issues
+- **To Do:** 10 issues
+- **In Progress:** 2 issues
+- **Done:** 3 issues
 
 ---
 
-## To Do (13 issues)
+## To Do (10 issues)
 
 | Key | Summary | Status | Created | Updated | Sprint |
 |-----|---------|--------|---------|---------|--------|
@@ -24,9 +24,6 @@ _Exported: 2026-04-04 20:20:17_
 | SRP-8 | Document upload endpoint behavior | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 1 |
 | SRP-7 | Add backend tests for upload endpoint | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 1 |
 | SRP-6 | Add file validation for TXT/PDF uploads | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 1 |
-| SRP-5 | Implement upload API endpoint | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 1 |
-| SRP-4 | Create upload data model | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 1 |
-| SRP-3 | File Upload API | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 1 |
 | SRP-2 | Sales Report Processor MVP | To Do | 2026-04-04 | 2026-04-04 | No Sprint |
 
 ### SRP-15 – Documentation and Demo Readiness
@@ -266,209 +263,6 @@ _No comments_
 
 ---
 
-### SRP-5 – Implement upload API endpoint
-
-- **Status:** To Do
-- **Created:** 2026-04-04
-- **Updated:** 2026-04-04
-- **Sprint:** SRP Sprint 1
-
-**Description**
-
-## Purpose
-
-Create the DRF endpoint that receives TXT/PDF files and stores them.
-
-## Scope
-
-* Create API view
-* Accept multipart upload
-* Save file using `UploadedReport`
-
-## Deliverables
-
-* `reports/views.py`
-* `reports/urls.py`
-* project `urls.py` integration
-
-## Acceptance Criteria
-
-* Endpoint exists at `/api/reports/upload/`
-* Multipart upload is accepted
-* File is persisted
-* Response returns `201 Created`
-
-## Technical Notes
-
-* App: `reports`
-* API impact: new POST endpoint
-* Use `APIView` for clarity
-* Keep endpoint logic simple
-
-## Test Expectations
-
-* Positive case: valid TXT/PDF upload returns success
-* Negative case: missing file returns `400`
-
-**Comments**
-
-_No comments_
-
----
-
-### SRP-4 – Create upload data model
-
-- **Status:** To Do
-- **Created:** 2026-04-04
-- **Updated:** 2026-04-04
-- **Sprint:** SRP Sprint 1
-
-**Description**
-
-## Purpose
-
-Create the initial model responsible for storing uploaded report files and basic metadata.
-
-## Scope
-
-* Create `UploadedReport` model
-* Add file field
-* Add upload timestamp
-* Prepare for future parsing status fields
-
-## Deliverables
-
-* `reports/models.py`
-* migration file
-
-## Acceptance Criteria
-
-* Model exists
-* File can be stored
-* Upload timestamp is recorded
-* Migration runs successfully
-
-## Technical Notes
-
-* App: `reports`
-* Model: `UploadedReport`
-* Keep model minimal for MVP
-* Use `FileField(upload_to="reports/")`
-
-## Test Expectations
-
-* Positive case: model instance can be created with file
-* Negative case: invalid migration/setup should fail visibly
-
-**Comments**
-
-_No comments_
-
----
-
-### SRP-3 – File Upload API
-
-- **Status:** To Do
-- **Created:** 2026-04-04
-- **Updated:** 2026-04-04
-- **Sprint:** SRP Sprint 1
-
-**Description**
-
-Implement a backend API endpoint that allows users to upload supplier reports in TXT or PDF format.
-
-This endpoint is the entry point of the system and initiates the report processing pipeline. It is responsible for receiving files, validating input, and storing the uploaded data for subsequent parsing and processing steps.
-
-The implementation should be simple, reliable, and aligned with MVP scope, focusing on correctness and clarity rather than advanced features.
-
-----
-
-## Goal
-
-Enable the system to accept and persist report files through an API endpoint, establishing the foundation for the parsing engine and data processing workflow.
-
-----
-
-## Context
-
-In real B2B sales operations, supplier reports are typically received as:
-
-* TXT files (structured but unformatted)
-* PDF files (semi-structured or unstructured)
-
-These files contain critical information such as:
-
-* order numbers
-* client names
-* product details
-* quantities
-* delivery or production status
-
-Currently, this data is often:
-
-* manually processed
-* time-consuming to extract
-* difficult to integrate into systems
-
-This API represents the *first step toward automation*, enabling the system to receive raw data and prepare it for structured processing.
-
-----
-
-## Scope
-
-### Included
-
-* Create API endpoint to upload files
-* Accept TXT and PDF formats
-* Validate file presence
-* Validate file type (TXT/PDF only)
-* Store uploaded file (local or temporary storage)
-* Return success response with reference ID
-
-----
-
-### Not Included
-
-* Parsing logic (handled in SRP-3)
-* Data extraction
-* Business validation of content
-* Authentication / user context
-* File deduplication or versioning
-
-----
-
-## Acceptance Criteria
-
-* Endpoint exists (e.g., `/api/reports/upload/`)
-* API accepts multipart file upload
-* TXT and PDF files are accepted
-* Invalid file types are rejected
-* Missing file returns error response
-* Uploaded file is stored successfully
-* Response includes confirmation and file reference ID
-
-----
-
-## Technical Notes
-
-* Use Django REST Framework
-* Use `FileField` for storage
-* Keep implementation simple (local storage acceptable)
-* Ensure clear and consistent API responses
-* Prepare structure for future integration with parsing service
-
-----
-
-## Dependencies
-
-* SRP-1 — Initial Project Setup (completed)
-
-**Comments**
-
-_No comments_
-
----
-
 ### SRP-2 – Sales Report Processor MVP
 
 - **Status:** To Do
@@ -594,11 +388,172 @@ _No comments_
 
 ---
 
-## Done (2 issues)
+## In Progress (2 issues)
+
+| Key | Summary | Status | Created | Updated | Sprint |
+|-----|---------|--------|---------|---------|--------|
+| SRP-5 | Implement upload API endpoint | In Progress | 2026-04-04 | 2026-04-05 | SRP Sprint 1 |
+| SRP-3 | File Upload API | In Progress | 2026-04-04 | 2026-04-05 | SRP Sprint 1 |
+
+### SRP-5 – Implement upload API endpoint
+
+- **Status:** In Progress
+- **Created:** 2026-04-04
+- **Updated:** 2026-04-05
+- **Sprint:** SRP Sprint 1
+
+**Description**
+
+## Purpose
+
+Create the DRF endpoint that receives TXT/PDF files and stores them.
+
+## Scope
+
+* Create API view
+* Accept multipart upload
+* Save file using `UploadedReport`
+
+## Deliverables
+
+* `reports/views.py`
+* `reports/urls.py`
+* project `urls.py` integration
+
+## Acceptance Criteria
+
+* Endpoint exists at `/api/reports/upload/`
+* Multipart upload is accepted
+* File is persisted
+* Response returns `201 Created`
+
+## Technical Notes
+
+* App: `reports`
+* API impact: new POST endpoint
+* Use `APIView` for clarity
+* Keep endpoint logic simple
+
+## Test Expectations
+
+* Positive case: valid TXT/PDF upload returns success
+* Negative case: missing file returns `400`
+
+**Comments**
+
+_No comments_
+
+---
+
+### SRP-3 – File Upload API
+
+- **Status:** In Progress
+- **Created:** 2026-04-04
+- **Updated:** 2026-04-05
+- **Sprint:** SRP Sprint 1
+
+**Description**
+
+Implement a backend API endpoint that allows users to upload supplier reports in TXT or PDF format.
+
+This endpoint is the entry point of the system and initiates the report processing pipeline. It is responsible for receiving files, validating input, and storing the uploaded data for subsequent parsing and processing steps.
+
+The implementation should be simple, reliable, and aligned with MVP scope, focusing on correctness and clarity rather than advanced features.
+
+----
+
+## Goal
+
+Enable the system to accept and persist report files through an API endpoint, establishing the foundation for the parsing engine and data processing workflow.
+
+----
+
+## Context
+
+In real B2B sales operations, supplier reports are typically received as:
+
+* TXT files (structured but unformatted)
+* PDF files (semi-structured or unstructured)
+
+These files contain critical information such as:
+
+* order numbers
+* client names
+* product details
+* quantities
+* delivery or production status
+
+Currently, this data is often:
+
+* manually processed
+* time-consuming to extract
+* difficult to integrate into systems
+
+This API represents the *first step toward automation*, enabling the system to receive raw data and prepare it for structured processing.
+
+----
+
+## Scope
+
+### Included
+
+* Create API endpoint to upload files
+* Accept TXT and PDF formats
+* Validate file presence
+* Validate file type (TXT/PDF only)
+* Store uploaded file (local or temporary storage)
+* Return success response with reference ID
+
+----
+
+### Not Included
+
+* Parsing logic (handled in SRP-3)
+* Data extraction
+* Business validation of content
+* Authentication / user context
+* File deduplication or versioning
+
+----
+
+## Acceptance Criteria
+
+* Endpoint exists (e.g., `/api/reports/upload/`)
+* API accepts multipart file upload
+* TXT and PDF files are accepted
+* Invalid file types are rejected
+* Missing file returns error response
+* Uploaded file is stored successfully
+* Response includes confirmation and file reference ID
+
+----
+
+## Technical Notes
+
+* Use Django REST Framework
+* Use `FileField` for storage
+* Keep implementation simple (local storage acceptable)
+* Ensure clear and consistent API responses
+* Prepare structure for future integration with parsing service
+
+----
+
+## Dependencies
+
+* SRP-1 — Initial Project Setup (completed)
+
+**Comments**
+
+_No comments_
+
+---
+
+## Done (3 issues)
 
 | Key | Summary | Status | Created | Updated | Sprint |
 |-----|---------|--------|---------|---------|--------|
 | SRP-9 | Django Project and App Scaffold | Done | 2026-04-04 | 2026-04-04 | SRP Sprint 1 |
+| SRP-4 | Create upload data model | Done | 2026-04-04 | 2026-04-05 | SRP Sprint 1 |
 | SRP-1 | Initial Project Setup | Done | 2026-04-04 | 2026-04-04 | No Sprint |
 
 ### SRP-9 – Django Project and App Scaffold
@@ -663,6 +618,71 @@ Delivered:
 * project validated with check, migrate, and runserver
 
 This establishes the technical foundation for SRP-3 and subsequent backend stories.
+
+---
+
+### SRP-4 – Create upload data model
+
+- **Status:** Done
+- **Created:** 2026-04-04
+- **Updated:** 2026-04-05
+- **Sprint:** SRP Sprint 1
+
+**Description**
+
+## Purpose
+
+Create the initial model responsible for storing uploaded report files and basic metadata.
+
+## Scope
+
+* Create `UploadedReport` model
+* Add file field
+* Add upload timestamp
+* Prepare for future parsing status fields
+
+## Deliverables
+
+* `reports/models.py`
+* migration file
+
+## Acceptance Criteria
+
+* Model exists
+* File can be stored
+* Upload timestamp is recorded
+* Migration runs successfully
+
+## Technical Notes
+
+* App: `reports`
+* Model: `UploadedReport`
+* Keep model minimal for MVP
+* Use `FileField(upload_to="reports/")`
+
+## Test Expectations
+
+* Positive case: model instance can be created with file
+* Negative case: invalid migration/setup should fail visibly
+
+**Comments**
+
+- **Tailor Maciel** (2026-04-05): SRP-4 completed.
+
+Delivered:
+
+* Created UploadedReport model in reports/models.py
+* Added FileField with upload_to="reports/"
+* Added uploaded_at timestamp with auto_now_add=True
+* Generated and applied migration successfully
+
+Validation completed:
+
+* Model instance created successfully in Django shell
+* File persisted under media/reports/
+* Timestamp recorded automatically
+
+This establishes the data model foundation for the upload API in SRP-5.
 
 ---
 
