@@ -124,10 +124,10 @@ MVP is complete when:
   ├─ SRP-9    Django Project and App Scaffold   ✅ Done  
   ├─ SRP-3    File Upload API                   ⬜ In Progress
   │    ├─ SRP-4   Create UploadedReport model   ✅ Done  
-  │    ├─ SRP-5   Implement upload API endpoint ⬜ To Do  ← next
-  │    ├─ SRP-6   Add file validation (TXT and PDF)
-  │    ├─ SRP-7   Add backend tests for upload endpoint
-  │    └─ SRP-8   Document upload endpoint behavior
+  │    ├─ SRP-5   Implement upload API endpoint ✅ Done 
+  │    ├─ SRP-6   Add file validation (TXT and PDF)     ⬜ To Do  ← next
+  │    ├─ SRP-7   Add backend tests for upload endpoint ⬜ To Do
+  │    └─ SRP-8   Document upload endpoint behavior     ⬜ To Do
   ├─ SRP-10   TXT Parsing Engine                ⬜ To Do
   ├─ SRP-11   Parsed Data Models                ⬜ To Do
   ├─ SRP-12   Processed Data Retrieval API      ⬜ To Do

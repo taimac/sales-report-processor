@@ -1,17 +1,17 @@
 # Jira Backlog for Project SRP
-_Exported: 2026-04-05 18:52:56_
+_Exported: 2026-04-06 11:11:05_
 
 **Total Issues:** 15
 
 ## Summary
 
-- **To Do:** 10 issues
+- **To Do:** 9 issues
 - **In Progress:** 2 issues
-- **Done:** 3 issues
+- **Done:** 4 issues
 
 ---
 
-## To Do (10 issues)
+## To Do (9 issues)
 
 | Key | Summary | Status | Created | Updated | Sprint |
 |-----|---------|--------|---------|---------|--------|
@@ -23,7 +23,6 @@ _Exported: 2026-04-05 18:52:56_
 | SRP-10 | TXT Parsing Engine | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 2 |
 | SRP-8 | Document upload endpoint behavior | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 1 |
 | SRP-7 | Add backend tests for upload endpoint | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 1 |
-| SRP-6 | Add file validation for TXT/PDF uploads | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 1 |
 | SRP-2 | Sales Report Processor MVP | To Do | 2026-04-04 | 2026-04-04 | No Sprint |
 
 ### SRP-15 – Documentation and Demo Readiness
@@ -216,53 +215,6 @@ _No comments_
 
 ---
 
-### SRP-6 – Add file validation for TXT/PDF uploads
-
-- **Status:** To Do
-- **Created:** 2026-04-04
-- **Updated:** 2026-04-04
-- **Sprint:** SRP Sprint 1
-
-**Description**
-
-## Purpose
-
-Ensure the endpoint only accepts supported report file types.
-
-## Scope
-
-* Validate file presence
-* Validate extension (`.txt`, `.pdf`)
-* Return clear error responses
-
-## Deliverables
-
-* validation logic in upload endpoint
-
-## Acceptance Criteria
-
-* Missing file returns `400`
-* Unsupported extension returns `400`
-* TXT upload is accepted
-* PDF upload is accepted
-
-## Technical Notes
-
-* Validation should remain lightweight at MVP stage
-* Extension-based validation is acceptable for now
-* Content inspection can be added later if needed
-
-## Test Expectations
-
-* Positive case: `.txt` and `.pdf` succeed
-* Negative case: `.csv` or no file fails
-
-**Comments**
-
-_No comments_
-
----
-
 ### SRP-2 – Sales Report Processor MVP
 
 - **Status:** To Do
@@ -392,52 +344,49 @@ _No comments_
 
 | Key | Summary | Status | Created | Updated | Sprint |
 |-----|---------|--------|---------|---------|--------|
-| SRP-5 | Implement upload API endpoint | In Progress | 2026-04-04 | 2026-04-05 | SRP Sprint 1 |
+| SRP-6 | Add file validation for TXT/PDF uploads | In Progress | 2026-04-04 | 2026-04-06 | SRP Sprint 1 |
 | SRP-3 | File Upload API | In Progress | 2026-04-04 | 2026-04-05 | SRP Sprint 1 |
 
-### SRP-5 – Implement upload API endpoint
+### SRP-6 – Add file validation for TXT/PDF uploads
 
 - **Status:** In Progress
 - **Created:** 2026-04-04
-- **Updated:** 2026-04-05
+- **Updated:** 2026-04-06
 - **Sprint:** SRP Sprint 1
 
 **Description**
 
 ## Purpose
 
-Create the DRF endpoint that receives TXT/PDF files and stores them.
+Ensure the endpoint only accepts supported report file types.
 
 ## Scope
 
-* Create API view
-* Accept multipart upload
-* Save file using `UploadedReport`
+* Validate file presence
+* Validate extension (`.txt`, `.pdf`)
+* Return clear error responses
 
 ## Deliverables
 
-* `reports/views.py`
-* `reports/urls.py`
-* project `urls.py` integration
+* validation logic in upload endpoint
 
 ## Acceptance Criteria
 
-* Endpoint exists at `/api/reports/upload/`
-* Multipart upload is accepted
-* File is persisted
-* Response returns `201 Created`
+* Missing file returns `400`
+* Unsupported extension returns `400`
+* TXT upload is accepted
+* PDF upload is accepted
 
 ## Technical Notes
 
-* App: `reports`
-* API impact: new POST endpoint
-* Use `APIView` for clarity
-* Keep endpoint logic simple
+* Validation should remain lightweight at MVP stage
+* Extension-based validation is acceptable for now
+* Content inspection can be added later if needed
 
 ## Test Expectations
 
-* Positive case: valid TXT/PDF upload returns success
-* Negative case: missing file returns `400`
+* Positive case: `.txt` and `.pdf` succeed
+* Negative case: `.csv` or no file fails
 
 **Comments**
 
@@ -548,11 +497,12 @@ _No comments_
 
 ---
 
-## Done (3 issues)
+## Done (4 issues)
 
 | Key | Summary | Status | Created | Updated | Sprint |
 |-----|---------|--------|---------|---------|--------|
 | SRP-9 | Django Project and App Scaffold | Done | 2026-04-04 | 2026-04-04 | SRP Sprint 1 |
+| SRP-5 | Implement upload API endpoint | Done | 2026-04-04 | 2026-04-06 | SRP Sprint 1 |
 | SRP-4 | Create upload data model | Done | 2026-04-04 | 2026-04-05 | SRP Sprint 1 |
 | SRP-1 | Initial Project Setup | Done | 2026-04-04 | 2026-04-04 | No Sprint |
 
@@ -618,6 +568,72 @@ Delivered:
 * project validated with check, migrate, and runserver
 
 This establishes the technical foundation for SRP-3 and subsequent backend stories.
+
+---
+
+### SRP-5 – Implement upload API endpoint
+
+- **Status:** Done
+- **Created:** 2026-04-04
+- **Updated:** 2026-04-06
+- **Sprint:** SRP Sprint 1
+
+**Description**
+
+## Purpose
+
+Create the DRF endpoint that receives TXT/PDF files and stores them.
+
+## Scope
+
+* Create API view
+* Accept multipart upload
+* Save file using `UploadedReport`
+
+## Deliverables
+
+* `reports/views.py`
+* `reports/urls.py`
+* project `urls.py` integration
+
+## Acceptance Criteria
+
+* Endpoint exists at `/api/reports/upload/`
+* Multipart upload is accepted
+* File is persisted
+* Response returns `201 Created`
+
+## Technical Notes
+
+* App: `reports`
+* API impact: new POST endpoint
+* Use `APIView` for clarity
+* Keep endpoint logic simple
+
+## Test Expectations
+
+* Positive case: valid TXT/PDF upload returns success
+* Negative case: missing file returns `400`
+
+**Comments**
+
+- **Tailor Maciel** (2026-04-06): SRP-5 completed.
+
+Delivered:
+
+* Implemented POST /api/reports/upload/ endpoint using DRF APIView
+* Configured multipart/form-data handling with MultiPartParser
+* Integrated UploadedReport model for file persistence
+* Wired reports.urls into project routing
+
+Validation:
+
+* Successful upload returns 201 with file metadata
+* Missing file returns 400 with clear error message
+* Files persisted under media/reports/
+* Django auto-generates unique filenames for duplicates
+
+This establishes the ingestion entry point for the SRP pipeline.
 
 ---
 
