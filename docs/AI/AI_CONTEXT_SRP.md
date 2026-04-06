@@ -125,8 +125,8 @@ MVP is complete when:
   ├─ SRP-3    File Upload API                   ⬜ In Progress
   │    ├─ SRP-4   Create UploadedReport model   ✅ Done  
   │    ├─ SRP-5   Implement upload API endpoint ✅ Done 
-  │    ├─ SRP-6   Add file validation (TXT and PDF)     ⬜ To Do  ← next
-  │    ├─ SRP-7   Add backend tests for upload endpoint ⬜ To Do
+  │    ├─ SRP-6   Add file validation (TXT and PDF)     ✅ Done 
+  │    ├─ SRP-7   Add backend tests for upload endpoint ⬜ To Do  ← next
   │    └─ SRP-8   Document upload endpoint behavior     ⬜ To Do
   ├─ SRP-10   TXT Parsing Engine                ⬜ To Do
   ├─ SRP-11   Parsed Data Models                ⬜ To Do
