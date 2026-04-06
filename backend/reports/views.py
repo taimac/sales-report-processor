@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from rest_framework import status
 from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.response import Response
@@ -10,20 +12,12 @@ class ReportUploadView(APIView):
     """
     Handle supplier report uploads for the SRP MVP.
 
-    Purpose:
-        Accept a multipart/form-data POST request containing a file,
-        persist that file using the UploadedReport model, and return
-        a success response with the created record metadata.
-
-    Current ticket scope (SRP-5):
-        - Accept multipart upload
-        - Save file using UploadedReport
-        - Return 201 Created
-
-    Explicitly not handled here:
-        - TXT/PDF extension validation (SRP-6)
-        - Parsing logic (SRP-10)
-        - Authentication (out of MVP scope)
+    Current scope:
+        - accept multipart file upload
+        - validate file presence
+        - validate supported file extensions (.txt, .pdf)
+        - persist the file using UploadedReport
+        - return clear success and error responses
 
     Expected request:
         POST /api/reports/upload/
@@ -49,6 +43,7 @@ class ReportUploadView(APIView):
     # These parsers allow DRF to correctly read multipart file uploads
     # and regular form fields from the request body.
     parser_classes = [MultiPartParser, FormParser]
+    allowed_extensions = {".txt", ".pdf"}
 
     def post(self, request, *args, **kwargs):
         """
@@ -67,6 +62,14 @@ class ReportUploadView(APIView):
         if uploaded_file is None:
             return Response(
                 {"error": "No file provided."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        file_extension = Path(uploaded_file.name).suffix.lower()
+
+        if file_extension not in self.allowed_extensions:
+            return Response(
+                {"error": "Unsupported file type. Only .txt and .pdf files are allowed."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
