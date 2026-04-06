@@ -1,17 +1,17 @@
 # Jira Backlog for Project SRP
-_Exported: 2026-04-06 11:11:05_
+_Exported: 2026-04-06 20:45:42_
 
 **Total Issues:** 15
 
 ## Summary
 
-- **To Do:** 9 issues
+- **To Do:** 8 issues
 - **In Progress:** 2 issues
-- **Done:** 4 issues
+- **Done:** 5 issues
 
 ---
 
-## To Do (9 issues)
+## To Do (8 issues)
 
 | Key | Summary | Status | Created | Updated | Sprint |
 |-----|---------|--------|---------|---------|--------|
@@ -22,7 +22,6 @@ _Exported: 2026-04-06 11:11:05_
 | SRP-11 | Parsed Data Models | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 2 |
 | SRP-10 | TXT Parsing Engine | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 2 |
 | SRP-8 | Document upload endpoint behavior | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 1 |
-| SRP-7 | Add backend tests for upload endpoint | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 1 |
 | SRP-2 | Sales Report Processor MVP | To Do | 2026-04-04 | 2026-04-04 | No Sprint |
 
 ### SRP-15 – Documentation and Demo Readiness
@@ -171,50 +170,6 @@ _No comments_
 
 ---
 
-### SRP-7 – Add backend tests for upload endpoint
-
-- **Status:** To Do
-- **Created:** 2026-04-04
-- **Updated:** 2026-04-04
-- **Sprint:** SRP Sprint 1
-
-**Description**
-
-Verify the upload endpoint works for valid and invalid requests.
-
-## Scope
-
-* Add API tests
-* Cover success and failure cases
-
-## Deliverables
-
-* `reports/tests/test_upload_api.py`
-
-## Acceptance Criteria
-
-* Valid TXT upload returns `201`
-* Valid PDF upload returns `201`
-* Missing file returns `400`
-* Invalid file type returns `400`
-
-## Technical Notes
-
-* Use DRF test client
-* Keep fixtures minimal
-* Prefer small in-memory test files
-
-## Test Expectations
-
-* Positive case: upload success
-* Negative case: validation failure
-
-**Comments**
-
-_No comments_
-
----
-
 ### SRP-2 – Sales Report Processor MVP
 
 - **Status:** To Do
@@ -344,10 +299,10 @@ _No comments_
 
 | Key | Summary | Status | Created | Updated | Sprint |
 |-----|---------|--------|---------|---------|--------|
-| SRP-6 | Add file validation for TXT/PDF uploads | In Progress | 2026-04-04 | 2026-04-06 | SRP Sprint 1 |
+| SRP-7 | Add backend tests for upload endpoint | In Progress | 2026-04-04 | 2026-04-06 | SRP Sprint 1 |
 | SRP-3 | File Upload API | In Progress | 2026-04-04 | 2026-04-05 | SRP Sprint 1 |
 
-### SRP-6 – Add file validation for TXT/PDF uploads
+### SRP-7 – Add backend tests for upload endpoint
 
 - **Status:** In Progress
 - **Created:** 2026-04-04
@@ -356,37 +311,34 @@ _No comments_
 
 **Description**
 
-## Purpose
-
-Ensure the endpoint only accepts supported report file types.
+Verify the upload endpoint works for valid and invalid requests.
 
 ## Scope
 
-* Validate file presence
-* Validate extension (`.txt`, `.pdf`)
-* Return clear error responses
+* Add API tests
+* Cover success and failure cases
 
 ## Deliverables
 
-* validation logic in upload endpoint
+* `reports/tests/test_upload_api.py`
 
 ## Acceptance Criteria
 
+* Valid TXT upload returns `201`
+* Valid PDF upload returns `201`
 * Missing file returns `400`
-* Unsupported extension returns `400`
-* TXT upload is accepted
-* PDF upload is accepted
+* Invalid file type returns `400`
 
 ## Technical Notes
 
-* Validation should remain lightweight at MVP stage
-* Extension-based validation is acceptable for now
-* Content inspection can be added later if needed
+* Use DRF test client
+* Keep fixtures minimal
+* Prefer small in-memory test files
 
 ## Test Expectations
 
-* Positive case: `.txt` and `.pdf` succeed
-* Negative case: `.csv` or no file fails
+* Positive case: upload success
+* Negative case: validation failure
 
 **Comments**
 
@@ -497,11 +449,12 @@ _No comments_
 
 ---
 
-## Done (4 issues)
+## Done (5 issues)
 
 | Key | Summary | Status | Created | Updated | Sprint |
 |-----|---------|--------|---------|---------|--------|
 | SRP-9 | Django Project and App Scaffold | Done | 2026-04-04 | 2026-04-04 | SRP Sprint 1 |
+| SRP-6 | Add file validation for TXT/PDF uploads | Done | 2026-04-04 | 2026-04-06 | SRP Sprint 1 |
 | SRP-5 | Implement upload API endpoint | Done | 2026-04-04 | 2026-04-06 | SRP Sprint 1 |
 | SRP-4 | Create upload data model | Done | 2026-04-04 | 2026-04-05 | SRP Sprint 1 |
 | SRP-1 | Initial Project Setup | Done | 2026-04-04 | 2026-04-04 | No Sprint |
@@ -568,6 +521,68 @@ Delivered:
 * project validated with check, migrate, and runserver
 
 This establishes the technical foundation for SRP-3 and subsequent backend stories.
+
+---
+
+### SRP-6 – Add file validation for TXT/PDF uploads
+
+- **Status:** Done
+- **Created:** 2026-04-04
+- **Updated:** 2026-04-06
+- **Sprint:** SRP Sprint 1
+
+**Description**
+
+## Purpose
+
+Ensure the endpoint only accepts supported report file types.
+
+## Scope
+
+* Validate file presence
+* Validate extension (`.txt`, `.pdf`)
+* Return clear error responses
+
+## Deliverables
+
+* validation logic in upload endpoint
+
+## Acceptance Criteria
+
+* Missing file returns `400`
+* Unsupported extension returns `400`
+* TXT upload is accepted
+* PDF upload is accepted
+
+## Technical Notes
+
+* Validation should remain lightweight at MVP stage
+* Extension-based validation is acceptable for now
+* Content inspection can be added later if needed
+
+## Test Expectations
+
+* Positive case: `.txt` and `.pdf` succeed
+* Negative case: `.csv` or no file fails
+
+**Comments**
+
+- **Tailor Maciel** (2026-04-06): SRP-6 completed.
+
+Delivered:
+
+* Added file validation to POST /api/reports/upload/
+* Restricted accepted extensions to .txt and .pdf
+* Implemented clear 400 responses for unsupported file types
+* Preserved missing file validation
+
+Validation completed:
+
+* TXT upload returns 201
+* PDF upload returns 201
+* CSV upload returns 400 with clear error message
+
+Validation remains intentionally extension-based only, aligned with MVP scope.
 
 ---
 
