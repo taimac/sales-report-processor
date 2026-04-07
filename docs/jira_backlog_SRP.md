@@ -1,21 +1,20 @@
 # Jira Backlog for Project SRP
-_Exported: 2026-04-07 16:52:46_
+_Exported: 2026-04-07 17:38:10_
 
 **Total Issues:** 23
 
 ## Summary
 
-- **To Do:** 12 issues
+- **To Do:** 11 issues
 - **In Progress:** 2 issues
-- **Done:** 9 issues
+- **Done:** 10 issues
 
 ---
 
-## To Do (12 issues)
+## To Do (11 issues)
 
 | Key | Summary | Status | Created | Updated | Sprint |
 |-----|---------|--------|---------|---------|--------|
-| SRP-23 | Parse Core Main Row Identity and Product Columns | To Do | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
 | SRP-22 | Final Parser Assembly and Real Sample Tests | To Do | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
 | SRP-21 | Client and Grand Total Extraction | To Do | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
 | SRP-20 | Continuation Row Parsing and Parent Item Attachment | To Do | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
@@ -27,58 +26,6 @@ _Exported: 2026-04-07 16:52:46_
 | SRP-12 | Processed Data Retrieval API | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 3 |
 | SRP-11 | Parsed Data Models | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 2 |
 | SRP-2 | Sales Report Processor MVP | To Do | 2026-04-04 | 2026-04-04 | No Sprint |
-
-### SRP-23 – Parse Core Main Row Identity and Product Columns
-
-- **Status:** To Do
-- **Created:** 2026-04-07
-- **Updated:** 2026-04-07
-- **Sprint:** SRP Sprint 2
-
-**Description**
-
-Extract the main identifying and product-related fields from primary detail rows.
-
-## Scope
-
-* Parse:
-** est
-** pedido
-** seq
-** descricao
-** espess
-** larg
-** compr
-
-## Deliverables
-
-* Main-row fixed-width parsing for identity and material columns
-
-## Acceptance Criteria
-
-* Known sample rows return correct values for the listed fields
-* Missing or shifted values do not break parsing flow
-* Raw line is preserved with each parsed item
-
-## Technical Notes
-
-* Files: `reports/services/txt_parser.py`
-* API impact: none
-* Validation notes: preserve exact source line for every parsed row
-
-## Dependencies
-
-* SRP-10 line classification subtask
-
-## Suggested Story Points
-
-* 2
-
-**Comments**
-
-_No comments_
-
----
 
 ### SRP-22 – Final Parser Assembly and Real Sample Tests
 
@@ -560,53 +507,50 @@ _No comments_
 
 | Key | Summary | Status | Created | Updated | Sprint |
 |-----|---------|--------|---------|---------|--------|
-| SRP-17 | Line Classification and Report Structure Detection | In Progress | 2026-04-06 | 2026-04-07 | SRP Sprint 2 |
+| SRP-23 | Parse Core Main Row Identity and Product Columns | In Progress | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
 | SRP-10 | TXT Parsing Engine | In Progress | 2026-04-04 | 2026-04-07 | SRP Sprint 2 |
 
-### SRP-17 – Line Classification and Report Structure Detection
+### SRP-23 – Parse Core Main Row Identity and Product Columns
 
 - **Status:** In Progress
-- **Created:** 2026-04-06
+- **Created:** 2026-04-07
 - **Updated:** 2026-04-07
 - **Sprint:** SRP Sprint 2
 
 **Description**
 
-Classify lines and identify the structural boundaries of the report.
+Extract the main identifying and product-related fields from primary detail rows.
 
 ## Scope
 
-* Classify:
-** report headers
-** customer headers
-** table headers
-** separator lines
-** main detail rows
-** continuation rows
-** client totals
-** grand totals
-** ignorable lines
+* Parse:
+** est
+** pedido
+** seq
+** descricao
+** espess
+** larg
+** compr
 
 ## Deliverables
 
-* Line classification helpers
-* Structural parsing state machine or equivalent logic
+* Main-row fixed-width parsing for identity and material columns
 
 ## Acceptance Criteria
 
-* Customer blocks are recognized correctly
-* Main rows and continuation rows are distinguished correctly
-* Totals lines are distinguished correctly
+* Known sample rows return correct values for the listed fields
+* Missing or shifted values do not break parsing flow
+* Raw line is preserved with each parsed item
 
 ## Technical Notes
 
 * Files: `reports/services/txt_parser.py`
 * API impact: none
-* Validation notes: unknown lines must not crash parsing
+* Validation notes: preserve exact source line for every parsed row
 
 ## Dependencies
 
-* SRP-10 reader/header subtask
+* SRP-10 line classification subtask
 
 ## Suggested Story Points
 
@@ -809,10 +753,11 @@ _No comments_
 
 ---
 
-## Done (9 issues)
+## Done (10 issues)
 
 | Key | Summary | Status | Created | Updated | Sprint |
 |-----|---------|--------|---------|---------|--------|
+| SRP-17 | Line Classification and Report Structure Detection | Done | 2026-04-06 | 2026-04-07 | SRP Sprint 2 |
 | SRP-16 | TXT Reader and Header Metadata Extraction | Done | 2026-04-06 | 2026-04-07 | SRP Sprint 2 |
 | SRP-9 | Django Project and App Scaffold | Done | 2026-04-04 | 2026-04-04 | SRP Sprint 1 |
 | SRP-8 | Document upload endpoint behavior | Done | 2026-04-04 | 2026-04-06 | SRP Sprint 1 |
@@ -822,6 +767,86 @@ _No comments_
 | SRP-4 | Create upload data model | Done | 2026-04-04 | 2026-04-05 | SRP Sprint 1 |
 | SRP-3 | File Upload API | Done | 2026-04-04 | 2026-04-06 | SRP Sprint 1 |
 | SRP-1 | Initial Project Setup | Done | 2026-04-04 | 2026-04-04 | No Sprint |
+
+### SRP-17 – Line Classification and Report Structure Detection
+
+- **Status:** Done
+- **Created:** 2026-04-06
+- **Updated:** 2026-04-07
+- **Sprint:** SRP Sprint 2
+
+**Description**
+
+Classify lines and identify the structural boundaries of the report.
+
+## Scope
+
+* Classify:
+** report headers
+** customer headers
+** table headers
+** separator lines
+** main detail rows
+** continuation rows
+** client totals
+** grand totals
+** ignorable lines
+
+## Deliverables
+
+* Line classification helpers
+* Structural parsing state machine or equivalent logic
+
+## Acceptance Criteria
+
+* Customer blocks are recognized correctly
+* Main rows and continuation rows are distinguished correctly
+* Totals lines are distinguished correctly
+
+## Technical Notes
+
+* Files: `reports/services/txt_parser.py`
+* API impact: none
+* Validation notes: unknown lines must not crash parsing
+
+## Dependencies
+
+* SRP-10 reader/header subtask
+
+## Suggested Story Points
+
+* 2
+
+**Comments**
+
+- **Tailor Maciel** (2026-04-07): SRP-17 completed.
+
+Delivered:
+
+* Implemented line classification system for carteira TXT reports
+* Added classification for:
+
+
+ customer headers, separators, table headers,
+ main rows, continuation rows, totals, and ignorable lines
+
+* Implemented classify_line and classify_report_lines helpers
+* Implemented customer block detection with representative and customer_name extraction
+* Preserved raw lines and structure for downstream parsing stages
+
+Validation:
+
+* python manage.py test reports.tests.test_txt_parser
+* 6 tests passed successfully
+
+Notes:
+
+* Implementation strictly focused on structure detection (no field parsing)
+* Output prepares the parser for SRP-23 (main row identity parsing)
+
+SRP-17 is complete and ready for next step in parsing pipeline.
+
+---
 
 ### SRP-16 – TXT Reader and Header Metadata Extraction
 
