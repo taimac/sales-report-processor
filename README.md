@@ -113,10 +113,15 @@ sales-report-processor/
 
 ### Done
 - SRP-1 — Initial Project Setup ✅
+- SRP-9 — Django Project and App Scaffold ✅
+- SRP-4 — UploadedReport model ✅
+- SRP-5 — Upload API endpoint ✅
+- SRP-6 — File validation (TXT/PDF) ✅
+- SRP-7 — Backend tests for upload endpoint ✅
+- SRP-8 — Upload endpoint documentation ✅
 
 ### Current Focus
-- SRP-9 — Django Project and App Scaffold
-
+- SRP-10 — TXT Parsing Engine
 ---
 
 ## Example Use Case
@@ -141,6 +146,99 @@ sales-report-processor/
 python -m venv venv
 source venv/bin/activate
 ```
+
+## Upload Reports API
+
+### Endpoint
+
+```
+POST /api/reports/upload/
+```
+
+---
+
+### Description
+
+Uploads a supplier report file (TXT or PDF), stores it on disk, and registers it in the system for further processing.
+
+---
+
+### Request
+
+**Content-Type:** `multipart/form-data`
+
+**Form field:**
+
+| Field | Type | Required | Description |
+|------|------|----------|-------------|
+| file | File | Yes | TXT or PDF report file |
+
+---
+
+### Example (curl)
+
+```bash
+curl -X POST http://127.0.0.1:8000/api/reports/upload/ \
+  -F "file=@sample_report.txt"
+```
+
+### Success Response
+
+```
+Status: 201 Created
+```
+
+``` 
+{
+  "id": 1,
+  "file": "reports/sample_report.txt",
+  "uploaded_at": "2026-04-06T14:00:57.996088Z",
+  "message": "File uploaded successfully."
+}
+```
+
+#### Error Responses
+
+Missing file
+
+``` 
+Status: 400 Bad Request
+```
+
+```
+{
+  "error": "No file provided."
+}
+```
+
+#### Unsupported file type
+
+```
+Status: 400 Bad Request
+```
+
+```
+{
+  "error": "Unsupported file type. Only .txt and .pdf files are allowed."
+}
+```
+
+### Notes
+
+- Files are stored under:
+
+```
+backend/media/reports/
+```
+
+- The database stores only the file path, not the file content
+- Duplicate filenames are automatically handled by Django (unique suffix added)
+- Validation is extension-based only (MVP scope)
+
+### Supported File Types:
+- .txt → accepted
+- .pdf → accepted
+- others → rejected
 
 ### 2. Install dependencies
 
@@ -191,10 +289,10 @@ The MVP is structured into a clear sequence of deliverable stories, ensuring inc
 - **SRP-1 — Initial Project Setup** ✅
   Repository, environment, dependencies, and baseline structure.
 
-- **SRP-9 — Django Project and App Scaffold** ← current
+- **SRP-9 — Django Project and App Scaffold** ✅
   Base Django project and application setup required for backend implementation.
 
-- **SRP-3 — File Upload API**
+- **SRP-3 — File Upload API** ✅
   Endpoint to receive, validate, and store TXT/PDF reports.
 
 - **SRP-10 — TXT Parsing Engine**
@@ -223,7 +321,7 @@ The project follows a **backend-first approach**, ensuring that core functionali
 
 Each stage builds on the previous one, progressively delivering:
 
-1. Data ingestion (upload)
+1. Data ingestion (upload via API)
 2. Data processing (parsing)
 3. Data structuring (models)
 4. Data exposure (API)

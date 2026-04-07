@@ -1,13 +1,13 @@
 # Jira Backlog for Project SRP
-_Exported: 2026-04-06 21:09:55_
+_Exported: 2026-04-06 21:44:45_
 
 **Total Issues:** 15
 
 ## Summary
 
 - **To Do:** 7 issues
-- **In Progress:** 2 issues
-- **Done:** 6 issues
+- **In Progress:** 0 issues
+- **Done:** 8 issues
 
 ---
 
@@ -250,169 +250,17 @@ _No comments_
 
 ---
 
-## In Progress (2 issues)
-
-| Key | Summary | Status | Created | Updated | Sprint |
-|-----|---------|--------|---------|---------|--------|
-| SRP-8 | Document upload endpoint behavior | In Progress | 2026-04-04 | 2026-04-06 | SRP Sprint 1 |
-| SRP-3 | File Upload API | In Progress | 2026-04-04 | 2026-04-05 | SRP Sprint 1 |
-
-### SRP-8 – Document upload endpoint behavior
-
-- **Status:** In Progress
-- **Created:** 2026-04-04
-- **Updated:** 2026-04-06
-- **Sprint:** SRP Sprint 1
-
-**Description**
-
-Document the endpoint purpose, request format, and expected responses.
-
-## Scope
-
-* Update README or docs
-* Add endpoint path
-* Add sample request/response
-
-## Deliverables
-
-* `README.md` or `docs/api_upload.md`
-
-## Acceptance Criteria
-
-* Endpoint is documented
-* Request format is shown
-* Success response example is shown
-* Error response example is shown
-
-## Technical Notes
-
-* Keep documentation minimal and practical
-* Focus on developer usability
-
-## Test Expectations
-
-* Positive case: another developer can use endpoint from docs
-* Negative case: none required
-
-**Comments**
-
-_No comments_
-
----
-
-### SRP-3 – File Upload API
-
-- **Status:** In Progress
-- **Created:** 2026-04-04
-- **Updated:** 2026-04-05
-- **Sprint:** SRP Sprint 1
-
-**Description**
-
-Implement a backend API endpoint that allows users to upload supplier reports in TXT or PDF format.
-
-This endpoint is the entry point of the system and initiates the report processing pipeline. It is responsible for receiving files, validating input, and storing the uploaded data for subsequent parsing and processing steps.
-
-The implementation should be simple, reliable, and aligned with MVP scope, focusing on correctness and clarity rather than advanced features.
-
-----
-
-## Goal
-
-Enable the system to accept and persist report files through an API endpoint, establishing the foundation for the parsing engine and data processing workflow.
-
-----
-
-## Context
-
-In real B2B sales operations, supplier reports are typically received as:
-
-* TXT files (structured but unformatted)
-* PDF files (semi-structured or unstructured)
-
-These files contain critical information such as:
-
-* order numbers
-* client names
-* product details
-* quantities
-* delivery or production status
-
-Currently, this data is often:
-
-* manually processed
-* time-consuming to extract
-* difficult to integrate into systems
-
-This API represents the *first step toward automation*, enabling the system to receive raw data and prepare it for structured processing.
-
-----
-
-## Scope
-
-### Included
-
-* Create API endpoint to upload files
-* Accept TXT and PDF formats
-* Validate file presence
-* Validate file type (TXT/PDF only)
-* Store uploaded file (local or temporary storage)
-* Return success response with reference ID
-
-----
-
-### Not Included
-
-* Parsing logic (handled in SRP-3)
-* Data extraction
-* Business validation of content
-* Authentication / user context
-* File deduplication or versioning
-
-----
-
-## Acceptance Criteria
-
-* Endpoint exists (e.g., `/api/reports/upload/`)
-* API accepts multipart file upload
-* TXT and PDF files are accepted
-* Invalid file types are rejected
-* Missing file returns error response
-* Uploaded file is stored successfully
-* Response includes confirmation and file reference ID
-
-----
-
-## Technical Notes
-
-* Use Django REST Framework
-* Use `FileField` for storage
-* Keep implementation simple (local storage acceptable)
-* Ensure clear and consistent API responses
-* Prepare structure for future integration with parsing service
-
-----
-
-## Dependencies
-
-* SRP-1 — Initial Project Setup (completed)
-
-**Comments**
-
-_No comments_
-
----
-
-## Done (6 issues)
+## Done (8 issues)
 
 | Key | Summary | Status | Created | Updated | Sprint |
 |-----|---------|--------|---------|---------|--------|
 | SRP-9 | Django Project and App Scaffold | Done | 2026-04-04 | 2026-04-04 | SRP Sprint 1 |
+| SRP-8 | Document upload endpoint behavior | Done | 2026-04-04 | 2026-04-06 | SRP Sprint 1 |
 | SRP-7 | Add backend tests for upload endpoint | Done | 2026-04-04 | 2026-04-06 | SRP Sprint 1 |
 | SRP-6 | Add file validation for TXT/PDF uploads | Done | 2026-04-04 | 2026-04-06 | SRP Sprint 1 |
 | SRP-5 | Implement upload API endpoint | Done | 2026-04-04 | 2026-04-06 | SRP Sprint 1 |
 | SRP-4 | Create upload data model | Done | 2026-04-04 | 2026-04-05 | SRP Sprint 1 |
+| SRP-3 | File Upload API | Done | 2026-04-04 | 2026-04-06 | SRP Sprint 1 |
 | SRP-1 | Initial Project Setup | Done | 2026-04-04 | 2026-04-04 | No Sprint |
 
 ### SRP-9 – Django Project and App Scaffold
@@ -477,6 +325,69 @@ Delivered:
 * project validated with check, migrate, and runserver
 
 This establishes the technical foundation for SRP-3 and subsequent backend stories.
+
+---
+
+### SRP-8 – Document upload endpoint behavior
+
+- **Status:** Done
+- **Created:** 2026-04-04
+- **Updated:** 2026-04-06
+- **Sprint:** SRP Sprint 1
+
+**Description**
+
+Document the endpoint purpose, request format, and expected responses.
+
+## Scope
+
+* Update README or docs
+* Add endpoint path
+* Add sample request/response
+
+## Deliverables
+
+* `README.md` or `docs/api_upload.md`
+
+## Acceptance Criteria
+
+* Endpoint is documented
+* Request format is shown
+* Success response example is shown
+* Error response example is shown
+
+## Technical Notes
+
+* Keep documentation minimal and practical
+* Focus on developer usability
+
+## Test Expectations
+
+* Positive case: another developer can use endpoint from docs
+* Negative case: none required
+
+**Comments**
+
+- **Tailor Maciel** (2026-04-06): SRP-8 completed.
+
+Delivered:
+
+* Documented POST /api/reports/upload/ endpoint in README
+* Defined request format (multipart/form-data with "file" field)
+* Added working curl example for file upload
+* Provided success response example (201 Created with metadata)
+* Documented error responses:
+** Missing file (400)
+** Unsupported file type (400)
+* Listed supported file types (.txt, .pdf)
+* Documented file storage behavior (media/reports/) and DB reference model
+
+Validation:
+
+* Documentation aligns with actual endpoint behavior implemented in SRP-5 and SRP-6
+* Examples verified via curl and Postman
+
+This completes the upload ingestion flow documentation for the SRP MVP and makes the endpoint usable by other developers without additional guidance.
 
 ---
 
@@ -729,6 +640,153 @@ Validation completed:
 * Timestamp recorded automatically
 
 This establishes the data model foundation for the upload API in SRP-5.
+
+---
+
+### SRP-3 – File Upload API
+
+- **Status:** Done
+- **Created:** 2026-04-04
+- **Updated:** 2026-04-06
+- **Sprint:** SRP Sprint 1
+
+**Description**
+
+Implement a backend API endpoint that allows users to upload supplier reports in TXT or PDF format.
+
+This endpoint is the entry point of the system and initiates the report processing pipeline. It is responsible for receiving files, validating input, and storing the uploaded data for subsequent parsing and processing steps.
+
+The implementation should be simple, reliable, and aligned with MVP scope, focusing on correctness and clarity rather than advanced features.
+
+----
+
+## Goal
+
+Enable the system to accept and persist report files through an API endpoint, establishing the foundation for the parsing engine and data processing workflow.
+
+----
+
+## Context
+
+In real B2B sales operations, supplier reports are typically received as:
+
+* TXT files (structured but unformatted)
+* PDF files (semi-structured or unstructured)
+
+These files contain critical information such as:
+
+* order numbers
+* client names
+* product details
+* quantities
+* delivery or production status
+
+Currently, this data is often:
+
+* manually processed
+* time-consuming to extract
+* difficult to integrate into systems
+
+This API represents the *first step toward automation*, enabling the system to receive raw data and prepare it for structured processing.
+
+----
+
+## Scope
+
+### Included
+
+* Create API endpoint to upload files
+* Accept TXT and PDF formats
+* Validate file presence
+* Validate file type (TXT/PDF only)
+* Store uploaded file (local or temporary storage)
+* Return success response with reference ID
+
+----
+
+### Not Included
+
+* Parsing logic (handled in SRP-3)
+* Data extraction
+* Business validation of content
+* Authentication / user context
+* File deduplication or versioning
+
+----
+
+## Acceptance Criteria
+
+* Endpoint exists (e.g., `/api/reports/upload/`)
+* API accepts multipart file upload
+* TXT and PDF files are accepted
+* Invalid file types are rejected
+* Missing file returns error response
+* Uploaded file is stored successfully
+* Response includes confirmation and file reference ID
+
+----
+
+## Technical Notes
+
+* Use Django REST Framework
+* Use `FileField` for storage
+* Keep implementation simple (local storage acceptable)
+* Ensure clear and consistent API responses
+* Prepare structure for future integration with parsing service
+
+----
+
+## Dependencies
+
+* SRP-1 — Initial Project Setup (completed)
+
+**Comments**
+
+- **Tailor Maciel** (2026-04-06): SRP-3 completed.
+
+Delivered a fully functional backend API endpoint for uploading supplier reports (TXT/PDF), establishing the ingestion entry point of the SRP pipeline.
+
+Implemented through the following subtasks:
+
+* SRP-4 — UploadedReport model
+• File storage using FileField (reports/)
+• Upload timestamp tracking
+* SRP-5 — Upload API endpoint
+• POST /api/reports/upload/
+• Multipart/form-data support
+• File persistence and metadata response
+* SRP-6 — File validation
+• File presence validation
+• Extension-based validation (.txt, .pdf only)
+• Clear 400 error responses for invalid input
+* SRP-7 — Backend tests
+• Automated tests covering:
+** valid TXT upload (201)
+** valid PDF upload (201)
+** missing file (400)
+** invalid file type (400)
+• Tests use SimpleUploadedFile for lightweight in-memory validation
+* SRP-8 — Documentation
+• Endpoint documented in README
+• Request format, examples, and responses defined
+• Error cases clearly described
+
+Validation summary:
+
+* Endpoint accepts multipart uploads correctly
+* Files are persisted to backend/media/reports/
+* Database stores file references and metadata
+* Validation behaves as expected for all supported/unsupported cases
+* Automated tests pass successfully
+
+Scope adherence:
+
+* Implementation remains within MVP scope
+* No parsing logic, authentication, or advanced validation added
+* Design prepared for future parsing integration (SRP-10)
+
+Outcome:
+A complete, reliable, and test-covered ingestion layer is now in place, forming the foundation for the parsing engine and downstream data processing workflow.
 
 ---
 
