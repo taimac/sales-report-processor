@@ -16,13 +16,24 @@ store structured data, expose it via API, and display it on a basic dashboard.
 ## Current State
 
 - SRP-1 (Initial Project Setup) is **Done**
-- Repo exists at `sales-report-processor/`
-- Virtual environment configured (`venv/`, Python 3.12)
-- `requirements.txt` exists at root
-- `backend/` directory exists but is empty — Django project not created yet
-- `frontend/` directory exists but is empty — basic dashboard planned for MVP
-- No Django project, no apps, no models, no endpoints
-- SRP-9 (Django Project and App Scaffold) is the next task
+- SRP-9 (Django Project and App Scaffold) is **Done**
+- SRP-3 (File Upload API) is **Done** (including SRP-4 → SRP-8)
+
+### Implemented So Far
+
+- Django project initialized inside `backend/`
+- `reports` app created and registered
+- SQLite configured for MVP
+- Upload model (`UploadedReport`) implemented
+- File upload endpoint available at:
+  - `POST /api/reports/upload/`
+- File validation implemented:
+  - Accepts `.txt` and `.pdf`
+  - Rejects invalid or missing files with clear errors
+- Files stored under:
+  - `backend/media/reports/`
+- Backend tests implemented and passing
+- Upload endpoint documented in README
 
 ---
 
@@ -34,31 +45,6 @@ store structured data, expose it via API, and display it on a basic dashboard.
 - Frontend (MVP): simple server-rendered view or minimal interface
 - File types: TXT and PDF upload — TXT parsing initial phase
 - Python: 3.12
-
----
-
-## Actual Repo Structure (current)
-
-```
-sales-report-processor/
-├── backend/                  ← Django project goes here (SRP-9)
-├── docs/
-│   ├── AI/
-│   │   ├── AI_BOOTSTRAP_PROMPT_SRP.md
-│   │   ├── AI_CONTEXT_SRP.md
-│   │   ├── AI_DECISION_RULES_SRP.md
-│   │   ├── AI_OS_SRP.md
-│   │   ├── AI_OUTPUT_CONTRACTS_SRP.md
-│   │   └── AI_RUNTIME_LOOP_SRP.md
-│   ├── jira_backlog_SRP.md
-│   └── project_instructions_SRP.md
-├── fetch_jira_backlog_srp.py
-├── frontend/                 ← basic dashboard planned for MVP
-├── LICENSE
-├── README.md
-├── requirements.txt
-└── venv/
-```
 
 ---
 
@@ -122,13 +108,13 @@ MVP is complete when:
 [Epic]  SRP-2 – Sales Report Processor MVP
   ├─ SRP-1    Initial Project Setup             ✅ Done
   ├─ SRP-9    Django Project and App Scaffold   ✅ Done  
-  ├─ SRP-3    File Upload API                   ⬜ In Progress
+  ├─ SRP-3    File Upload API                   ✅ Done 
   │    ├─ SRP-4   Create UploadedReport model   ✅ Done  
   │    ├─ SRP-5   Implement upload API endpoint ✅ Done 
   │    ├─ SRP-6   Add file validation (TXT and PDF)     ✅ Done 
   │    ├─ SRP-7   Add backend tests for upload endpoint ✅ Done 
   │    └─ SRP-8   Document upload endpoint behavior    ✅ Done 
-  ├─ SRP-10   TXT Parsing Engine                ⬜ To Do  ← next
+  ├─ SRP-10   TXT Parsing Engine                ⬜ ← current
   ├─ SRP-11   Parsed Data Models                ⬜ To Do
   ├─ SRP-12   Processed Data Retrieval API      ⬜ To Do
   ├─ SRP-13   Basic Dashboard View              ⬜ To Do
@@ -141,9 +127,9 @@ MVP is complete when:
 ## Backlog Order
 
 1. ~~SRP-1 – Initial Project Setup~~ ✅ Done
-2. SRP-9  – Django Project and App Scaffold
-3. SRP-3  – File Upload API (SRP-4 → 5 → 6 → 7 → 8)
-4. SRP-10 – TXT Parsing Engine
+2. SRP-9  – Django Project and App Scaffold  ✅ Done
+3. SRP-3  – File Upload API (SRP-4 → 5 → 6 → 7 → 8)  ✅ Done
+4. SRP-10 – TXT Parsing Engine  ← current
 5. SRP-11 – Parsed Data Models
 6. SRP-12 – Processed Data Retrieval API
 7. SRP-13 – Basic Dashboard View

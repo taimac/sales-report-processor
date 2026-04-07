@@ -1,27 +1,350 @@
 # Jira Backlog for Project SRP
-_Exported: 2026-04-06 21:44:45_
+_Exported: 2026-04-07 16:52:46_
 
-**Total Issues:** 15
+**Total Issues:** 23
 
 ## Summary
 
-- **To Do:** 7 issues
-- **In Progress:** 0 issues
-- **Done:** 8 issues
+- **To Do:** 12 issues
+- **In Progress:** 2 issues
+- **Done:** 9 issues
 
 ---
 
-## To Do (7 issues)
+## To Do (12 issues)
 
 | Key | Summary | Status | Created | Updated | Sprint |
 |-----|---------|--------|---------|---------|--------|
+| SRP-23 | Parse Core Main Row Identity and Product Columns | To Do | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
+| SRP-22 | Final Parser Assembly and Real Sample Tests | To Do | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
+| SRP-21 | Client and Grand Total Extraction | To Do | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
+| SRP-20 | Continuation Row Parsing and Parent Item Attachment | To Do | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
+| SRP-19 | Parse Commercial, Credit, and Reference Columns | To Do | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
+| SRP-18 | Parse Production, Delivery, and Quantity Columns | To Do | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
 | SRP-15 | Documentation and Demo Readiness | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 4 |
 | SRP-14 | Error Handling and Validation | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 4 |
 | SRP-13 | Basic Dashboard View | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 3 |
 | SRP-12 | Processed Data Retrieval API | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 3 |
 | SRP-11 | Parsed Data Models | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 2 |
-| SRP-10 | TXT Parsing Engine | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 2 |
 | SRP-2 | Sales Report Processor MVP | To Do | 2026-04-04 | 2026-04-04 | No Sprint |
+
+### SRP-23 – Parse Core Main Row Identity and Product Columns
+
+- **Status:** To Do
+- **Created:** 2026-04-07
+- **Updated:** 2026-04-07
+- **Sprint:** SRP Sprint 2
+
+**Description**
+
+Extract the main identifying and product-related fields from primary detail rows.
+
+## Scope
+
+* Parse:
+** est
+** pedido
+** seq
+** descricao
+** espess
+** larg
+** compr
+
+## Deliverables
+
+* Main-row fixed-width parsing for identity and material columns
+
+## Acceptance Criteria
+
+* Known sample rows return correct values for the listed fields
+* Missing or shifted values do not break parsing flow
+* Raw line is preserved with each parsed item
+
+## Technical Notes
+
+* Files: `reports/services/txt_parser.py`
+* API impact: none
+* Validation notes: preserve exact source line for every parsed row
+
+## Dependencies
+
+* SRP-10 line classification subtask
+
+## Suggested Story Points
+
+* 2
+
+**Comments**
+
+_No comments_
+
+---
+
+### SRP-22 – Final Parser Assembly and Real Sample Tests
+
+- **Status:** To Do
+- **Created:** 2026-04-07
+- **Updated:** 2026-04-07
+- **Sprint:** SRP Sprint 2
+
+**Description**
+
+Assemble the complete parser pipeline and validate it with the real uploaded sample.
+
+## Scope
+
+* Build end-to-end `parse_txt_report(...)`
+* Return final structured dictionary
+* Add tests for:
+** header metadata
+** customer detection
+** full row extraction
+** continuation attachment
+** totals extraction
+** empty/malformed file handling
+
+## Deliverables
+
+* `reports/services/txt_parser.py`
+* `reports/tests/test_txt_parser.py`
+
+## Acceptance Criteria
+
+* Full report parses end-to-end
+* Tests pass against the real sample structure
+* Output is ready to map into SRP-11 models
+
+## Technical Notes
+
+* Files: `reports/services/txt_parser.py`, `reports/tests/test_txt_parser.py`
+* API impact: none
+* Validation notes: test at least one known row with many populated columns
+
+## Dependencies
+
+* All prior SRP-10 subtasks
+
+## Suggested Story Points
+
+* 1
+
+**Comments**
+
+_No comments_
+
+---
+
+### SRP-21 – Client and Grand Total Extraction
+
+- **Status:** To Do
+- **Created:** 2026-04-07
+- **Updated:** 2026-04-07
+- **Sprint:** SRP Sprint 2
+
+**Description**
+
+Extract totals at both customer and whole-report levels.
+
+## Scope
+
+* Parse:
+** `TOT CLIENTE`
+** `TOTAL CLIENTE EM R$`
+** `TOTAL GERAL`
+** `TOTAL EM R$`
+
+## Deliverables
+
+* Totals parsing logic
+* Assignment of totals to correct customer block or report summary
+
+## Acceptance Criteria
+
+* Client totals are assigned to the correct customer
+* Grand totals are extracted correctly
+* Currency total lines are stored separately from quantity total lines when appropriate
+
+## Technical Notes
+
+* Files: `reports/services/txt_parser.py`
+* API impact: none
+* Validation notes: totals should remain traceable to their original raw lines
+
+## Dependencies
+
+* SRP-10 line classification subtask
+
+## Suggested Story Points
+
+* 1
+
+**Comments**
+
+_No comments_
+
+---
+
+### SRP-20 – Continuation Row Parsing and Parent Item Attachment
+
+- **Status:** To Do
+- **Created:** 2026-04-07
+- **Updated:** 2026-04-07
+- **Sprint:** SRP Sprint 2
+
+**Description**
+
+Parse continuation rows and attach them to the correct main item.
+
+## Scope
+
+* Detect continuation rows
+* Parse continuation values such as:
+** additional production/order references
+** continuation status
+** raw continuation line
+* Attach continuation rows to the most recent valid parent item
+
+## Deliverables
+
+* Continuation parsing functions
+* Parent-child row attachment logic
+
+## Acceptance Criteria
+
+* Continuation rows are linked to the correct item
+* Multiple continuation rows can be stored under one item
+* Orphan continuation rows are handled safely
+
+## Technical Notes
+
+* Files: `reports/services/txt_parser.py`
+* API impact: none
+* Validation notes: retain continuation raw lines even when partially parsed
+
+## Dependencies
+
+* SRP-10 main-row parsing subtasks
+
+## Suggested Story Points
+
+* 1
+
+**Comments**
+
+_No comments_
+
+---
+
+### SRP-19 – Parse Commercial, Credit, and Reference Columns
+
+- **Status:** To Do
+- **Created:** 2026-04-07
+- **Updated:** 2026-04-07
+- **Sprint:** SRP Sprint 2
+
+**Description**
+
+Extract the commercial and credit-related fields that are important for downstream business use.
+
+## Scope
+
+* Parse:
+** pre_liq
+** pf
+** vlr_peca
+** pag
+** transp
+** cr_pro
+** cr_fat
+** o_compra
+** item_cli
+** mnf
+
+## Deliverables
+
+* Fixed-width parsing logic for commercial and reference columns
+
+## Acceptance Criteria
+
+* Known sample rows return correct values for these columns when present
+* Blank fields are handled safely
+* No adjacent-column leakage occurs in parsed output
+
+## Technical Notes
+
+* Files: `reports/services/txt_parser.py`
+* API impact: none
+* Validation notes: `mnf` is optional and may be blank for many rows
+
+## Dependencies
+
+* SRP-10 operational/quantity parsing subtask
+
+## Suggested Story Points
+
+* 2
+
+**Comments**
+
+_No comments_
+
+---
+
+### SRP-18 – Parse Production, Delivery, and Quantity Columns
+
+- **Status:** To Do
+- **Created:** 2026-04-07
+- **Updated:** 2026-04-07
+- **Sprint:** SRP Sprint 2
+
+**Description**
+
+Extract the operational fields that track production, delivery, and quantities.
+
+## Scope
+
+* Parse:
+** ord_prod
+** sit_ordem
+** dt_entr
+** aa
+** qt_ped
+** qt_pc
+** qt_prod
+** qt_fatur
+** sdo_estoq
+** sit
+
+## Deliverables
+
+* Operational and quantity parsing logic for main rows
+
+## Acceptance Criteria
+
+* Dates are extracted correctly
+* Quantity columns map correctly
+
+* Status values are extracted without corrupting adjacent columns
+
+## Technical Notes
+
+* Files: `reports/services/txt_parser.py`
+* API impact: none
+* Validation notes: numeric strings may remain strings in SRP-10; normalization can be finalized in SRP-11
+
+## Dependencies
+
+* SRP-10 core main-row parsing subtask
+
+## Suggested Story Points
+
+* 2
+
+**Comments**
+
+_No comments_
+
+---
 
 ### SRP-15 – Documentation and Demo Readiness
 
@@ -92,23 +415,6 @@ _No comments_
 ---
 
 ### SRP-11 – Parsed Data Models
-
-- **Status:** To Do
-- **Created:** 2026-04-04
-- **Updated:** 2026-04-04
-- **Sprint:** SRP Sprint 2
-
-**Description**
-
-_No content_
-
-**Comments**
-
-_No comments_
-
----
-
-### SRP-10 – TXT Parsing Engine
 
 - **Status:** To Do
 - **Created:** 2026-04-04
@@ -250,10 +556,264 @@ _No comments_
 
 ---
 
-## Done (8 issues)
+## In Progress (2 issues)
 
 | Key | Summary | Status | Created | Updated | Sprint |
 |-----|---------|--------|---------|---------|--------|
+| SRP-17 | Line Classification and Report Structure Detection | In Progress | 2026-04-06 | 2026-04-07 | SRP Sprint 2 |
+| SRP-10 | TXT Parsing Engine | In Progress | 2026-04-04 | 2026-04-07 | SRP Sprint 2 |
+
+### SRP-17 – Line Classification and Report Structure Detection
+
+- **Status:** In Progress
+- **Created:** 2026-04-06
+- **Updated:** 2026-04-07
+- **Sprint:** SRP Sprint 2
+
+**Description**
+
+Classify lines and identify the structural boundaries of the report.
+
+## Scope
+
+* Classify:
+** report headers
+** customer headers
+** table headers
+** separator lines
+** main detail rows
+** continuation rows
+** client totals
+** grand totals
+** ignorable lines
+
+## Deliverables
+
+* Line classification helpers
+* Structural parsing state machine or equivalent logic
+
+## Acceptance Criteria
+
+* Customer blocks are recognized correctly
+* Main rows and continuation rows are distinguished correctly
+* Totals lines are distinguished correctly
+
+## Technical Notes
+
+* Files: `reports/services/txt_parser.py`
+* API impact: none
+* Validation notes: unknown lines must not crash parsing
+
+## Dependencies
+
+* SRP-10 reader/header subtask
+
+## Suggested Story Points
+
+* 2
+
+**Comments**
+
+_No comments_
+
+---
+
+### SRP-10 – TXT Parsing Engine
+
+- **Status:** In Progress
+- **Created:** 2026-04-04
+- **Updated:** 2026-04-07
+- **Sprint:** SRP Sprint 2
+
+**Description**
+
+Implement a TXT parsing engine for the supplier report format currently used in SRP: *“Relação dos Pedidos em Carteira”*.
+
+The parser must process uploaded TXT files generated in this fixed-width, column-based format and convert them into structured Python data preserving the complete report structure and all relevant fields.
+
+⚠️ *Scope clarification (important):*
+
+This implementation must support:
+
+{quote}*Full field coverage for the current carteira report format only.*{quote}
+
+It must *NOT attempt to support generic TXT formats or other supplier layouts* at this stage.
+
+The parser must extract:
+
+* report metadata from header lines
+* customer sections
+* main order rows
+* continuation rows
+* client totals
+* report grand totals
+
+Unlike a generic MVP parser, this story must cover the *full set of report columns* present in the current real sample, because those fields contain operational, commercial, logistics, and credit information that cannot be safely ignored. The implementation must remain readable, testable, and aligned with the current SRP scope.
+
+## Goal
+
+Convert the uploaded carteira TXT report into structured Python data with complete field coverage, preserving hierarchy and business meaning, ready for persistence in SRP-11.
+
+## Scope
+
+### Included
+
+* Full column extraction for the current carteira report format (all fields listed in this story)
+* Read TXT file content from uploaded report storage
+* Decode text safely, handling imperfect encoding when necessary
+* Normalize lines and remove report noise such as repeated page headers and separators
+* Parse report header metadata, including:
+** report title
+** generated date
+** generated time
+** page number when present
+* Detect customer blocks using lines such as `Rep: ... Cliente: ...`
+* Parse all columns from main detail rows
+* Parse continuation rows and attach them to the correct parent row
+* Parse per-client totals
+* Parse report grand totals
+* Preserve raw source lines for traceability
+* Return a structured parse result ready for SRP-11 model mapping
+* Add parser tests based on the real uploaded sample
+
+### Not Included
+
+* PDF parsing
+* OCR
+* parsing other supplier TXT formats not represented by the current carteira sample
+* Generic parsing engine for unknown file structures
+* database persistence
+* retrieval API
+* dashboard/UI work
+* analytics or business recommendation logic
+
+## Full Field Coverage Required
+
+The parser must support the following fields from the report structure:
+
+### Report metadata
+
+* report_title
+* generated_date
+* generated_time
+* folha / page number when available
+
+### Customer block metadata
+
+* representative
+* customer_name
+
+### Main row columns
+
+* est
+* pedido
+* seq
+* descricao
+* espess
+* larg
+* compr
+* ord_prod
+* sit_ordem
+* dt_entr
+* aa
+* qt_ped
+* qt_pc
+* qt_prod
+* qt_fatur
+* sdo_estoq
+* sit
+* pre_liq
+* pf
+* vlr_peca
+* pag
+* transp
+* cr_pro
+* cr_fat
+* o_compra
+* item_cli
+* mnf
+
+### Continuation row fields
+
+* additional production/order references tied to the parent row
+* continuation status values
+* continuation raw line
+
+### Totals
+
+* client total quantities
+* client total in currency
+* grand total quantities
+* grand total in currency
+
+## Acceptance Criteria
+
+* Parser service exists inside the `reports` app
+* TXT file can be read and normalized successfully
+* Report header metadata is extracted correctly, including date and time from header lines
+* Customer sections are detected correctly
+* Main detail rows are parsed with full field coverage
+* Continuation rows are attached to the correct parent row
+* Client totals are extracted correctly
+* Grand totals are extracted correctly
+* Output preserves hierarchy: report → customers → items → continuations
+* Raw source lines are preserved for traceability
+* Parser handles empty files, malformed lines, and encoding issues gracefully
+* Tests validate parsing against the real carteira sample
+* Implementation remains within SRP-10 scope and does not include persistence or API exposure
+
+## Technical Notes
+
+The real uploaded sample is not a simple key-value TXT; it is a fixed-width operational report with repeated customer sections, continuation rows, client totals, and grand totals. The parser design must reflect that actual structure. The sample clearly shows the report title, timestamp, `Rep` and `Cliente` sections, detail rows, `TOT CLIENTE`, `TOTAL CLIENTE EM R$`, `TOTAL GERAL`, and `TOTAL EM R$`.
+
+The current SRP backlog places SRP-10 as the next story after upload completion, with SRP-11 handling parsed data models after this. That makes SRP-10 the right place to define and validate full extraction logic, while leaving persistence to the next story. 
+
+## Dependencies
+
+* SRP-3 – File Upload API ✅ Done
+
+## Suggested Story Points
+
+* 13
+
+### SRP-10 – Subtask Execution Plan & Dependencies
+
+To ensure a structured and incremental implementation of the TXT parsing engine, the subtasks will be executed in the following order:
+
+*Execution Order*
+
+# SRP-16 — TXT Reader and Header Metadata Extraction
+# SRP-17 — Line Classification and Report Structure Detection
+# SRP-23 — Parse Core Main Row Identity and Product Columns
+# SRP-18 — Parse Production, Delivery, and Quantity Columns
+# SRP-19 — Parse Commercial, Credit, and Reference Columns
+# SRP-20 — Continuation Row Parsing and Parent Item Attachment
+# SRP-21 — Client and Grand Total Extraction
+# SRP-22 — Final Parser Assembly and Real Sample Tests
+
+----
+
+*Dependency Flow*
+
+* SRP-16 → SRP-17
+* SRP-17 → SRP-23
+* SRP-23 → SRP-18
+* SRP-18 → SRP-19
+* SRP-19 → SRP-20
+* SRP-17 → SRP-21
+* SRP-20 + SRP-21 → SRP-22
+
+**Comments**
+
+_No comments_
+
+---
+
+## Done (9 issues)
+
+| Key | Summary | Status | Created | Updated | Sprint |
+|-----|---------|--------|---------|---------|--------|
+| SRP-16 | TXT Reader and Header Metadata Extraction | Done | 2026-04-06 | 2026-04-07 | SRP Sprint 2 |
 | SRP-9 | Django Project and App Scaffold | Done | 2026-04-04 | 2026-04-04 | SRP Sprint 1 |
 | SRP-8 | Document upload endpoint behavior | Done | 2026-04-04 | 2026-04-06 | SRP Sprint 1 |
 | SRP-7 | Add backend tests for upload endpoint | Done | 2026-04-04 | 2026-04-06 | SRP Sprint 1 |
@@ -262,6 +822,80 @@ _No comments_
 | SRP-4 | Create upload data model | Done | 2026-04-04 | 2026-04-05 | SRP Sprint 1 |
 | SRP-3 | File Upload API | Done | 2026-04-04 | 2026-04-06 | SRP Sprint 1 |
 | SRP-1 | Initial Project Setup | Done | 2026-04-04 | 2026-04-04 | No Sprint |
+
+### SRP-16 – TXT Reader and Header Metadata Extraction
+
+- **Status:** Done
+- **Created:** 2026-04-06
+- **Updated:** 2026-04-07
+- **Sprint:** SRP Sprint 2
+
+**Description**
+
+Create the foundation for reading the report safely and extracting report-level metadata from header lines.
+
+## Scope
+
+* Read TXT from disk
+* Handle decoding safely
+* Normalize line endings and spacing
+* Extract:
+** report title
+** generated date
+** generated time
+** folha / page number when present
+
+## Deliverables
+
+* `reports/services/txt_parser.py`
+* Reader and header parsing functions
+
+## Acceptance Criteria
+
+* File is read without crashing
+* Header metadata is extracted correctly from the real sample
+* Repeated page headers can be recognized and ignored during detail parsing
+
+## Technical Notes
+
+* Files: `reports/services/txt_parser.py`
+* API impact: none
+* Validation notes: preserve original raw text for debugging
+
+## Dependencies
+
+* SRP-3 must be Done
+
+## Suggested Story Points
+
+* 2
+
+**Comments**
+
+- **Tailor Maciel** (2026-04-07): SRP-16 completed.
+
+Delivered:
+
+* Implemented initial TXT reader service in reports/services/txt_parser.py
+* Added safe file reading with UTF-8 and latin-1 fallback
+* Normalized line endings and cleaned line content for downstream parsing
+* Preserved raw_text and normalized lines for later parser stages
+* Extracted generated_date and generated_time from the real carteira TXT sample
+* Added automated tests in reports/tests/test_txt_parser.py
+
+Validation:
+
+* python manage.py test reports.tests.test_txt_parser
+* 3 tests passed successfully
+
+Notes:
+
+* Test path uses the actual uploaded report location:
+backend/media/reports/carteira_06_04_26.txt
+
+This completes the reader/header foundation needed before SRP-17 line classification.
+
+---
 
 ### SRP-9 – Django Project and App Scaffold
 
