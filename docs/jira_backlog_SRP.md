@@ -1,17 +1,17 @@
 # Jira Backlog for Project SRP
-_Exported: 2026-04-07 17:38:10_
+_Exported: 2026-04-07 18:15:25_
 
 **Total Issues:** 23
 
 ## Summary
 
-- **To Do:** 11 issues
+- **To Do:** 10 issues
 - **In Progress:** 2 issues
-- **Done:** 10 issues
+- **Done:** 11 issues
 
 ---
 
-## To Do (11 issues)
+## To Do (10 issues)
 
 | Key | Summary | Status | Created | Updated | Sprint |
 |-----|---------|--------|---------|---------|--------|
@@ -19,7 +19,6 @@ _Exported: 2026-04-07 17:38:10_
 | SRP-21 | Client and Grand Total Extraction | To Do | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
 | SRP-20 | Continuation Row Parsing and Parent Item Attachment | To Do | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
 | SRP-19 | Parse Commercial, Credit, and Reference Columns | To Do | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
-| SRP-18 | Parse Production, Delivery, and Quantity Columns | To Do | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
 | SRP-15 | Documentation and Demo Readiness | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 4 |
 | SRP-14 | Error Handling and Validation | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 4 |
 | SRP-13 | Basic Dashboard View | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 3 |
@@ -226,62 +225,6 @@ Extract the commercial and credit-related fields that are important for downstre
 ## Dependencies
 
 * SRP-10 operational/quantity parsing subtask
-
-## Suggested Story Points
-
-* 2
-
-**Comments**
-
-_No comments_
-
----
-
-### SRP-18 – Parse Production, Delivery, and Quantity Columns
-
-- **Status:** To Do
-- **Created:** 2026-04-07
-- **Updated:** 2026-04-07
-- **Sprint:** SRP Sprint 2
-
-**Description**
-
-Extract the operational fields that track production, delivery, and quantities.
-
-## Scope
-
-* Parse:
-** ord_prod
-** sit_ordem
-** dt_entr
-** aa
-** qt_ped
-** qt_pc
-** qt_prod
-** qt_fatur
-** sdo_estoq
-** sit
-
-## Deliverables
-
-* Operational and quantity parsing logic for main rows
-
-## Acceptance Criteria
-
-* Dates are extracted correctly
-* Quantity columns map correctly
-
-* Status values are extracted without corrupting adjacent columns
-
-## Technical Notes
-
-* Files: `reports/services/txt_parser.py`
-* API impact: none
-* Validation notes: numeric strings may remain strings in SRP-10; normalization can be finalized in SRP-11
-
-## Dependencies
-
-* SRP-10 core main-row parsing subtask
 
 ## Suggested Story Points
 
@@ -507,10 +450,10 @@ _No comments_
 
 | Key | Summary | Status | Created | Updated | Sprint |
 |-----|---------|--------|---------|---------|--------|
-| SRP-23 | Parse Core Main Row Identity and Product Columns | In Progress | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
+| SRP-18 | Parse Production, Delivery, and Quantity Columns | In Progress | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
 | SRP-10 | TXT Parsing Engine | In Progress | 2026-04-04 | 2026-04-07 | SRP Sprint 2 |
 
-### SRP-23 – Parse Core Main Row Identity and Product Columns
+### SRP-18 – Parse Production, Delivery, and Quantity Columns
 
 - **Status:** In Progress
 - **Created:** 2026-04-07
@@ -519,38 +462,42 @@ _No comments_
 
 **Description**
 
-Extract the main identifying and product-related fields from primary detail rows.
+Extract the operational fields that track production, delivery, and quantities.
 
 ## Scope
 
 * Parse:
-** est
-** pedido
-** seq
-** descricao
-** espess
-** larg
-** compr
+** ord_prod
+** sit_ordem
+** dt_entr
+** aa
+** qt_ped
+** qt_pc
+** qt_prod
+** qt_fatur
+** sdo_estoq
+** sit
 
 ## Deliverables
 
-* Main-row fixed-width parsing for identity and material columns
+* Operational and quantity parsing logic for main rows
 
 ## Acceptance Criteria
 
-* Known sample rows return correct values for the listed fields
-* Missing or shifted values do not break parsing flow
-* Raw line is preserved with each parsed item
+* Dates are extracted correctly
+* Quantity columns map correctly
+
+* Status values are extracted without corrupting adjacent columns
 
 ## Technical Notes
 
 * Files: `reports/services/txt_parser.py`
 * API impact: none
-* Validation notes: preserve exact source line for every parsed row
+* Validation notes: numeric strings may remain strings in SRP-10; normalization can be finalized in SRP-11
 
 ## Dependencies
 
-* SRP-10 line classification subtask
+* SRP-10 core main-row parsing subtask
 
 ## Suggested Story Points
 
@@ -753,10 +700,11 @@ _No comments_
 
 ---
 
-## Done (10 issues)
+## Done (11 issues)
 
 | Key | Summary | Status | Created | Updated | Sprint |
 |-----|---------|--------|---------|---------|--------|
+| SRP-23 | Parse Core Main Row Identity and Product Columns | Done | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
 | SRP-17 | Line Classification and Report Structure Detection | Done | 2026-04-06 | 2026-04-07 | SRP Sprint 2 |
 | SRP-16 | TXT Reader and Header Metadata Extraction | Done | 2026-04-06 | 2026-04-07 | SRP Sprint 2 |
 | SRP-9 | Django Project and App Scaffold | Done | 2026-04-04 | 2026-04-04 | SRP Sprint 1 |
@@ -767,6 +715,83 @@ _No comments_
 | SRP-4 | Create upload data model | Done | 2026-04-04 | 2026-04-05 | SRP Sprint 1 |
 | SRP-3 | File Upload API | Done | 2026-04-04 | 2026-04-06 | SRP Sprint 1 |
 | SRP-1 | Initial Project Setup | Done | 2026-04-04 | 2026-04-04 | No Sprint |
+
+### SRP-23 – Parse Core Main Row Identity and Product Columns
+
+- **Status:** Done
+- **Created:** 2026-04-07
+- **Updated:** 2026-04-07
+- **Sprint:** SRP Sprint 2
+
+**Description**
+
+Extract the main identifying and product-related fields from primary detail rows.
+
+## Scope
+
+* Parse:
+** est
+** pedido
+** seq
+** descricao
+** espess
+** larg
+** compr
+
+## Deliverables
+
+* Main-row fixed-width parsing for identity and material columns
+
+## Acceptance Criteria
+
+* Known sample rows return correct values for the listed fields
+* Missing or shifted values do not break parsing flow
+* Raw line is preserved with each parsed item
+
+## Technical Notes
+
+* Files: `reports/services/txt_parser.py`
+* API impact: none
+* Validation notes: preserve exact source line for every parsed row
+
+## Dependencies
+
+* SRP-10 line classification subtask
+
+## Suggested Story Points
+
+* 2
+
+**Comments**
+
+- **Tailor Maciel** (2026-04-07): SRP-23 completed.
+
+Delivered:
+
+* Implemented parsing for main-row identity and product columns
+* Added extraction of:
+
+
+ est, pedido, seq, descricao, espess, larg, compr
+
+* Preserved raw_line for every parsed main detail row
+* Added helper to parse all lines classified as main_detail
+* Added automated tests using real carteira sample rows
+
+Validation:
+
+* python manage.py test reports.tests.test_txt_parser
+* 9 tests passed successfully
+
+Notes:
+
+* Parsing uses fixed-width slicing based on the real carteira layout
+* This avoids leakage when numeric values appear inside descricao
+* Output prepares the parser for SRP-18 operational and quantity column extraction
+
+SRP-23 is complete and ready for the next parsing stage.
+
+---
 
 ### SRP-17 – Line Classification and Report Structure Detection
 
