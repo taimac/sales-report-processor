@@ -9,7 +9,8 @@ from reports.services.txt_parser import (
     classify_report_lines, 
     detect_customer_blocks,
     parse_main_detail_lines,
-    parse_main_row_identity_fields
+    parse_main_row_identity_fields,
+    parse_main_row_full_step_1
 )
 
 
@@ -129,3 +130,29 @@ class TxtParserMainRowParsingTests(SimpleTestCase):
         self.assertGreater(len(parsed_rows), 0)
         self.assertTrue(all("raw_line" in row for row in parsed_rows))
         self.assertTrue(all(row["est"] for row in parsed_rows))
+
+
+class TxtParserOperationalTests(SimpleTestCase):
+    def setUp(self) -> None:
+        self.sample_path = (
+            Path(__file__).resolve().parents[2]
+            / "media/reports/carteira_06_04_26.txt"
+        )
+        self.data = read_txt_report(self.sample_path)
+
+    def test_parse_operational_fields_for_gpaniz(self) -> None:
+        line = next(
+            l for l in self.data["lines"]
+            if l.startswith("11  404565     10 CHAPA ZC 0,50")
+        )
+
+        parsed = parse_main_row_full_step_1(line)
+
+        self.assertEqual(parsed["compr"], "2580")
+        self.assertEqual(parsed["ord_prod"], "9.154.169")
+        self.assertEqual(parsed["dt_entr"], "13/04/26")
+        self.assertEqual(parsed["aa"], "Nao")
+        self.assertEqual(parsed["qt_ped"], "1.500")
+        self.assertEqual(parsed["qt_prod"], "0")
+        self.assertEqual(parsed["sdo_estoq"], "1.454")
+        self.assertTrue(parsed["sit"])

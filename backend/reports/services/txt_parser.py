@@ -232,3 +232,89 @@ def parse_main_detail_lines(lines: list[str]) -> list[dict[str, str]]:
             parsed_rows.append(parse_main_row_identity_fields(line))
 
     return parsed_rows
+
+def parse_main_row_operational_fields(line: str) -> dict[str, str]:
+    """
+    Parse SRP-18 operational and quantity columns from a main detail row.
+
+    Strategy:
+    - SRP-23 already parsed up to `compr`
+    - from the remainder, use whitespace tokenization because numeric widths vary
+    """
+    if classify_line(line) != "main_detail":
+        return {}
+
+    remainder = line[88:].strip()
+    parts = remainder.split()
+
+    # Expected order in the remainder:
+    # ord_prod, sit_ordem(optional like LC10), dt_entr, aa,
+    # qt_ped, qt_pc, qt_prod, qt_fatur, sdo_estoq, sit...
+    #
+    # In some rows, sit_ordem is blank.
+    # We detect date first, then infer what comes before it.
+
+    date_index = next(
+        (i for i, part in enumerate(parts) if re.fullmatch(r"\d{2}/\d{2}/\d{2}", part)),
+        None,
+    )
+
+    if date_index is None or date_index < 1:
+        return {
+            "ord_prod": "",
+            "sit_ordem": "",
+            "dt_entr": "",
+            "aa": "",
+            "qt_ped": "",
+            "qt_pc": "",
+            "qt_prod": "",
+            "qt_fatur": "",
+            "sdo_estoq": "",
+            "sit": "",
+        }
+
+    ord_prod = parts[0]
+    sit_ordem = " ".join(parts[1:date_index]) if date_index > 1 else ""
+    dt_entr = parts[date_index]
+    aa = parts[date_index + 1] if len(parts) > date_index + 1 else ""
+    qt_ped = parts[date_index + 2] if len(parts) > date_index + 2 else ""
+    qt_pc = parts[date_index + 3] if len(parts) > date_index + 3 else ""
+    qt_prod = parts[date_index + 4] if len(parts) > date_index + 4 else ""
+    qt_fatur = parts[date_index + 5] if len(parts) > date_index + 5 else ""
+    sdo_estoq = parts[date_index + 6] if len(parts) > date_index + 6 else ""
+    sit = " ".join(parts[date_index + 7:]) if len(parts) > date_index + 7 else ""
+
+    return {
+        "ord_prod": ord_prod,
+        "sit_ordem": sit_ordem,
+        "dt_entr": dt_entr,
+        "aa": aa,
+        "qt_ped": qt_ped,
+        "qt_pc": qt_pc,
+        "qt_prod": qt_prod,
+        "qt_fatur": qt_fatur,
+        "sdo_estoq": sdo_estoq,
+        "sit": sit,
+    }
+
+def parse_main_row_full_step_1(line: str) -> dict[str, str]:
+    """
+    Combine SRP-23 and SRP-18 parsing (identity + operational).
+    """
+
+    base = parse_main_row_identity_fields(line)
+    operational = parse_main_row_operational_fields(line)
+
+    return {
+        **base,
+        **operational,
+    }
+
+def parse_main_detail_lines_step_1(lines: list[str]) -> list[dict[str, str]]:
+    results = []
+
+    for line in lines:
+        if classify_line(line) == "main_detail":
+            results.append(parse_main_row_full_step_1(line))
+
+    return results
