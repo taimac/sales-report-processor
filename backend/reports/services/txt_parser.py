@@ -11,7 +11,15 @@ TIMESTAMP_PATTERN = re.compile(
 )
 
 MAIN_ROW_PATTERN = re.compile(r"^\s*\d+\s+\d+\s+\d+\s+")
+
 CONTINUATION_PATTERN = re.compile(r"^\s{10,}\d[\d\.\sA-Z]*")
+
+MAIN_ROW_LEADING_PATTERN = re.compile(
+    r"^\s*(?P<est>\d+)\s+(?P<pedido>\d+)\s+(?P<seq>\d+)\s+"
+)
+
+THICKNESS_PATTERN = re.compile(r"\d+,\d{2}")
+
 
 
 def read_txt_report(file_path: str | Path) -> dict[str, Any]:
@@ -175,3 +183,52 @@ def detect_customer_blocks(lines: List[str]) -> List[Dict[str, Any]]:
         blocks.append(current_block)
 
     return blocks
+
+def parse_main_row_identity_fields(line: str) -> dict[str, str]:
+    """
+    Parse the SRP-23 identity/product columns from a fixed-width main detail row.
+
+    Fields:
+    - est
+    - pedido
+    - seq
+    - descricao
+    - espess
+    - larg
+    - compr
+    """
+    if classify_line(line) != "main_detail":
+        return {
+            "raw_line": line,
+            "est": "",
+            "pedido": "",
+            "seq": "",
+            "descricao": "",
+            "espess": "",
+            "larg": "",
+            "compr": "",
+        }
+
+    return {
+        "raw_line": line,
+        "est": line[0:2].strip(),
+        "pedido": line[4:10].strip(),
+        "seq": line[15:17].strip(),
+        "descricao": line[18:56].strip(),
+        "espess": line[59:63].strip(),
+        "larg": line[64:72].strip(),
+        "compr": line[84:88].strip(),
+    }
+
+
+def parse_main_detail_lines(lines: list[str]) -> list[dict[str, str]]:
+    """
+    Parse all lines classified as main_detail and return only SRP-23 fields.
+    """
+    parsed_rows: list[dict[str, str]] = []
+
+    for line in lines:
+        if classify_line(line) == "main_detail":
+            parsed_rows.append(parse_main_row_identity_fields(line))
+
+    return parsed_rows
