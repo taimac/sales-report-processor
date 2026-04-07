@@ -11,7 +11,8 @@ from reports.services.txt_parser import (
     parse_main_detail_lines,
     parse_main_row_identity_fields,
     parse_main_row_full_step_1,
-    parse_main_row_full
+    parse_main_row_full,
+    attach_continuation_rows
 )
 
 
@@ -181,3 +182,28 @@ class TxtParserCommercialTests(SimpleTestCase):
         self.assertEqual(parsed["cr_pro"], "Sim")
         self.assertEqual(parsed["cr_fat"], "Sim")
         self.assertEqual(parsed["o_compra"], "208575")
+
+from reports.services.txt_parser import attach_continuation_rows
+
+
+class TxtParserContinuationTests(SimpleTestCase):
+    def setUp(self) -> None:
+        self.sample_path = (
+            Path(__file__).resolve().parents[2]
+            / "media/reports/carteira_06_04_26.txt"
+        )
+        self.data = read_txt_report(self.sample_path)
+
+    def test_continuation_rows_attached_with_expected_fields(self) -> None:
+        rows = attach_continuation_rows(self.data["lines"])
+
+        row = next(r for r in rows if r["continuations"])
+        continuation = row["continuations"][0]
+
+        self.assertIn("ord_prod", continuation)
+        self.assertIn("sit_ordem", continuation)
+        self.assertIn("qt_prod", continuation)
+        self.assertIn("sit", continuation)
+
+        self.assertTrue(continuation["ord_prod"])
+        self.assertTrue(continuation["sit"])

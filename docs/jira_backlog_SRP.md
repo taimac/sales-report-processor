@@ -1,22 +1,21 @@
 # Jira Backlog for Project SRP
-_Exported: 2026-04-07 19:30:09_
+_Exported: 2026-04-07 19:58:26_
 
 **Total Issues:** 23
 
 ## Summary
 
-- **To Do:** 8 issues
+- **To Do:** 7 issues
 - **In Progress:** 2 issues
-- **Done:** 13 issues
+- **Done:** 14 issues
 
 ---
 
-## To Do (8 issues)
+## To Do (7 issues)
 
 | Key | Summary | Status | Created | Updated | Sprint |
 |-----|---------|--------|---------|---------|--------|
 | SRP-22 | Final Parser Assembly and Real Sample Tests | To Do | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
-| SRP-21 | Client and Grand Total Extraction | To Do | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
 | SRP-15 | Documentation and Demo Readiness | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 4 |
 | SRP-14 | Error Handling and Validation | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 4 |
 | SRP-13 | Basic Dashboard View | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 3 |
@@ -67,56 +66,6 @@ Assemble the complete parser pipeline and validate it with the real uploaded sam
 ## Dependencies
 
 * All prior SRP-10 subtasks
-
-## Suggested Story Points
-
-* 1
-
-**Comments**
-
-_No comments_
-
----
-
-### SRP-21 – Client and Grand Total Extraction
-
-- **Status:** To Do
-- **Created:** 2026-04-07
-- **Updated:** 2026-04-07
-- **Sprint:** SRP Sprint 2
-
-**Description**
-
-Extract totals at both customer and whole-report levels.
-
-## Scope
-
-* Parse:
-** `TOT CLIENTE`
-** `TOTAL CLIENTE EM R$`
-** `TOTAL GERAL`
-** `TOTAL EM R$`
-
-## Deliverables
-
-* Totals parsing logic
-* Assignment of totals to correct customer block or report summary
-
-## Acceptance Criteria
-
-* Client totals are assigned to the correct customer
-* Grand totals are extracted correctly
-* Currency total lines are stored separately from quantity total lines when appropriate
-
-## Technical Notes
-
-* Files: `reports/services/txt_parser.py`
-* API impact: none
-* Validation notes: totals should remain traceable to their original raw lines
-
-## Dependencies
-
-* SRP-10 line classification subtask
 
 ## Suggested Story Points
 
@@ -342,10 +291,10 @@ _No comments_
 
 | Key | Summary | Status | Created | Updated | Sprint |
 |-----|---------|--------|---------|---------|--------|
-| SRP-20 | Continuation Row Parsing and Parent Item Attachment | In Progress | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
+| SRP-21 | Client and Grand Total Extraction | In Progress | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
 | SRP-10 | TXT Parsing Engine | In Progress | 2026-04-04 | 2026-04-07 | SRP Sprint 2 |
 
-### SRP-20 – Continuation Row Parsing and Parent Item Attachment
+### SRP-21 – Client and Grand Total Extraction
 
 - **Status:** In Progress
 - **Created:** 2026-04-07
@@ -354,37 +303,36 @@ _No comments_
 
 **Description**
 
-Parse continuation rows and attach them to the correct main item.
+Extract totals at both customer and whole-report levels.
 
 ## Scope
 
-* Detect continuation rows
-* Parse continuation values such as:
-** additional production/order references
-** continuation status
-** raw continuation line
-* Attach continuation rows to the most recent valid parent item
+* Parse:
+** `TOT CLIENTE`
+** `TOTAL CLIENTE EM R$`
+** `TOTAL GERAL`
+** `TOTAL EM R$`
 
 ## Deliverables
 
-* Continuation parsing functions
-* Parent-child row attachment logic
+* Totals parsing logic
+* Assignment of totals to correct customer block or report summary
 
 ## Acceptance Criteria
 
-* Continuation rows are linked to the correct item
-* Multiple continuation rows can be stored under one item
-* Orphan continuation rows are handled safely
+* Client totals are assigned to the correct customer
+* Grand totals are extracted correctly
+* Currency total lines are stored separately from quantity total lines when appropriate
 
 ## Technical Notes
 
 * Files: `reports/services/txt_parser.py`
 * API impact: none
-* Validation notes: retain continuation raw lines even when partially parsed
+* Validation notes: totals should remain traceable to their original raw lines
 
 ## Dependencies
 
-* SRP-10 main-row parsing subtasks
+* SRP-10 line classification subtask
 
 ## Suggested Story Points
 
@@ -587,11 +535,12 @@ _No comments_
 
 ---
 
-## Done (13 issues)
+## Done (14 issues)
 
 | Key | Summary | Status | Created | Updated | Sprint |
 |-----|---------|--------|---------|---------|--------|
 | SRP-23 | Parse Core Main Row Identity and Product Columns | Done | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
+| SRP-20 | Continuation Row Parsing and Parent Item Attachment | Done | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
 | SRP-19 | Parse Commercial, Credit, and Reference Columns | Done | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
 | SRP-18 | Parse Production, Delivery, and Quantity Columns | Done | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
 | SRP-17 | Line Classification and Report Structure Detection | Done | 2026-04-06 | 2026-04-07 | SRP Sprint 2 |
@@ -679,6 +628,82 @@ Notes:
 * Output prepares the parser for SRP-18 operational and quantity column extraction
 
 SRP-23 is complete and ready for the next parsing stage.
+
+---
+
+### SRP-20 – Continuation Row Parsing and Parent Item Attachment
+
+- **Status:** Done
+- **Created:** 2026-04-07
+- **Updated:** 2026-04-07
+- **Sprint:** SRP Sprint 2
+
+**Description**
+
+Parse continuation rows and attach them to the correct main item.
+
+## Scope
+
+* Detect continuation rows
+* Parse continuation values such as:
+** additional production/order references
+** continuation status
+** raw continuation line
+* Attach continuation rows to the most recent valid parent item
+
+## Deliverables
+
+* Continuation parsing functions
+* Parent-child row attachment logic
+
+## Acceptance Criteria
+
+* Continuation rows are linked to the correct item
+* Multiple continuation rows can be stored under one item
+* Orphan continuation rows are handled safely
+
+## Technical Notes
+
+* Files: `reports/services/txt_parser.py`
+* API impact: none
+* Validation notes: retain continuation raw lines even when partially parsed
+
+## Dependencies
+
+* SRP-10 main-row parsing subtasks
+
+## Suggested Story Points
+
+* 1
+
+**Comments**
+
+- **Tailor Maciel** (2026-04-07): SRP-20 completed.
+
+Delivered:
+
+* Implemented parsing for continuation rows
+* Added extraction of:
+
+
+ ord_prod, sit_ordem, qt_prod, sit
+
+* Implemented attachment of continuation rows to the most recent valid parent main row
+* Preserved raw continuation lines for traceability
+* Added automated tests using the real carteira sample
+
+Validation:
+
+* python manage.py test reports.tests.test_txt_parser
+* 12 tests passed successfully
+
+Notes:
+
+* Continuation rows use a reduced operational structure compared with main rows
+* Parsing uses token-based extraction to handle variable spacing safely
+* Parser output now preserves parent-child hierarchy between main rows and continuation rows
+
+SRP-20 is complete and ready for SRP-21.
 
 ---
 

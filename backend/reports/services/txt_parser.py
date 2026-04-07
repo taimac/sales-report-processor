@@ -440,3 +440,66 @@ def parse_main_detail_lines_full(lines: list[str]) -> list[dict[str, str]]:
             results.append(parse_main_row_full(line))
 
     return results
+
+def parse_continuation_row(line: str) -> dict[str, str]:
+    parts = line.strip().split()
+
+    empty = {
+        "raw_line": line,
+        "ord_prod": "",
+        "sit_ordem": "",
+        "qt_prod": "",
+        "sit": "",
+    }
+
+    if not parts:
+        return empty
+
+    ord_prod = parts[0]
+
+    # Status is usually the trailing text after the last numeric quantity token
+    last_numeric_index = None
+    for i in range(len(parts) - 1, 0, -1):
+        token = parts[i]
+        if any(ch.isdigit() for ch in token):
+            last_numeric_index = i
+            break
+
+    if last_numeric_index is None:
+        return {
+            **empty,
+            "ord_prod": ord_prod,
+            "sit": " ".join(parts[1:]).strip(),
+        }
+
+    qt_prod = parts[last_numeric_index]
+    sit = " ".join(parts[last_numeric_index + 1:]).strip()
+    sit_ordem = " ".join(parts[1:last_numeric_index - 1]).strip() if last_numeric_index > 2 else ""
+
+    return {
+        "raw_line": line,
+        "ord_prod": ord_prod,
+        "sit_ordem": sit_ordem,
+        "qt_prod": qt_prod,
+        "sit": sit,
+    }
+
+def attach_continuation_rows(lines: list[str]) -> list[dict]:
+    """
+    Attach continuation rows to their corresponding main rows.
+    """
+    results: list[dict] = []
+    current_parent: dict | None = None
+
+    for line in lines:
+        line_type = classify_line(line)
+
+        if line_type == "main_detail":
+            current_parent = parse_main_row_full(line)
+            current_parent["continuations"] = []
+            results.append(current_parent)
+
+        elif line_type == "continuation" and current_parent is not None:
+            current_parent["continuations"].append(parse_continuation_row(line))
+
+    return results
