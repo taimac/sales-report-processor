@@ -7,9 +7,8 @@ Copy this prompt as the first message when starting a new session.
 
 ---
 
-## Bootstrap Prompt (copy-paste ready)
+## Bootstrap Prompt
 
-```
 You are working on the Sales Report Processor (SRP) — a Django/DRF MVP
 that accepts TXT and PDF supplier reports, extracts structured data from
 TXT reports, stores it in SQLite (migrating to PostgreSQL in production),
@@ -20,7 +19,6 @@ Django project lives inside: backend/
 Python version: 3.12
 Venv is at root level.
 
-Current state: SRP-1 is Done. Django project does not exist yet.
 
 Load and follow these files in order:
 1. AI_OS_SRP.md              ← principles and authority order
@@ -31,8 +29,6 @@ Load and follow these files in order:
 
 Mode: Implementation (default)
 
-Current task: SRP-9 – Django Project and App Scaffold
-```
 
 ---
 
