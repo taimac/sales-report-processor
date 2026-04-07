@@ -1,23 +1,22 @@
 # Jira Backlog for Project SRP
-_Exported: 2026-04-07 18:59:23_
+_Exported: 2026-04-07 19:30:09_
 
 **Total Issues:** 23
 
 ## Summary
 
-- **To Do:** 9 issues
+- **To Do:** 8 issues
 - **In Progress:** 2 issues
-- **Done:** 12 issues
+- **Done:** 13 issues
 
 ---
 
-## To Do (9 issues)
+## To Do (8 issues)
 
 | Key | Summary | Status | Created | Updated | Sprint |
 |-----|---------|--------|---------|---------|--------|
 | SRP-22 | Final Parser Assembly and Real Sample Tests | To Do | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
 | SRP-21 | Client and Grand Total Extraction | To Do | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
-| SRP-20 | Continuation Row Parsing and Parent Item Attachment | To Do | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
 | SRP-15 | Documentation and Demo Readiness | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 4 |
 | SRP-14 | Error Handling and Validation | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 4 |
 | SRP-13 | Basic Dashboard View | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 3 |
@@ -118,57 +117,6 @@ Extract totals at both customer and whole-report levels.
 ## Dependencies
 
 * SRP-10 line classification subtask
-
-## Suggested Story Points
-
-* 1
-
-**Comments**
-
-_No comments_
-
----
-
-### SRP-20 – Continuation Row Parsing and Parent Item Attachment
-
-- **Status:** To Do
-- **Created:** 2026-04-07
-- **Updated:** 2026-04-07
-- **Sprint:** SRP Sprint 2
-
-**Description**
-
-Parse continuation rows and attach them to the correct main item.
-
-## Scope
-
-* Detect continuation rows
-* Parse continuation values such as:
-** additional production/order references
-** continuation status
-** raw continuation line
-* Attach continuation rows to the most recent valid parent item
-
-## Deliverables
-
-* Continuation parsing functions
-* Parent-child row attachment logic
-
-## Acceptance Criteria
-
-* Continuation rows are linked to the correct item
-* Multiple continuation rows can be stored under one item
-* Orphan continuation rows are handled safely
-
-## Technical Notes
-
-* Files: `reports/services/txt_parser.py`
-* API impact: none
-* Validation notes: retain continuation raw lines even when partially parsed
-
-## Dependencies
-
-* SRP-10 main-row parsing subtasks
 
 ## Suggested Story Points
 
@@ -394,10 +342,10 @@ _No comments_
 
 | Key | Summary | Status | Created | Updated | Sprint |
 |-----|---------|--------|---------|---------|--------|
-| SRP-19 | Parse Commercial, Credit, and Reference Columns | In Progress | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
+| SRP-20 | Continuation Row Parsing and Parent Item Attachment | In Progress | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
 | SRP-10 | TXT Parsing Engine | In Progress | 2026-04-04 | 2026-04-07 | SRP Sprint 2 |
 
-### SRP-19 – Parse Commercial, Credit, and Reference Columns
+### SRP-20 – Continuation Row Parsing and Parent Item Attachment
 
 - **Status:** In Progress
 - **Created:** 2026-04-07
@@ -406,45 +354,41 @@ _No comments_
 
 **Description**
 
-Extract the commercial and credit-related fields that are important for downstream business use.
+Parse continuation rows and attach them to the correct main item.
 
 ## Scope
 
-* Parse:
-** pre_liq
-** pf
-** vlr_peca
-** pag
-** transp
-** cr_pro
-** cr_fat
-** o_compra
-** item_cli
-** mnf
+* Detect continuation rows
+* Parse continuation values such as:
+** additional production/order references
+** continuation status
+** raw continuation line
+* Attach continuation rows to the most recent valid parent item
 
 ## Deliverables
 
-* Fixed-width parsing logic for commercial and reference columns
+* Continuation parsing functions
+* Parent-child row attachment logic
 
 ## Acceptance Criteria
 
-* Known sample rows return correct values for these columns when present
-* Blank fields are handled safely
-* No adjacent-column leakage occurs in parsed output
+* Continuation rows are linked to the correct item
+* Multiple continuation rows can be stored under one item
+* Orphan continuation rows are handled safely
 
 ## Technical Notes
 
 * Files: `reports/services/txt_parser.py`
 * API impact: none
-* Validation notes: `mnf` is optional and may be blank for many rows
+* Validation notes: retain continuation raw lines even when partially parsed
 
 ## Dependencies
 
-* SRP-10 operational/quantity parsing subtask
+* SRP-10 main-row parsing subtasks
 
 ## Suggested Story Points
 
-* 2
+* 1
 
 **Comments**
 
@@ -643,11 +587,12 @@ _No comments_
 
 ---
 
-## Done (12 issues)
+## Done (13 issues)
 
 | Key | Summary | Status | Created | Updated | Sprint |
 |-----|---------|--------|---------|---------|--------|
 | SRP-23 | Parse Core Main Row Identity and Product Columns | Done | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
+| SRP-19 | Parse Commercial, Credit, and Reference Columns | Done | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
 | SRP-18 | Parse Production, Delivery, and Quantity Columns | Done | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
 | SRP-17 | Line Classification and Report Structure Detection | Done | 2026-04-06 | 2026-04-07 | SRP Sprint 2 |
 | SRP-16 | TXT Reader and Header Metadata Extraction | Done | 2026-04-06 | 2026-04-07 | SRP Sprint 2 |
@@ -734,6 +679,87 @@ Notes:
 * Output prepares the parser for SRP-18 operational and quantity column extraction
 
 SRP-23 is complete and ready for the next parsing stage.
+
+---
+
+### SRP-19 – Parse Commercial, Credit, and Reference Columns
+
+- **Status:** Done
+- **Created:** 2026-04-07
+- **Updated:** 2026-04-07
+- **Sprint:** SRP Sprint 2
+
+**Description**
+
+Extract the commercial and credit-related fields that are important for downstream business use.
+
+## Scope
+
+* Parse:
+** pre_liq
+** pf
+** vlr_peca
+** pag
+** transp
+** cr_pro
+** cr_fat
+** o_compra
+** item_cli
+** mnf
+
+## Deliverables
+
+* Fixed-width parsing logic for commercial and reference columns
+
+## Acceptance Criteria
+
+* Known sample rows return correct values for these columns when present
+* Blank fields are handled safely
+* No adjacent-column leakage occurs in parsed output
+
+## Technical Notes
+
+* Files: `reports/services/txt_parser.py`
+* API impact: none
+* Validation notes: `mnf` is optional and may be blank for many rows
+
+## Dependencies
+
+* SRP-10 operational/quantity parsing subtask
+
+## Suggested Story Points
+
+* 2
+
+**Comments**
+
+- **Tailor Maciel** (2026-04-07): SRP-19 completed.
+
+Delivered:
+
+* Implemented parsing for commercial, credit, and reference columns
+* Added extraction of:
+
+
+ pre_liq, pf, vlr_peca, pag, transp,
+ cr_pro, cr_fat, o_compra, item_cli, mnf
+
+* Implemented tail-based parsing strategy anchored by date and price tokens
+* Added support for optional PF column
+* Combined SRP-23, SRP-18, and SRP-19 into a full row parser
+* Added automated tests using real carteira sample
+
+Validation:
+
+* python manage.py test reports.tests.test_txt_parser
+* 11 tests passed successfully
+
+Notes:
+
+* Parser preserves original decoded text (including encoding artifacts)
+* Strategy ensures robustness for variable-width fields and multiword values
+
+SRP-19 is complete and row-level parsing is now fully implemented.
 
 ---
 

@@ -10,7 +10,8 @@ from reports.services.txt_parser import (
     detect_customer_blocks,
     parse_main_detail_lines,
     parse_main_row_identity_fields,
-    parse_main_row_full_step_1
+    parse_main_row_full_step_1,
+    parse_main_row_full
 )
 
 
@@ -156,3 +157,27 @@ class TxtParserOperationalTests(SimpleTestCase):
         self.assertEqual(parsed["qt_prod"], "0")
         self.assertEqual(parsed["sdo_estoq"], "1.454")
         self.assertTrue(parsed["sit"])
+
+class TxtParserCommercialTests(SimpleTestCase):
+    def setUp(self) -> None:
+        self.sample_path = (
+            Path(__file__).resolve().parents[2]
+            / "media/reports/carteira_06_04_26.txt"
+        )
+        self.data = read_txt_report(self.sample_path)
+
+    def test_parse_commercial_fields_gpaniz(self) -> None:
+        line = next(
+            l for l in self.data["lines"]
+            if l.startswith("11  404565     10 CHAPA ZC 0,50")
+        )
+
+        parsed = parse_main_row_full(line)
+
+        self.assertEqual(parsed["pre_liq"], "7,740")
+        self.assertEqual(parsed["pf"], "0,000")
+        self.assertEqual(parsed["pag"], "612")
+        self.assertEqual(parsed["transp"], "A�OLOG-RS")
+        self.assertEqual(parsed["cr_pro"], "Sim")
+        self.assertEqual(parsed["cr_fat"], "Sim")
+        self.assertEqual(parsed["o_compra"], "208575")
