@@ -1,17 +1,17 @@
 # Jira Backlog for Project SRP
-_Exported: 2026-04-06 20:45:42_
+_Exported: 2026-04-06 21:09:55_
 
 **Total Issues:** 15
 
 ## Summary
 
-- **To Do:** 8 issues
+- **To Do:** 7 issues
 - **In Progress:** 2 issues
-- **Done:** 5 issues
+- **Done:** 6 issues
 
 ---
 
-## To Do (8 issues)
+## To Do (7 issues)
 
 | Key | Summary | Status | Created | Updated | Sprint |
 |-----|---------|--------|---------|---------|--------|
@@ -21,7 +21,6 @@ _Exported: 2026-04-06 20:45:42_
 | SRP-12 | Processed Data Retrieval API | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 3 |
 | SRP-11 | Parsed Data Models | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 2 |
 | SRP-10 | TXT Parsing Engine | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 2 |
-| SRP-8 | Document upload endpoint behavior | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 1 |
 | SRP-2 | Sales Report Processor MVP | To Do | 2026-04-04 | 2026-04-04 | No Sprint |
 
 ### SRP-15 – Documentation and Demo Readiness
@@ -119,50 +118,6 @@ _No comments_
 **Description**
 
 _No content_
-
-**Comments**
-
-_No comments_
-
----
-
-### SRP-8 – Document upload endpoint behavior
-
-- **Status:** To Do
-- **Created:** 2026-04-04
-- **Updated:** 2026-04-04
-- **Sprint:** SRP Sprint 1
-
-**Description**
-
-Document the endpoint purpose, request format, and expected responses.
-
-## Scope
-
-* Update README or docs
-* Add endpoint path
-* Add sample request/response
-
-## Deliverables
-
-* `README.md` or `docs/api_upload.md`
-
-## Acceptance Criteria
-
-* Endpoint is documented
-* Request format is shown
-* Success response example is shown
-* Error response example is shown
-
-## Technical Notes
-
-* Keep documentation minimal and practical
-* Focus on developer usability
-
-## Test Expectations
-
-* Positive case: another developer can use endpoint from docs
-* Negative case: none required
 
 **Comments**
 
@@ -299,10 +254,10 @@ _No comments_
 
 | Key | Summary | Status | Created | Updated | Sprint |
 |-----|---------|--------|---------|---------|--------|
-| SRP-7 | Add backend tests for upload endpoint | In Progress | 2026-04-04 | 2026-04-06 | SRP Sprint 1 |
+| SRP-8 | Document upload endpoint behavior | In Progress | 2026-04-04 | 2026-04-06 | SRP Sprint 1 |
 | SRP-3 | File Upload API | In Progress | 2026-04-04 | 2026-04-05 | SRP Sprint 1 |
 
-### SRP-7 – Add backend tests for upload endpoint
+### SRP-8 – Document upload endpoint behavior
 
 - **Status:** In Progress
 - **Created:** 2026-04-04
@@ -311,34 +266,34 @@ _No comments_
 
 **Description**
 
-Verify the upload endpoint works for valid and invalid requests.
+Document the endpoint purpose, request format, and expected responses.
 
 ## Scope
 
-* Add API tests
-* Cover success and failure cases
+* Update README or docs
+* Add endpoint path
+* Add sample request/response
 
 ## Deliverables
 
-* `reports/tests/test_upload_api.py`
+* `README.md` or `docs/api_upload.md`
 
 ## Acceptance Criteria
 
-* Valid TXT upload returns `201`
-* Valid PDF upload returns `201`
-* Missing file returns `400`
-* Invalid file type returns `400`
+* Endpoint is documented
+* Request format is shown
+* Success response example is shown
+* Error response example is shown
 
 ## Technical Notes
 
-* Use DRF test client
-* Keep fixtures minimal
-* Prefer small in-memory test files
+* Keep documentation minimal and practical
+* Focus on developer usability
 
 ## Test Expectations
 
-* Positive case: upload success
-* Negative case: validation failure
+* Positive case: another developer can use endpoint from docs
+* Negative case: none required
 
 **Comments**
 
@@ -449,11 +404,12 @@ _No comments_
 
 ---
 
-## Done (5 issues)
+## Done (6 issues)
 
 | Key | Summary | Status | Created | Updated | Sprint |
 |-----|---------|--------|---------|---------|--------|
 | SRP-9 | Django Project and App Scaffold | Done | 2026-04-04 | 2026-04-04 | SRP Sprint 1 |
+| SRP-7 | Add backend tests for upload endpoint | Done | 2026-04-04 | 2026-04-06 | SRP Sprint 1 |
 | SRP-6 | Add file validation for TXT/PDF uploads | Done | 2026-04-04 | 2026-04-06 | SRP Sprint 1 |
 | SRP-5 | Implement upload API endpoint | Done | 2026-04-04 | 2026-04-06 | SRP Sprint 1 |
 | SRP-4 | Create upload data model | Done | 2026-04-04 | 2026-04-05 | SRP Sprint 1 |
@@ -521,6 +477,65 @@ Delivered:
 * project validated with check, migrate, and runserver
 
 This establishes the technical foundation for SRP-3 and subsequent backend stories.
+
+---
+
+### SRP-7 – Add backend tests for upload endpoint
+
+- **Status:** Done
+- **Created:** 2026-04-04
+- **Updated:** 2026-04-06
+- **Sprint:** SRP Sprint 1
+
+**Description**
+
+Verify the upload endpoint works for valid and invalid requests.
+
+## Scope
+
+* Add API tests
+* Cover success and failure cases
+
+## Deliverables
+
+* `reports/tests/test_upload_api.py`
+
+## Acceptance Criteria
+
+* Valid TXT upload returns `201`
+* Valid PDF upload returns `201`
+* Missing file returns `400`
+* Invalid file type returns `400`
+
+## Technical Notes
+
+* Use DRF test client
+* Keep fixtures minimal
+* Prefer small in-memory test files
+
+## Test Expectations
+
+* Positive case: upload success
+* Negative case: validation failure
+
+**Comments**
+
+- **Tailor Maciel** (2026-04-06): SRP-7 completed.
+
+Delivered:
+
+* Added backend API tests for POST /api/reports/upload/
+* Covered valid TXT upload
+* Covered valid PDF upload
+* Covered missing file request
+* Covered invalid file type rejection
+
+Validation completed:
+
+* 4 tests discovered
+* 4 tests passed successfully
+
+This formalizes the upload endpoint behavior already validated manually in SRP-5 and SRP-6.
 
 ---
 
