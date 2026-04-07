@@ -318,3 +318,125 @@ def parse_main_detail_lines_step_1(lines: list[str]) -> list[dict[str, str]]:
             results.append(parse_main_row_full_step_1(line))
 
     return results
+
+def parse_main_row_commercial_fields(line: str) -> dict[str, str]:
+    """
+    Parse SRP-19 commercial and reference fields from the row tail.
+
+    Strategy:
+    - work from the remainder after `compr`
+    - anchor on the date token
+    - find the first price token (`pre_liq`)
+    - support rows where `pf` is blank
+    """
+    empty_result = {
+        "pre_liq": "",
+        "pf": "",
+        "vlr_peca": "",
+        "pag": "",
+        "transp": "",
+        "cr_pro": "",
+        "cr_fat": "",
+        "o_compra": "",
+        "item_cli": "",
+        "mnf": "",
+    }
+
+    if classify_line(line) != "main_detail":
+        return empty_result
+
+    remainder = line[88:].strip()
+    parts = remainder.split()
+
+    date_index = next(
+        (i for i, part in enumerate(parts) if re.fullmatch(r"\d{2}/\d{2}/\d{2}", part)),
+        None,
+    )
+    if date_index is None:
+        return empty_result
+
+    # After date:
+    # aa, qt_ped, qt_pc, qt_prod, qt_fatur, sdo_estoq, sit..., pre_liq, ...
+    tail_start = date_index + 7
+
+    price_index = next(
+        (
+            i
+            for i in range(tail_start, len(parts))
+            if re.fullmatch(r"\d+,\d{3}", parts[i])
+        ),
+        None,
+    )
+    if price_index is None:
+        return empty_result
+
+    commercial_parts = parts[price_index:]
+
+    pre_liq = commercial_parts[0] if len(commercial_parts) > 0 else ""
+
+    pf = ""
+    vlr_peca = ""
+    pag = ""
+    transp = ""
+    cr_pro = ""
+    cr_fat = ""
+    o_compra = ""
+    item_cli = ""
+    mnf = ""
+
+    # Case 1: only one monetary token appears after pre_liq
+    # Map it to PF and leave vlr_peca blank
+    if (
+        len(commercial_parts) >= 3
+        and re.fullmatch(r"\d+,\d{3}", commercial_parts[1])
+        and commercial_parts[2].isdigit()
+    ):
+        pf = commercial_parts[1]
+        vlr_peca = ""
+        pag = commercial_parts[2]
+        transp = commercial_parts[3] if len(commercial_parts) > 3 else ""
+        cr_pro = commercial_parts[4] if len(commercial_parts) > 4 else ""
+        cr_fat = commercial_parts[5] if len(commercial_parts) > 5 else ""
+        o_compra = commercial_parts[6] if len(commercial_parts) > 6 else ""
+        item_cli = commercial_parts[7] if len(commercial_parts) > 7 else ""
+        mnf = commercial_parts[8] if len(commercial_parts) > 8 else ""
+    else:
+        # Case 2: PF is present
+        pf = commercial_parts[1] if len(commercial_parts) > 1 else ""
+        vlr_peca = commercial_parts[2] if len(commercial_parts) > 2 else ""
+        pag = commercial_parts[3] if len(commercial_parts) > 3 else ""
+        transp = commercial_parts[4] if len(commercial_parts) > 4 else ""
+        cr_pro = commercial_parts[5] if len(commercial_parts) > 5 else ""
+        cr_fat = commercial_parts[6] if len(commercial_parts) > 6 else ""
+        o_compra = commercial_parts[7] if len(commercial_parts) > 7 else ""
+        item_cli = commercial_parts[8] if len(commercial_parts) > 8 else ""
+        mnf = commercial_parts[9] if len(commercial_parts) > 9 else ""
+
+    return {
+        "pre_liq": pre_liq,
+        "pf": pf,
+        "vlr_peca": vlr_peca,
+        "pag": pag,
+        "transp": transp,
+        "cr_pro": cr_pro,
+        "cr_fat": cr_fat,
+        "o_compra": o_compra,
+        "item_cli": item_cli,
+        "mnf": mnf,
+    }
+
+def parse_main_row_full(line: str) -> dict[str, str]:
+    return {
+        **parse_main_row_identity_fields(line),
+        **parse_main_row_operational_fields(line),
+        **parse_main_row_commercial_fields(line),
+    }
+
+def parse_main_detail_lines_full(lines: list[str]) -> list[dict[str, str]]:
+    results = []
+
+    for line in lines:
+        if classify_line(line) == "main_detail":
+            results.append(parse_main_row_full(line))
+
+    return results
