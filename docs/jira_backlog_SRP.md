@@ -1,17 +1,17 @@
 # Jira Backlog for Project SRP
-_Exported: 2026-04-07 22:21:55_
+_Exported: 2026-04-08 17:05:47_
 
 **Total Issues:** 30
 
 ## Summary
 
-- **To Do:** 11 issues
+- **To Do:** 10 issues
 - **In Progress:** 2 issues
-- **Done:** 17 issues
+- **Done:** 18 issues
 
 ---
 
-## To Do (11 issues)
+## To Do (10 issues)
 
 | Key | Summary | Status | Created | Updated | Sprint |
 |-----|---------|--------|---------|---------|--------|
@@ -20,7 +20,6 @@ _Exported: 2026-04-07 22:21:55_
 | SRP-28 | Create totals models | To Do | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
 | SRP-27 | Create ContinuationRow model | To Do | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
 | SRP-26 | Create ParsedItem model | To Do | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
-| SRP-25 | Create CustomerSection model | To Do | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
 | SRP-15 | Documentation and Demo Readiness | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 4 |
 | SRP-14 | Error Handling and Validation | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 4 |
 | SRP-13 | Basic Dashboard View | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 3 |
@@ -265,41 +264,6 @@ _No comments_
 
 ---
 
-### SRP-25 – Create CustomerSection model
-
-- **Status:** To Do
-- **Created:** 2026-04-07
-- **Updated:** 2026-04-07
-- **Sprint:** SRP Sprint 2
-
-**Description**
-
-Persist each customer block detected in the parsed report.
-
-*Scope*
-
-* FK to `ParsedReport`
-* Store:
-** `representative`
-** `customer_name`
-
-*Deliverables*
-
-* `CustomerSection` model
-* migration
-
-*Acceptance Criteria*
-
-* Multiple customer sections can be linked to one ParsedReport
-* Representative and customer name are stored correctly
-* Migration runs successfully
-
-**Comments**
-
-_No comments_
-
----
-
 ### SRP-15 – Documentation and Demo Readiness
 
 - **Status:** To Do
@@ -497,36 +461,36 @@ _No comments_
 
 | Key | Summary | Status | Created | Updated | Sprint |
 |-----|---------|--------|---------|---------|--------|
-| SRP-24 | Create ParsedReport model | In Progress | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
+| SRP-25 | Create CustomerSection model | In Progress | 2026-04-07 | 2026-04-08 | SRP Sprint 2 |
 | SRP-11 | Parsed Data Models | In Progress | 2026-04-04 | 2026-04-07 | SRP Sprint 2 |
 
-### SRP-24 – Create ParsedReport model
+### SRP-25 – Create CustomerSection model
 
 - **Status:** In Progress
 - **Created:** 2026-04-07
-- **Updated:** 2026-04-07
+- **Updated:** 2026-04-08
 - **Sprint:** SRP Sprint 2
 
 **Description**
 
-Create the top-level model representing one parsed TXT report.
+Persist each customer block detected in the parsed report.
 
 *Scope*
 
-* Link parsed report to `UploadedReport`
-* Store report-level metadata:
-** `generated_date`
-** `generated_time`
+* FK to `ParsedReport`
+* Store:
+** `representative`
+** `customer_name`
 
 *Deliverables*
 
-* `ParsedReport` model
+* `CustomerSection` model
 * migration
 
 *Acceptance Criteria*
 
-* ParsedReport can be created from an existing UploadedReport
-* Generated date/time can be stored
+* Multiple customer sections can be linked to one ParsedReport
+* Representative and customer name are stored correctly
 * Migration runs successfully
 
 **Comments**
@@ -679,10 +643,11 @@ _No comments_
 
 ---
 
-## Done (17 issues)
+## Done (18 issues)
 
 | Key | Summary | Status | Created | Updated | Sprint |
 |-----|---------|--------|---------|---------|--------|
+| SRP-24 | Create ParsedReport model | Done | 2026-04-07 | 2026-04-08 | SRP Sprint 2 |
 | SRP-23 | Parse Core Main Row Identity and Product Columns | Done | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
 | SRP-22 | Final Parser Assembly and Real Sample Tests | Done | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
 | SRP-21 | Client and Grand Total Extraction | Done | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
@@ -700,6 +665,62 @@ _No comments_
 | SRP-4 | Create upload data model | Done | 2026-04-04 | 2026-04-05 | SRP Sprint 1 |
 | SRP-3 | File Upload API | Done | 2026-04-04 | 2026-04-06 | SRP Sprint 1 |
 | SRP-1 | Initial Project Setup | Done | 2026-04-04 | 2026-04-04 | No Sprint |
+
+### SRP-24 – Create ParsedReport model
+
+- **Status:** Done
+- **Created:** 2026-04-07
+- **Updated:** 2026-04-08
+- **Sprint:** SRP Sprint 2
+
+**Description**
+
+Create the top-level model representing one parsed TXT report.
+
+*Scope*
+
+* Link parsed report to `UploadedReport`
+* Store report-level metadata:
+** `generated_date`
+** `generated_time`
+
+*Deliverables*
+
+* `ParsedReport` model
+* migration
+
+*Acceptance Criteria*
+
+* ParsedReport can be created from an existing UploadedReport
+* Generated date/time can be stored
+* Migration runs successfully
+
+**Comments**
+
+- **Tailor Maciel** (2026-04-08): SRP-24 completed.
+
+Delivered:
+
+* Implemented ParsedReport model
+* Linked ParsedReport to UploadedReport via ForeignKey
+* Added metadata fields: generated_date and generated_time
+* Added created_at timestamp
+* Created and applied migrations
+* Added basic model test
+
+Validation:
+
+* python manage.py test
+* All tests passed successfully
+
+Notes:
+
+* ParsedReport serves as the root entity for structured parsed data
+* Design keeps date/time as strings to match parser output (MVP scope)
+
+SRP-24 is complete and ready for SRP-25.
+
+---
 
 ### SRP-23 – Parse Core Main Row Identity and Product Columns
 
