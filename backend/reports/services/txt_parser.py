@@ -503,3 +503,80 @@ def attach_continuation_rows(lines: list[str]) -> list[dict]:
             current_parent["continuations"].append(parse_continuation_row(line))
 
     return results
+
+def extract_numeric_values(line: str) -> list[str]:
+    """
+    Extract numeric values like:
+    1.234,56 or 123 or 12.000
+    """
+    return re.findall(r"\d[\d\.\,]*", line)
+
+
+def parse_client_total_line(line: str) -> dict[str, str]:
+    values = extract_numeric_values(line)
+
+    return {
+        "total_ped": values[0] if len(values) > 0 else "",
+        "total_pc": values[1] if len(values) > 1 else "",
+        "total_prod": values[2] if len(values) > 2 else "",
+        "total_fatur": values[3] if len(values) > 3 else "",
+        "total_sdo": values[4] if len(values) > 4 else "",
+    }
+
+def parse_client_total_currency_line(line: str) -> dict[str, str]:
+    values = extract_numeric_values(line)
+
+    return {
+        "total_valor": values[0] if values else "",
+    }
+
+def parse_grand_total_line(line: str) -> dict[str, str]:
+    values = extract_numeric_values(line)
+
+    return {
+        "total_ped": values[0] if len(values) > 0 else "",
+        "total_pc": values[1] if len(values) > 1 else "",
+        "total_prod": values[2] if len(values) > 2 else "",
+        "total_fatur": values[3] if len(values) > 3 else "",
+        "total_sdo": values[4] if len(values) > 4 else "",
+    }
+
+def parse_grand_total_currency_line(line: str) -> dict[str, str]:
+    values = extract_numeric_values(line)
+
+    return {
+        "total_valor": values[0] if values else "",
+    }
+
+def extract_totals(lines: list[str]) -> dict[str, list[dict]]:
+    """
+    Extract all totals from the report.
+    """
+
+    results = {
+        "client_totals": [],
+        "client_total_currency": [],
+        "grand_totals": [],
+        "grand_total_currency": [],
+    }
+
+    for line in lines:
+        line_type = classify_line(line)
+
+        if line_type == "client_total":
+            results["client_totals"].append(parse_client_total_line(line))
+
+        elif line_type == "client_total_currency":
+            results["client_total_currency"].append(
+                parse_client_total_currency_line(line)
+            )
+
+        elif line_type == "grand_total":
+            results["grand_totals"].append(parse_grand_total_line(line))
+
+        elif line_type == "grand_total_currency":
+            results["grand_total_currency"].append(
+                parse_grand_total_currency_line(line)
+            )
+
+    return results
