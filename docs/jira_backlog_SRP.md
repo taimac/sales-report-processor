@@ -1,81 +1,26 @@
 # Jira Backlog for Project SRP
-_Exported: 2026-04-07 19:58:26_
+_Exported: 2026-04-07 21:15:33_
 
 **Total Issues:** 23
 
 ## Summary
 
-- **To Do:** 7 issues
+- **To Do:** 6 issues
 - **In Progress:** 2 issues
-- **Done:** 14 issues
+- **Done:** 15 issues
 
 ---
 
-## To Do (7 issues)
+## To Do (6 issues)
 
 | Key | Summary | Status | Created | Updated | Sprint |
 |-----|---------|--------|---------|---------|--------|
-| SRP-22 | Final Parser Assembly and Real Sample Tests | To Do | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
 | SRP-15 | Documentation and Demo Readiness | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 4 |
 | SRP-14 | Error Handling and Validation | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 4 |
 | SRP-13 | Basic Dashboard View | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 3 |
 | SRP-12 | Processed Data Retrieval API | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 3 |
 | SRP-11 | Parsed Data Models | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 2 |
 | SRP-2 | Sales Report Processor MVP | To Do | 2026-04-04 | 2026-04-04 | No Sprint |
-
-### SRP-22 – Final Parser Assembly and Real Sample Tests
-
-- **Status:** To Do
-- **Created:** 2026-04-07
-- **Updated:** 2026-04-07
-- **Sprint:** SRP Sprint 2
-
-**Description**
-
-Assemble the complete parser pipeline and validate it with the real uploaded sample.
-
-## Scope
-
-* Build end-to-end `parse_txt_report(...)`
-* Return final structured dictionary
-* Add tests for:
-** header metadata
-** customer detection
-** full row extraction
-** continuation attachment
-** totals extraction
-** empty/malformed file handling
-
-## Deliverables
-
-* `reports/services/txt_parser.py`
-* `reports/tests/test_txt_parser.py`
-
-## Acceptance Criteria
-
-* Full report parses end-to-end
-* Tests pass against the real sample structure
-* Output is ready to map into SRP-11 models
-
-## Technical Notes
-
-* Files: `reports/services/txt_parser.py`, `reports/tests/test_txt_parser.py`
-* API impact: none
-* Validation notes: test at least one known row with many populated columns
-
-## Dependencies
-
-* All prior SRP-10 subtasks
-
-## Suggested Story Points
-
-* 1
-
-**Comments**
-
-_No comments_
-
----
 
 ### SRP-15 – Documentation and Demo Readiness
 
@@ -291,10 +236,10 @@ _No comments_
 
 | Key | Summary | Status | Created | Updated | Sprint |
 |-----|---------|--------|---------|---------|--------|
-| SRP-21 | Client and Grand Total Extraction | In Progress | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
+| SRP-22 | Final Parser Assembly and Real Sample Tests | In Progress | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
 | SRP-10 | TXT Parsing Engine | In Progress | 2026-04-04 | 2026-04-07 | SRP Sprint 2 |
 
-### SRP-21 – Client and Grand Total Extraction
+### SRP-22 – Final Parser Assembly and Real Sample Tests
 
 - **Status:** In Progress
 - **Created:** 2026-04-07
@@ -303,36 +248,40 @@ _No comments_
 
 **Description**
 
-Extract totals at both customer and whole-report levels.
+Assemble the complete parser pipeline and validate it with the real uploaded sample.
 
 ## Scope
 
-* Parse:
-** `TOT CLIENTE`
-** `TOTAL CLIENTE EM R$`
-** `TOTAL GERAL`
-** `TOTAL EM R$`
+* Build end-to-end `parse_txt_report(...)`
+* Return final structured dictionary
+* Add tests for:
+** header metadata
+** customer detection
+** full row extraction
+** continuation attachment
+** totals extraction
+** empty/malformed file handling
 
 ## Deliverables
 
-* Totals parsing logic
-* Assignment of totals to correct customer block or report summary
+* `reports/services/txt_parser.py`
+* `reports/tests/test_txt_parser.py`
 
 ## Acceptance Criteria
 
-* Client totals are assigned to the correct customer
-* Grand totals are extracted correctly
-* Currency total lines are stored separately from quantity total lines when appropriate
+* Full report parses end-to-end
+* Tests pass against the real sample structure
+* Output is ready to map into SRP-11 models
 
 ## Technical Notes
 
-* Files: `reports/services/txt_parser.py`
+* Files: `reports/services/txt_parser.py`, `reports/tests/test_txt_parser.py`
 * API impact: none
-* Validation notes: totals should remain traceable to their original raw lines
+* Validation notes: test at least one known row with many populated columns
 
 ## Dependencies
 
-* SRP-10 line classification subtask
+* All prior SRP-10 subtasks
 
 ## Suggested Story Points
 
@@ -535,11 +484,12 @@ _No comments_
 
 ---
 
-## Done (14 issues)
+## Done (15 issues)
 
 | Key | Summary | Status | Created | Updated | Sprint |
 |-----|---------|--------|---------|---------|--------|
 | SRP-23 | Parse Core Main Row Identity and Product Columns | Done | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
+| SRP-21 | Client and Grand Total Extraction | Done | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
 | SRP-20 | Continuation Row Parsing and Parent Item Attachment | Done | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
 | SRP-19 | Parse Commercial, Credit, and Reference Columns | Done | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
 | SRP-18 | Parse Production, Delivery, and Quantity Columns | Done | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
@@ -628,6 +578,84 @@ Notes:
 * Output prepares the parser for SRP-18 operational and quantity column extraction
 
 SRP-23 is complete and ready for the next parsing stage.
+
+---
+
+### SRP-21 – Client and Grand Total Extraction
+
+- **Status:** Done
+- **Created:** 2026-04-07
+- **Updated:** 2026-04-07
+- **Sprint:** SRP Sprint 2
+
+**Description**
+
+Extract totals at both customer and whole-report levels.
+
+## Scope
+
+* Parse:
+** `TOT CLIENTE`
+** `TOTAL CLIENTE EM R$`
+** `TOTAL GERAL`
+** `TOTAL EM R$`
+
+## Deliverables
+
+* Totals parsing logic
+* Assignment of totals to correct customer block or report summary
+
+## Acceptance Criteria
+
+* Client totals are assigned to the correct customer
+* Grand totals are extracted correctly
+* Currency total lines are stored separately from quantity total lines when appropriate
+
+## Technical Notes
+
+* Files: `reports/services/txt_parser.py`
+* API impact: none
+* Validation notes: totals should remain traceable to their original raw lines
+
+## Dependencies
+
+* SRP-10 line classification subtask
+
+## Suggested Story Points
+
+* 1
+
+**Comments**
+
+- **Tailor Maciel** (2026-04-07): SRP-21 completed.
+
+Delivered:
+
+* Implemented extraction for client and grand total lines
+* Added support for:
+
+
+ TOT CLIENTE
+ TOTAL CLIENTE EM R$
+ TOTAL GERAL
+ TOTAL EM R$
+
+* Added numeric extraction helper for totals parsing
+* Added collection of totals across the report
+* Added automated tests using the real carteira sample
+
+Validation:
+
+* python manage.py test reports.tests.test_txt_parser
+* 13 tests passed successfully
+
+Notes:
+
+* Totals parsing builds directly on SRP-17 line classification
+* Output now includes both quantity totals and currency totals
+* Parser is now ready for final end-to-end assembly in SRP-22
+
+SRP-21 is complete and ready for SRP-22.
 
 ---
 
