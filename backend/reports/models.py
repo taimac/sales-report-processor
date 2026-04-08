@@ -34,3 +34,22 @@ class ParsedReport(models.Model):
 
     def __str__(self) -> str:
         return f"ParsedReport {self.id} - {self.generated_date} {self.generated_time}"
+    
+class CustomerSection(models.Model):
+    """
+    Represents a customer block inside a parsed report.
+    """
+
+    parsed_report = models.ForeignKey(
+        "reports.ParsedReport",
+        on_delete=models.CASCADE,
+        related_name="customers",
+    )
+
+    representative = models.CharField(max_length=100)
+    customer_name = models.CharField(max_length=255)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self) -> str:
+        return f"{self.customer_name} ({self.representative})"
