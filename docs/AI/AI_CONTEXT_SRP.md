@@ -114,8 +114,8 @@ MVP is complete when:
   │    ├─ SRP-6   Add file validation (TXT and PDF)     ✅ Done 
   │    ├─ SRP-7   Add backend tests for upload endpoint ✅ Done 
   │    └─ SRP-8   Document upload endpoint behavior    ✅ Done 
-  ├─ SRP-10   TXT Parsing Engine                ⬜ ← current
-  ├─ SRP-11   Parsed Data Models                ⬜ To Do
+  ├─ SRP-10   TXT Parsing Engine                ✅ Done 
+  ├─ SRP-11   Parsed Data Models                ⬜ ← current
   ├─ SRP-12   Processed Data Retrieval API      ⬜ To Do
   ├─ SRP-13   Basic Dashboard View              ⬜ To Do
   ├─ SRP-14   Error Handling and Validation     ⬜ To Do
@@ -129,8 +129,8 @@ MVP is complete when:
 1. ~~SRP-1 – Initial Project Setup~~ ✅ Done
 2. SRP-9  – Django Project and App Scaffold  ✅ Done
 3. SRP-3  – File Upload API (SRP-4 → 5 → 6 → 7 → 8)  ✅ Done
-4. SRP-10 – TXT Parsing Engine  ← current
-5. SRP-11 – Parsed Data Models
+4. SRP-10 – TXT Parsing Engine  ✅ Done
+5. SRP-11 – Parsed Data Models  ← current
 6. SRP-12 – Processed Data Retrieval API
 7. SRP-13 – Basic Dashboard View
 8. SRP-14 – Error Handling and Validation
