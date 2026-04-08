@@ -12,7 +12,8 @@ from reports.services.txt_parser import (
     parse_main_row_identity_fields,
     parse_main_row_full_step_1,
     parse_main_row_full,
-    attach_continuation_rows
+    attach_continuation_rows,
+    extract_totals
 )
 
 
@@ -207,3 +208,23 @@ class TxtParserContinuationTests(SimpleTestCase):
 
         self.assertTrue(continuation["ord_prod"])
         self.assertTrue(continuation["sit"])
+
+
+class TxtParserTotalsTests(SimpleTestCase):
+    def setUp(self) -> None:
+        self.sample_path = (
+            Path(__file__).resolve().parents[2]
+            / "media/reports/carteira_06_04_26.txt"
+        )
+        self.data = read_txt_report(self.sample_path)
+
+    def test_extract_totals(self) -> None:
+        totals = extract_totals(self.data["lines"])
+
+        self.assertTrue(totals["client_totals"])
+        self.assertTrue(totals["grand_totals"])
+
+        first_client = totals["client_totals"][0]
+
+        self.assertIn("total_ped", first_client)
+        self.assertIn("total_sdo", first_client)
