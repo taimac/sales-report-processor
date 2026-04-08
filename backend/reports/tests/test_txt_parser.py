@@ -13,7 +13,8 @@ from reports.services.txt_parser import (
     parse_main_row_full_step_1,
     parse_main_row_full,
     attach_continuation_rows,
-    extract_totals
+    extract_totals,
+    assemble_report
 )
 
 
@@ -228,3 +229,28 @@ class TxtParserTotalsTests(SimpleTestCase):
 
         self.assertIn("total_ped", first_client)
         self.assertIn("total_sdo", first_client)
+
+class TxtParserFinalAssemblyTests(SimpleTestCase):
+    def setUp(self) -> None:
+        self.sample_path = (
+            Path(__file__).resolve().parents[2]
+            / "media/reports/carteira_06_04_26.txt"
+        )
+
+    def test_full_report_structure(self) -> None:
+        report = assemble_report(self.sample_path)
+
+        self.assertIn("metadata", report)
+        self.assertIn("customers", report)
+        self.assertIn("grand_totals", report)
+
+        self.assertTrue(report["customers"])
+
+        first_customer = report["customers"][0]
+
+        self.assertIn("representative", first_customer)
+        self.assertIn("customer_name", first_customer)
+        self.assertIn("items", first_customer)
+        self.assertIn("totals", first_customer)
+
+        self.assertTrue(first_customer["items"])

@@ -580,3 +580,41 @@ def extract_totals(lines: list[str]) -> dict[str, list[dict]]:
             )
 
     return results
+
+def assemble_report(file_path: str) -> dict:
+    """
+    Final SRP-22 assembly.
+    """
+
+    data = read_txt_report(file_path)
+    lines = data["lines"]
+
+    # Step 1 — detect customer blocks
+    blocks = detect_customer_blocks(lines)
+
+    customers = []
+
+    for block in blocks:
+        block_lines = [entry["line"] for entry in block["lines"]]
+
+        # Step 2 — parse rows with continuations
+        items = attach_continuation_rows(block_lines)
+
+        # Step 3 — extract totals for this block
+        block_totals = extract_totals(block_lines)
+
+        customers.append({
+            "representative": block["representative"],
+            "customer_name": block["customer_name"],
+            "items": items,
+            "totals": block_totals,
+        })
+
+    # Step 4 — global totals
+    grand_totals = extract_totals(lines)
+
+    return {
+        "metadata": data["metadata"],
+        "customers": customers,
+        "grand_totals": grand_totals,
+    }
