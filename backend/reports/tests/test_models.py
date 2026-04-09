@@ -31,9 +31,37 @@ class CustomerSectionModelTests(TestCase):
         customer = CustomerSection.objects.create(
             parsed_report=parsed,
             representative="JOAO",
-            customer_name="G PANIZ",
+            customer_name="Multimil",
         )
 
         self.assertEqual(customer.parsed_report, parsed)
-        self.assertEqual(customer.customer_name, "G PANIZ")
+        self.assertEqual(customer.customer_name, "Multimil")
         self.assertEqual(customer.representative, "JOAO")
+
+from reports.models import ParsedItem
+
+
+class ParsedItemModelTests(TestCase):
+    def test_create_parsed_item(self):
+        uploaded = UploadedReport.objects.create(file="reports/test.txt")
+
+        parsed = ParsedReport.objects.create(
+            uploaded_report=uploaded,
+            generated_date="06/04/26",
+            generated_time="18:30",
+        )
+
+        customer = CustomerSection.objects.create(
+            parsed_report=parsed,
+            representative="JOAO",
+            customer_name="Multimil",
+        )
+
+        item = ParsedItem.objects.create(
+            customer_section=customer,
+            pedido="12345",
+            descricao="CHAPA ZC",
+        )
+
+        self.assertEqual(item.customer_section, customer)
+        self.assertEqual(item.pedido, "12345")
