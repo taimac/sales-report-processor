@@ -65,3 +65,38 @@ class ParsedItemModelTests(TestCase):
 
         self.assertEqual(item.customer_section, customer)
         self.assertEqual(item.pedido, "12345")
+
+from reports.models import ContinuationRow
+
+
+class ContinuationRowModelTests(TestCase):
+    def test_create_continuation_row(self):
+        uploaded = UploadedReport.objects.create(file="reports/test.txt")
+
+        parsed = ParsedReport.objects.create(
+            uploaded_report=uploaded,
+            generated_date="06/04/26",
+            generated_time="18:30",
+        )
+
+        customer = CustomerSection.objects.create(
+            parsed_report=parsed,
+            representative="JOAO",
+            customer_name="Multimil",
+        )
+
+        item = ParsedItem.objects.create(
+            customer_section=customer,
+            pedido="12345",
+        )
+
+        continuation = ContinuationRow.objects.create(
+            parsed_item=item,
+            ord_prod="9.154.040",
+            sit_ordem="LC10",
+            qt_prod="1000",
+            sit="Fat Parc",
+        )
+
+        self.assertEqual(continuation.parsed_item, item)
+        self.assertEqual(continuation.ord_prod, "9.154.040")
