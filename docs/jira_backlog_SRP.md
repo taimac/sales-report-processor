@@ -1,24 +1,23 @@
 # Jira Backlog for Project SRP
-_Exported: 2026-04-08 20:56:13_
+_Exported: 2026-04-08 21:21:32_
 
 **Total Issues:** 30
 
 ## Summary
 
-- **To Do:** 9 issues
+- **To Do:** 8 issues
 - **In Progress:** 2 issues
-- **Done:** 19 issues
+- **Done:** 20 issues
 
 ---
 
-## To Do (9 issues)
+## To Do (8 issues)
 
 | Key | Summary | Status | Created | Updated | Sprint |
 |-----|---------|--------|---------|---------|--------|
 | SRP-30 | Add persistence tests | To Do | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
 | SRP-29 | Implement parser-to-model mapping service | To Do | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
 | SRP-28 | Create totals models | To Do | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
-| SRP-27 | Create ContinuationRow model | To Do | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
 | SRP-15 | Documentation and Demo Readiness | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 4 |
 | SRP-14 | Error Handling and Validation | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 4 |
 | SRP-13 | Basic Dashboard View | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 3 |
@@ -147,45 +146,6 @@ Choose a simple MVP structure:
 * Customer-level totals can be stored correctly
 * Report-level totals can be stored correctly
 * Quantity totals and currency totals are both preserved
-* Migration runs successfully
-
-**Comments**
-
-_No comments_
-
----
-
-### SRP-27 – Create ContinuationRow model
-
-- **Status:** To Do
-- **Created:** 2026-04-07
-- **Updated:** 2026-04-07
-- **Sprint:** SRP Sprint 2
-
-**Description**
-
-Store continuation rows linked to their parent parsed item.
-
-*Scope*
-
-* FK to `ParsedItem`
-* Store:
-** `ord_prod`
-** `sit_ordem`
-** `qt_prod`
-** `sit`
-** `raw_line`
-
-*Deliverables*
-
-* `ContinuationRow` model
-* migration
-
-*Acceptance Criteria*
-
-* Multiple continuation rows can be linked to one ParsedItem
-* Reduced continuation structure is preserved
-* Raw continuation line is stored
 * Migration runs successfully
 
 **Comments**
@@ -391,10 +351,10 @@ _No comments_
 
 | Key | Summary | Status | Created | Updated | Sprint |
 |-----|---------|--------|---------|---------|--------|
-| SRP-26 | Create ParsedItem model | In Progress | 2026-04-07 | 2026-04-08 | SRP Sprint 2 |
+| SRP-27 | Create ContinuationRow model | In Progress | 2026-04-07 | 2026-04-08 | SRP Sprint 2 |
 | SRP-11 | Parsed Data Models | In Progress | 2026-04-04 | 2026-04-07 | SRP Sprint 2 |
 
-### SRP-26 – Create ParsedItem model
+### SRP-27 – Create ContinuationRow model
 
 - **Status:** In Progress
 - **Created:** 2026-04-07
@@ -403,58 +363,28 @@ _No comments_
 
 **Description**
 
-Store full parsed main-detail rows for each customer section.
+Store continuation rows linked to their parent parsed item.
 
 *Scope*
 
-* FK to `CustomerSection`
-* Store all main-row fields from SRP-23, SRP-18, and SRP-19
-
-*Included Fields*
-
-* identity/product:
-** `est`
-** `pedido`
-** `seq`
-** `descricao`
-** `espess`
-** `larg`
-** `compr`
-* operational/quantity:
+* FK to `ParsedItem`
+* Store:
 ** `ord_prod`
 ** `sit_ordem`
-** `dt_entr`
-** `aa`
-** `qt_ped`
-** `qt_pc`
 ** `qt_prod`
-** `qt_fatur`
-** `sdo_estoq`
 ** `sit`
-* commercial/reference:
-** `pre_liq`
-** `pf`
-** `vlr_peca`
-** `pag`
-** `transp`
-** `cr_pro`
-** `cr_fat`
-** `o_compra`
-** `item_cli`
-** `mnf`
-* traceability:
 ** `raw_line`
 
 *Deliverables*
 
-* `ParsedItem` model
+* `ContinuationRow` model
 * migration
 
 *Acceptance Criteria*
 
-* Parsed items can be stored under the correct customer section
-* All main-row fields are represented
-* Raw line is preserved
+* Multiple continuation rows can be linked to one ParsedItem
+* Reduced continuation structure is preserved
+* Raw continuation line is stored
 * Migration runs successfully
 
 **Comments**
@@ -607,10 +537,11 @@ _No comments_
 
 ---
 
-## Done (19 issues)
+## Done (20 issues)
 
 | Key | Summary | Status | Created | Updated | Sprint |
 |-----|---------|--------|---------|---------|--------|
+| SRP-26 | Create ParsedItem model | Done | 2026-04-07 | 2026-04-08 | SRP Sprint 2 |
 | SRP-25 | Create CustomerSection model | Done | 2026-04-07 | 2026-04-08 | SRP Sprint 2 |
 | SRP-24 | Create ParsedReport model | Done | 2026-04-07 | 2026-04-08 | SRP Sprint 2 |
 | SRP-23 | Parse Core Main Row Identity and Product Columns | Done | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
@@ -630,6 +561,102 @@ _No comments_
 | SRP-4 | Create upload data model | Done | 2026-04-04 | 2026-04-05 | SRP Sprint 1 |
 | SRP-3 | File Upload API | Done | 2026-04-04 | 2026-04-06 | SRP Sprint 1 |
 | SRP-1 | Initial Project Setup | Done | 2026-04-04 | 2026-04-04 | No Sprint |
+
+### SRP-26 – Create ParsedItem model
+
+- **Status:** Done
+- **Created:** 2026-04-07
+- **Updated:** 2026-04-08
+- **Sprint:** SRP Sprint 2
+
+**Description**
+
+Store full parsed main-detail rows for each customer section.
+
+*Scope*
+
+* FK to `CustomerSection`
+* Store all main-row fields from SRP-23, SRP-18, and SRP-19
+
+*Included Fields*
+
+* identity/product:
+** `est`
+** `pedido`
+** `seq`
+** `descricao`
+** `espess`
+** `larg`
+** `compr`
+* operational/quantity:
+** `ord_prod`
+** `sit_ordem`
+** `dt_entr`
+** `aa`
+** `qt_ped`
+** `qt_pc`
+** `qt_prod`
+** `qt_fatur`
+** `sdo_estoq`
+** `sit`
+* commercial/reference:
+** `pre_liq`
+** `pf`
+** `vlr_peca`
+** `pag`
+** `transp`
+** `cr_pro`
+** `cr_fat`
+** `o_compra`
+** `item_cli`
+** `mnf`
+* traceability:
+** `raw_line`
+
+*Deliverables*
+
+* `ParsedItem` model
+* migration
+
+*Acceptance Criteria*
+
+* Parsed items can be stored under the correct customer section
+* All main-row fields are represented
+* Raw line is preserved
+* Migration runs successfully
+
+**Comments**
+
+- **Tailor Maciel** (2026-04-08): SRP-26 completed.
+
+Delivered:
+
+* Implemented ParsedItem model
+* Linked ParsedItem to CustomerSection via ForeignKey
+* Added full field coverage for:
+** identity and product data
+** operational fields
+** quantities
+** commercial and credit fields
+* Added raw_line field for traceability
+* Added created_at timestamp
+* Created and applied migrations
+* Added model test
+
+Validation:
+
+* python manage.py test
+* All tests passed successfully
+
+Notes:
+
+* Model preserves full structure of parsed TXT rows
+* All fields stored as strings to match parser output (MVP scope)
+* Represents the core business data layer of the system
+
+SRP-26 is complete.
+
+---
 
 ### SRP-25 – Create CustomerSection model
 

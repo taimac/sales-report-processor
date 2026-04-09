@@ -53,3 +53,62 @@ class CustomerSection(models.Model):
 
     def __str__(self) -> str:
         return f"{self.customer_name} ({self.representative})"
+    
+class ParsedItem(models.Model):
+    """
+    Represents a main row (item) in the parsed report.
+    """
+
+    customer_section = models.ForeignKey(
+        "reports.CustomerSection",
+        on_delete=models.CASCADE,
+        related_name="items",
+    )
+
+    # --- Identity / Product ---
+    est = models.CharField(max_length=10, blank=True)
+    pedido = models.CharField(max_length=20, blank=True)
+    seq = models.CharField(max_length=10, blank=True)
+
+    descricao = models.CharField(max_length=255, blank=True)
+    espess = models.CharField(max_length=20, blank=True)
+    larg = models.CharField(max_length=20, blank=True)
+    compr = models.CharField(max_length=20, blank=True)
+
+    # --- Operational ---
+    ord_prod = models.CharField(max_length=20, blank=True)
+    sit_ordem = models.CharField(max_length=50, blank=True)
+    dt_entr = models.CharField(max_length=20, blank=True)
+    aa = models.CharField(max_length=10, blank=True)
+
+    # --- Quantities ---
+    qt_ped = models.CharField(max_length=20, blank=True)
+    qt_pc = models.CharField(max_length=20, blank=True)
+    qt_prod = models.CharField(max_length=20, blank=True)
+    qt_fatur = models.CharField(max_length=20, blank=True)
+    sdo_estoq = models.CharField(max_length=20, blank=True)
+
+    sit = models.CharField(max_length=20, blank=True)
+
+    # --- Commercial ---
+    pre_liq = models.CharField(max_length=20, blank=True)
+    pf = models.CharField(max_length=20, blank=True)
+    vlr_peca = models.CharField(max_length=20, blank=True)
+
+    pag = models.CharField(max_length=20, blank=True)
+    transp = models.CharField(max_length=100, blank=True)
+
+    # --- Credit / Reference ---
+    cr_pro = models.CharField(max_length=20, blank=True)
+    cr_fat = models.CharField(max_length=20, blank=True)
+    o_compra = models.CharField(max_length=50, blank=True)
+    item_cli = models.CharField(max_length=50, blank=True)
+    mnf = models.CharField(max_length=50, blank=True)
+
+    # --- Traceability ---
+    raw_line = models.TextField(blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self) -> str:
+        return f"{self.pedido} - {self.descricao}"
