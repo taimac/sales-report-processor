@@ -1,23 +1,22 @@
 # Jira Backlog for Project SRP
-_Exported: 2026-04-08 21:21:32_
+_Exported: 2026-04-08 21:38:06_
 
 **Total Issues:** 30
 
 ## Summary
 
-- **To Do:** 8 issues
+- **To Do:** 7 issues
 - **In Progress:** 2 issues
-- **Done:** 20 issues
+- **Done:** 21 issues
 
 ---
 
-## To Do (8 issues)
+## To Do (7 issues)
 
 | Key | Summary | Status | Created | Updated | Sprint |
 |-----|---------|--------|---------|---------|--------|
 | SRP-30 | Add persistence tests | To Do | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
 | SRP-29 | Implement parser-to-model mapping service | To Do | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
-| SRP-28 | Create totals models | To Do | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
 | SRP-15 | Documentation and Demo Readiness | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 4 |
 | SRP-14 | Error Handling and Validation | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 4 |
 | SRP-13 | Basic Dashboard View | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 3 |
@@ -95,58 +94,6 @@ Create the service layer that takes SRP-22 structured output and saves it into t
 * Relationships are created correctly
 * Continuations attach to the correct ParsedItem
 * Totals are stored in the correct scope
-
-**Comments**
-
-_No comments_
-
----
-
-### SRP-28 – Create totals models
-
-- **Status:** To Do
-- **Created:** 2026-04-07
-- **Updated:** 2026-04-07
-- **Sprint:** SRP Sprint 2
-
-**Description**
-
-Persist totals extracted in SRP-21.
-
-*Scope*
-Choose a simple MVP structure:
-
-* `CustomerTotal`
-** FK to `CustomerSection`
-** quantity totals
-** currency total
-* `ReportGrandTotal`
-** OneToOne or FK to `ParsedReport`
-** quantity totals
-** currency total
-
-*Fields*
-
-* quantity totals:
-** `total_ped`
-** `total_pc`
-** `total_prod`
-** `total_fatur`
-** `total_sdo`
-* currency:
-** `total_valor`
-
-*Deliverables*
-
-* totals model(s)
-* migration
-
-*Acceptance Criteria*
-
-* Customer-level totals can be stored correctly
-* Report-level totals can be stored correctly
-* Quantity totals and currency totals are both preserved
-* Migration runs successfully
 
 **Comments**
 
@@ -351,10 +298,10 @@ _No comments_
 
 | Key | Summary | Status | Created | Updated | Sprint |
 |-----|---------|--------|---------|---------|--------|
-| SRP-27 | Create ContinuationRow model | In Progress | 2026-04-07 | 2026-04-08 | SRP Sprint 2 |
+| SRP-28 | Create totals models | In Progress | 2026-04-07 | 2026-04-08 | SRP Sprint 2 |
 | SRP-11 | Parsed Data Models | In Progress | 2026-04-04 | 2026-04-07 | SRP Sprint 2 |
 
-### SRP-27 – Create ContinuationRow model
+### SRP-28 – Create totals models
 
 - **Status:** In Progress
 - **Created:** 2026-04-07
@@ -363,28 +310,41 @@ _No comments_
 
 **Description**
 
-Store continuation rows linked to their parent parsed item.
+Persist totals extracted in SRP-21.
 
 *Scope*
+Choose a simple MVP structure:
 
-* FK to `ParsedItem`
-* Store:
-** `ord_prod`
-** `sit_ordem`
-** `qt_prod`
-** `sit`
-** `raw_line`
+* `CustomerTotal`
+** FK to `CustomerSection`
+** quantity totals
+** currency total
+* `ReportGrandTotal`
+** OneToOne or FK to `ParsedReport`
+** quantity totals
+** currency total
+
+*Fields*
+
+* quantity totals:
+** `total_ped`
+** `total_pc`
+** `total_prod`
+** `total_fatur`
+** `total_sdo`
+* currency:
+** `total_valor`
 
 *Deliverables*
 
-* `ContinuationRow` model
+* totals model(s)
 * migration
 
 *Acceptance Criteria*
 
-* Multiple continuation rows can be linked to one ParsedItem
-* Reduced continuation structure is preserved
-* Raw continuation line is stored
+* Customer-level totals can be stored correctly
+* Report-level totals can be stored correctly
+* Quantity totals and currency totals are both preserved
 * Migration runs successfully
 
 **Comments**
@@ -537,10 +497,11 @@ _No comments_
 
 ---
 
-## Done (20 issues)
+## Done (21 issues)
 
 | Key | Summary | Status | Created | Updated | Sprint |
 |-----|---------|--------|---------|---------|--------|
+| SRP-27 | Create ContinuationRow model | Done | 2026-04-07 | 2026-04-08 | SRP Sprint 2 |
 | SRP-26 | Create ParsedItem model | Done | 2026-04-07 | 2026-04-08 | SRP Sprint 2 |
 | SRP-25 | Create CustomerSection model | Done | 2026-04-07 | 2026-04-08 | SRP Sprint 2 |
 | SRP-24 | Create ParsedReport model | Done | 2026-04-07 | 2026-04-08 | SRP Sprint 2 |
@@ -561,6 +522,67 @@ _No comments_
 | SRP-4 | Create upload data model | Done | 2026-04-04 | 2026-04-05 | SRP Sprint 1 |
 | SRP-3 | File Upload API | Done | 2026-04-04 | 2026-04-06 | SRP Sprint 1 |
 | SRP-1 | Initial Project Setup | Done | 2026-04-04 | 2026-04-04 | No Sprint |
+
+### SRP-27 – Create ContinuationRow model
+
+- **Status:** Done
+- **Created:** 2026-04-07
+- **Updated:** 2026-04-08
+- **Sprint:** SRP Sprint 2
+
+**Description**
+
+Store continuation rows linked to their parent parsed item.
+
+*Scope*
+
+* FK to `ParsedItem`
+* Store:
+** `ord_prod`
+** `sit_ordem`
+** `qt_prod`
+** `sit`
+** `raw_line`
+
+*Deliverables*
+
+* `ContinuationRow` model
+* migration
+
+*Acceptance Criteria*
+
+* Multiple continuation rows can be linked to one ParsedItem
+* Reduced continuation structure is preserved
+* Raw continuation line is stored
+* Migration runs successfully
+
+**Comments**
+
+- **Tailor Maciel** (2026-04-08): SRP-27 completed.
+
+Delivered:
+
+* Implemented ContinuationRow model
+* Linked ContinuationRow to ParsedItem via ForeignKey
+* Added fields: ord_prod, sit_ordem, qt_prod, sit
+* Added raw_line field for traceability
+* Added created_at timestamp
+* Created and applied migrations
+* Added model test validating persistence and relationships
+
+Validation:
+
+* python manage.py test
+* All tests passed successfully
+
+Notes:
+
+* Completes hierarchical structure for parsed items
+* Supports multi-line item representation from TXT reports
+
+SRP-27 is complete.
+
+---
 
 ### SRP-26 – Create ParsedItem model
 
