@@ -112,3 +112,26 @@ class ParsedItem(models.Model):
 
     def __str__(self) -> str:
         return f"{self.pedido} - {self.descricao}"
+    
+class ContinuationRow(models.Model):
+    """
+    Represents a continuation row linked to a ParsedItem.
+    """
+
+    parsed_item = models.ForeignKey(
+        "reports.ParsedItem",
+        on_delete=models.CASCADE,
+        related_name="continuations",
+    )
+
+    ord_prod = models.CharField(max_length=20, blank=True)
+    sit_ordem = models.CharField(max_length=50, blank=True)
+    qt_prod = models.CharField(max_length=20, blank=True)
+    sit = models.CharField(max_length=20, blank=True)
+
+    raw_line = models.TextField(blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self) -> str:
+        return f"{self.ord_prod} - {self.sit_ordem}"
