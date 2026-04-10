@@ -1,13 +1,13 @@
 # Jira Backlog for Project SRP
-_Exported: 2026-04-09 21:52:28_
+_Exported: 2026-04-09 22:58:57_
 
 **Total Issues:** 30
 
 ## Summary
 
 - **To Do:** 6 issues
-- **In Progress:** 2 issues
-- **Done:** 22 issues
+- **In Progress:** 1 issues
+- **Done:** 23 issues
 
 ---
 
@@ -253,52 +253,11 @@ _No comments_
 
 ---
 
-## In Progress (2 issues)
+## In Progress (1 issues)
 
 | Key | Summary | Status | Created | Updated | Sprint |
 |-----|---------|--------|---------|---------|--------|
-| SRP-29 | Implement parser-to-model mapping service | In Progress | 2026-04-07 | 2026-04-09 | SRP Sprint 2 |
 | SRP-11 | Parsed Data Models | In Progress | 2026-04-04 | 2026-04-07 | SRP Sprint 2 |
-
-### SRP-29 – Implement parser-to-model mapping service
-
-- **Status:** In Progress
-- **Created:** 2026-04-07
-- **Updated:** 2026-04-09
-- **Sprint:** SRP Sprint 2
-
-**Description**
-
-Create the service layer that takes SRP-22 structured output and saves it into the database.
-
-*Scope*
-
-* Map `assemble_report(...)` output into:
-** ParsedReport
-** CustomerSection
-** ParsedItem
-** ContinuationRow
-** totals models
-* Keep implementation simple and deterministic
-
-*Deliverables*
-
-* persistence service in `reports/services/`
-* minimal save function, for example:
-** `save_parsed_report(uploaded_report)`
-
-*Acceptance Criteria*
-
-* A parsed TXT report can be persisted end-to-end
-* Relationships are created correctly
-* Continuations attach to the correct ParsedItem
-* Totals are stored in the correct scope
-
-**Comments**
-
-_No comments_
-
----
 
 ### SRP-11 – Parsed Data Models
 
@@ -444,10 +403,11 @@ _No comments_
 
 ---
 
-## Done (22 issues)
+## Done (23 issues)
 
 | Key | Summary | Status | Created | Updated | Sprint |
 |-----|---------|--------|---------|---------|--------|
+| SRP-29 | Implement parser-to-model mapping service | Done | 2026-04-07 | 2026-04-09 | SRP Sprint 2 |
 | SRP-28 | Create totals models | Done | 2026-04-07 | 2026-04-09 | SRP Sprint 2 |
 | SRP-27 | Create ContinuationRow model | Done | 2026-04-07 | 2026-04-08 | SRP Sprint 2 |
 | SRP-26 | Create ParsedItem model | Done | 2026-04-07 | 2026-04-08 | SRP Sprint 2 |
@@ -470,6 +430,63 @@ _No comments_
 | SRP-4 | Create upload data model | Done | 2026-04-04 | 2026-04-05 | SRP Sprint 1 |
 | SRP-3 | File Upload API | Done | 2026-04-04 | 2026-04-06 | SRP Sprint 1 |
 | SRP-1 | Initial Project Setup | Done | 2026-04-04 | 2026-04-04 | No Sprint |
+
+### SRP-29 – Implement parser-to-model mapping service
+
+- **Status:** Done
+- **Created:** 2026-04-07
+- **Updated:** 2026-04-09
+- **Sprint:** SRP Sprint 2
+
+**Description**
+
+Create the service layer that takes SRP-22 structured output and saves it into the database.
+
+*Scope*
+
+* Map `assemble_report(...)` output into:
+** ParsedReport
+** CustomerSection
+** ParsedItem
+** ContinuationRow
+** totals models
+* Keep implementation simple and deterministic
+
+*Deliverables*
+
+* persistence service in `reports/services/`
+* minimal save function, for example:
+** `save_parsed_report(uploaded_report)`
+
+*Acceptance Criteria*
+
+* A parsed TXT report can be persisted end-to-end
+* Relationships are created correctly
+* Continuations attach to the correct ParsedItem
+* Totals are stored in the correct scope
+
+**Comments**
+
+- **Tailor Maciel** (2026-04-09): SRP-29 Completed — Report Persistence Pipeline
+
+Implemented the persistence layer connecting parsed TXT data to database models.
+
+Key Deliverables:
+
+* Created persist_report service to orchestrate full persistence workflow
+* Persisted ParsedReport, CustomerSection, ParsedItem, and ContinuationRow
+* Implemented CustomerTotal and ReportTotal with correct relationships
+* Ensured OneToOne integrity by always creating ReportTotal
+* Aligned parser output with model structure
+* Added tests validating end-to-end persistence
+
+Outcome:
+System now supports full pipeline from uploaded file to structured database records.
+
+Next Step:
+Proceed to SRP-12 — Processed Data Retrieval API
+
+---
 
 ### SRP-28 – Create totals models
 
