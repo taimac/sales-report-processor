@@ -230,6 +230,34 @@ class TxtParserTotalsTests(SimpleTestCase):
         self.assertIn("total_ped", first_client)
         self.assertIn("total_sdo", first_client)
 
+    def test_extract_client_totals_values(self):
+        totals = extract_totals(self.data["lines"])
+
+        first_client = totals["client_totals"][0]
+
+        self.assertEqual(first_client["total_ped"], "71.500")
+        self.assertEqual(first_client["total_in_prod"], "92.679")
+        self.assertEqual(first_client["total_fatur"], "32.196")
+        self.assertEqual(first_client["total_sdo"], "31.903")
+
+    def test_extract_grand_totals(self):
+        totals = extract_totals(self.data["lines"])
+
+        grand = totals["grand_totals"][0]
+
+        self.assertEqual(grand["total_ped"], "292.850")
+        self.assertEqual(grand["total_in_prod"], "157.851")
+        self.assertEqual(grand["total_fatur"], "36.279")
+        self.assertEqual(grand["total_sdo"], "72.454")
+
+    def test_extract_grand_total_currency(self):
+        totals = extract_totals(self.data["lines"])
+
+        grand = totals["grand_totals"][0]
+
+        self.assertIn("total_valor", grand)
+        self.assertEqual(grand["total_valor"], "2.078.254,440")
+
 class TxtParserFinalAssemblyTests(SimpleTestCase):
     def setUp(self) -> None:
         self.sample_path = (

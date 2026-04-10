@@ -1,22 +1,21 @@
 # Jira Backlog for Project SRP
-_Exported: 2026-04-08 21:38:06_
+_Exported: 2026-04-09 21:52:28_
 
 **Total Issues:** 30
 
 ## Summary
 
-- **To Do:** 7 issues
+- **To Do:** 6 issues
 - **In Progress:** 2 issues
-- **Done:** 21 issues
+- **Done:** 22 issues
 
 ---
 
-## To Do (7 issues)
+## To Do (6 issues)
 
 | Key | Summary | Status | Created | Updated | Sprint |
 |-----|---------|--------|---------|---------|--------|
 | SRP-30 | Add persistence tests | To Do | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
-| SRP-29 | Implement parser-to-model mapping service | To Do | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
 | SRP-15 | Documentation and Demo Readiness | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 4 |
 | SRP-14 | Error Handling and Validation | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 4 |
 | SRP-13 | Basic Dashboard View | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 3 |
@@ -54,46 +53,6 @@ Validate that parsed output is saved correctly into the database.
 * Relationships are correct
 * No data is silently lost during mapping
 * Test suite passes
-
-**Comments**
-
-_No comments_
-
----
-
-### SRP-29 – Implement parser-to-model mapping service
-
-- **Status:** To Do
-- **Created:** 2026-04-07
-- **Updated:** 2026-04-07
-- **Sprint:** SRP Sprint 2
-
-**Description**
-
-Create the service layer that takes SRP-22 structured output and saves it into the database.
-
-*Scope*
-
-* Map `assemble_report(...)` output into:
-** ParsedReport
-** CustomerSection
-** ParsedItem
-** ContinuationRow
-** totals models
-* Keep implementation simple and deterministic
-
-*Deliverables*
-
-* persistence service in `reports/services/`
-* minimal save function, for example:
-** `save_parsed_report(uploaded_report)`
-
-*Acceptance Criteria*
-
-* A parsed TXT report can be persisted end-to-end
-* Relationships are created correctly
-* Continuations attach to the correct ParsedItem
-* Totals are stored in the correct scope
 
 **Comments**
 
@@ -298,54 +257,42 @@ _No comments_
 
 | Key | Summary | Status | Created | Updated | Sprint |
 |-----|---------|--------|---------|---------|--------|
-| SRP-28 | Create totals models | In Progress | 2026-04-07 | 2026-04-08 | SRP Sprint 2 |
+| SRP-29 | Implement parser-to-model mapping service | In Progress | 2026-04-07 | 2026-04-09 | SRP Sprint 2 |
 | SRP-11 | Parsed Data Models | In Progress | 2026-04-04 | 2026-04-07 | SRP Sprint 2 |
 
-### SRP-28 – Create totals models
+### SRP-29 – Implement parser-to-model mapping service
 
 - **Status:** In Progress
 - **Created:** 2026-04-07
-- **Updated:** 2026-04-08
+- **Updated:** 2026-04-09
 - **Sprint:** SRP Sprint 2
 
 **Description**
 
-Persist totals extracted in SRP-21.
+Create the service layer that takes SRP-22 structured output and saves it into the database.
 
 *Scope*
-Choose a simple MVP structure:
 
-* `CustomerTotal`
-** FK to `CustomerSection`
-** quantity totals
-** currency total
-* `ReportGrandTotal`
-** OneToOne or FK to `ParsedReport`
-** quantity totals
-** currency total
-
-*Fields*
-
-* quantity totals:
-** `total_ped`
-** `total_pc`
-** `total_prod`
-** `total_fatur`
-** `total_sdo`
-* currency:
-** `total_valor`
+* Map `assemble_report(...)` output into:
+** ParsedReport
+** CustomerSection
+** ParsedItem
+** ContinuationRow
+** totals models
+* Keep implementation simple and deterministic
 
 *Deliverables*
 
-* totals model(s)
-* migration
+* persistence service in `reports/services/`
+* minimal save function, for example:
+** `save_parsed_report(uploaded_report)`
 
 *Acceptance Criteria*
 
-* Customer-level totals can be stored correctly
-* Report-level totals can be stored correctly
-* Quantity totals and currency totals are both preserved
-* Migration runs successfully
+* A parsed TXT report can be persisted end-to-end
+* Relationships are created correctly
+* Continuations attach to the correct ParsedItem
+* Totals are stored in the correct scope
 
 **Comments**
 
@@ -497,10 +444,11 @@ _No comments_
 
 ---
 
-## Done (21 issues)
+## Done (22 issues)
 
 | Key | Summary | Status | Created | Updated | Sprint |
 |-----|---------|--------|---------|---------|--------|
+| SRP-28 | Create totals models | Done | 2026-04-07 | 2026-04-09 | SRP Sprint 2 |
 | SRP-27 | Create ContinuationRow model | Done | 2026-04-07 | 2026-04-08 | SRP Sprint 2 |
 | SRP-26 | Create ParsedItem model | Done | 2026-04-07 | 2026-04-08 | SRP Sprint 2 |
 | SRP-25 | Create CustomerSection model | Done | 2026-04-07 | 2026-04-08 | SRP Sprint 2 |
@@ -522,6 +470,77 @@ _No comments_
 | SRP-4 | Create upload data model | Done | 2026-04-04 | 2026-04-05 | SRP Sprint 1 |
 | SRP-3 | File Upload API | Done | 2026-04-04 | 2026-04-06 | SRP Sprint 1 |
 | SRP-1 | Initial Project Setup | Done | 2026-04-04 | 2026-04-04 | No Sprint |
+
+### SRP-28 – Create totals models
+
+- **Status:** Done
+- **Created:** 2026-04-07
+- **Updated:** 2026-04-09
+- **Sprint:** SRP Sprint 2
+
+**Description**
+
+Persist totals extracted in SRP-21.
+
+*Scope*
+Choose a simple MVP structure:
+
+* `CustomerTotal`
+** FK to `CustomerSection`
+** quantity totals
+** currency total
+* `ReportGrandTotal`
+** OneToOne or FK to `ParsedReport`
+** quantity totals
+** currency total
+
+*Fields*
+
+* quantity totals:
+** `total_ped`
+** `total_pc`
+** `total_prod`
+** `total_fatur`
+** `total_sdo`
+* currency:
+** `total_valor`
+
+*Deliverables*
+
+* totals model(s)
+* migration
+
+*Acceptance Criteria*
+
+* Customer-level totals can be stored correctly
+* Report-level totals can be stored correctly
+* Quantity totals and currency totals are both preserved
+* Migration runs successfully
+
+**Comments**
+
+- **Tailor Maciel** (2026-04-09): *SRP-28 Completed — Totals Parsing and Models*
+
+Implemented full support for extracting and structuring totals from TXT reports, aligned with real report format.
+
+*Key Deliverables:*
+
+* Parsed client and grand totals (quantities and currency values)
+* Standardized field naming (`total_in_prod`) across parser and models
+* Implemented `CustomerTotal` and `ReportTotal` models with proper relationships
+* Ensured totals from multiple lines are unified into single model records
+* Strengthened tests with exact value assertions for reliability
+* Resolved migration inconsistencies and validated schema alignment
+
+*Outcome:*
+Totals data is now accurately extracted and ready for persistence in the next stage.
+
+*Next Step:*
+Proceed to *SRP-29 — Persistence Layer*, connecting parsing output to database storage.
+
+----
+
+---
 
 ### SRP-27 – Create ContinuationRow model
 
