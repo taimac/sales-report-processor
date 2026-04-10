@@ -130,10 +130,10 @@ def classify_line(line: str) -> str:
         return "grand_total"
     if is_grand_currency_total_line(line):
         return "grand_total_currency"
-    if is_main_detail_row(line):
-        return "main_detail"
     if is_continuation_row(line):
         return "continuation"
+    if is_main_detail_row(line):
+        return "main_detail"
 
     return "ignorable"
 
@@ -517,10 +517,9 @@ def parse_client_total_line(line: str) -> dict[str, str]:
 
     return {
         "total_ped": values[0] if len(values) > 0 else "",
-        "total_pc": values[1] if len(values) > 1 else "",
-        "total_prod": values[2] if len(values) > 2 else "",
-        "total_fatur": values[3] if len(values) > 3 else "",
-        "total_sdo": values[4] if len(values) > 4 else "",
+        "total_in_prod": values[1] if len(values) > 1 else "",
+        "total_fatur": values[2] if len(values) > 2 else "",
+        "total_sdo": values[3] if len(values) > 3 else "",
     }
 
 def parse_client_total_currency_line(line: str) -> dict[str, str]:
@@ -535,10 +534,9 @@ def parse_grand_total_line(line: str) -> dict[str, str]:
 
     return {
         "total_ped": values[0] if len(values) > 0 else "",
-        "total_pc": values[1] if len(values) > 1 else "",
-        "total_prod": values[2] if len(values) > 2 else "",
-        "total_fatur": values[3] if len(values) > 3 else "",
-        "total_sdo": values[4] if len(values) > 4 else "",
+        "total_in_prod": values[1] if len(values) > 1 else "",
+        "total_fatur": values[2] if len(values) > 2 else "",
+        "total_sdo": values[3] if len(values) > 3 else "",
     }
 
 def parse_grand_total_currency_line(line: str) -> dict[str, str]:
@@ -549,37 +547,38 @@ def parse_grand_total_currency_line(line: str) -> dict[str, str]:
     }
 
 def extract_totals(lines: list[str]) -> dict[str, list[dict]]:
-    """
-    Extract all totals from the report.
-    """
+    client_totals = []
+    grand_totals = []
 
-    results = {
-        "client_totals": [],
-        "client_total_currency": [],
-        "grand_totals": [],
-        "grand_total_currency": [],
-    }
+    current_client_total = None
 
     for line in lines:
         line_type = classify_line(line)
 
         if line_type == "client_total":
-            results["client_totals"].append(parse_client_total_line(line))
+            current_client_total = parse_client_total_line(line)
 
         elif line_type == "client_total_currency":
-            results["client_total_currency"].append(
-                parse_client_total_currency_line(line)
-            )
+            if current_client_total:
+                current_client_total.update(
+                    parse_client_total_currency_line(line)
+                )
+                client_totals.append(current_client_total)
+                current_client_total = None
 
         elif line_type == "grand_total":
-            results["grand_totals"].append(parse_grand_total_line(line))
+            grand_totals.append(parse_grand_total_line(line))
 
         elif line_type == "grand_total_currency":
-            results["grand_total_currency"].append(
-                parse_grand_total_currency_line(line)
-            )
+            if grand_totals:
+                grand_totals[-1].update(
+                    parse_grand_total_currency_line(line)
+                )
 
-    return results
+    return {
+        "client_totals": client_totals,
+        "grand_totals": grand_totals,
+    }
 
 def assemble_report(file_path: str) -> dict:
     """

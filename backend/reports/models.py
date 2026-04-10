@@ -135,3 +135,45 @@ class ContinuationRow(models.Model):
 
     def __str__(self) -> str:
         return f"{self.ord_prod} - {self.sit_ordem}"
+    
+class CustomerTotal(models.Model):
+    customer_section = models.OneToOneField(
+        "reports.CustomerSection",
+        on_delete=models.CASCADE,
+        related_name="total",
+    )
+
+    # quantities
+    total_ped = models.CharField(max_length=20, blank=True)
+    total_in_prod = models.CharField(max_length=20, blank=True)
+    total_fatur = models.CharField(max_length=20, blank=True)
+    total_sdo = models.CharField(max_length=20, blank=True)
+
+    # currency
+    total_valor = models.CharField(max_length=30, blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self) -> str:
+        return f"Total {self.customer_section.customer_name}"
+    
+
+class ReportTotal(models.Model):
+    parsed_report = models.OneToOneField(
+        "reports.ParsedReport",
+        on_delete=models.CASCADE,
+        related_name="total",
+    )
+
+    # quantities
+    total_ped = models.CharField(max_length=20, blank=True)
+    total_in_prod = models.CharField(max_length=20, blank=True)
+    total_fatur = models.CharField(max_length=20, blank=True)
+    total_sdo = models.CharField(max_length=20, blank=True)
+
+    # currency
+    total_valor = models.CharField(max_length=30, blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    def __str__(self) -> str:
+        return f"Report Total {self.parsed_report.id}"
