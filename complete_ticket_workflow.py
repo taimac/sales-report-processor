@@ -137,9 +137,9 @@ def jira_client() -> JIRA:
     return JIRA(server=JIRA_URL, basic_auth=(JIRA_EMAIL, JIRA_TOKEN))
 
 
-def get_issue_transition_id(issue, target_names: Iterable[str]) -> str | None:
+def get_issue_transition_id(jira: JIRA, issue, target_names: Iterable[str]) -> str | None:
     target_set = {name.lower() for name in target_names}
-    for transition in issue.transitions():
+    for transition in jira.transitions(issue):      # ← call on the client
         if transition["name"].lower() in target_set:
             return transition["id"]
     return None
@@ -161,7 +161,8 @@ def add_comment_and_transition(
     if comment:
         jira.add_comment(ticket_key, comment)
 
-    transition_id = get_issue_transition_id(issue, target_transition_names)
+    transition_id = get_issue_transition_id(jira, issue, target_transition_names)  # ← client passed
+
     if transition_id is None:
         raise RuntimeError(
             f"Could not find transition for {ticket_key}. "
