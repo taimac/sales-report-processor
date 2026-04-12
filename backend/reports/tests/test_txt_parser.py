@@ -270,9 +270,11 @@ class TxtParserFinalAssemblyTests(SimpleTestCase):
 
         self.assertIn("metadata", report)
         self.assertIn("customers", report)
-        self.assertIn("grand_totals", report)
+        self.assertIn("totals", report)
+        self.assertIn("grand_totals", report["totals"])
 
         self.assertTrue(report["customers"])
+        self.assertTrue(report["totals"]["grand_totals"])
 
         first_customer = report["customers"][0]
 
@@ -280,5 +282,6 @@ class TxtParserFinalAssemblyTests(SimpleTestCase):
         self.assertIn("customer_name", first_customer)
         self.assertIn("items", first_customer)
         self.assertIn("totals", first_customer)
+        self.assertIn("client_totals", first_customer["totals"])
 
         self.assertTrue(first_customer["items"])

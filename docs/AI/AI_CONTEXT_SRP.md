@@ -106,32 +106,46 @@ MVP is complete when:
 
 ```
 [Epic]  SRP-2 – Sales Report Processor MVP
-  ├─ SRP-1    Initial Project Setup             ✅ Done
-  ├─ SRP-9    Django Project and App Scaffold   ✅ Done  
-  ├─ SRP-3    File Upload API                   ✅ Done 
-  │    ├─ SRP-4   Create UploadedReport model   ✅ Done  
-  │    ├─ SRP-5   Implement upload API endpoint ✅ Done 
-  │    ├─ SRP-6   Add file validation (TXT and PDF)     ✅ Done 
-  │    ├─ SRP-7   Add backend tests for upload endpoint ✅ Done 
-  │    └─ SRP-8   Document upload endpoint behavior    ✅ Done 
-  ├─ SRP-10   TXT Parsing Engine                ✅ Done 
-  ├─ SRP-11   Parsed Data Models                ⬜ ← current
-  ├─ SRP-12   Processed Data Retrieval API      ⬜ To Do
-  ├─ SRP-13   Basic Dashboard View              ⬜ To Do
-  ├─ SRP-14   Error Handling and Validation     ⬜ To Do
-  └─ SRP-15   Documentation and Demo Readiness  ⬜ To Do
+  ├─ SRP-1    Initial Project Setup               ✅ Done
+  ├─ SRP-9    Django Project and App Scaffold     ✅ Done
+  ├─ SRP-3    File Upload API                     ✅ Done
+  │    ├─ SRP-4    Create upload data model            ✅ Done
+  │    ├─ SRP-5    Implement upload API endpoint       ✅ Done
+  │    ├─ SRP-6    Add file validation for TXT/PDF uploads ✅ Done
+  │    ├─ SRP-7    Add backend tests for upload endpoint ✅ Done
+  │    └─ SRP-8    Document upload endpoint behavior   ✅ Done
+  ├─ SRP-10   TXT Parsing Engine                  ✅ Done
+  │    ├─ SRP-16   TXT Reader and Header Metadata Extraction ✅ Done
+  │    ├─ SRP-17   Line Classification and Report Structure Detection ✅ Done
+  │    ├─ SRP-18   Parse Production, Delivery, and Quantity Columns ✅ Done
+  │    ├─ SRP-19   Parse Commercial, Credit, and Reference Columns ✅ Done
+  │    ├─ SRP-20   Continuation Row Parsing and Parent Item Attachment ✅ Done
+  │    ├─ SRP-21   Client and Grand Total Extraction   ✅ Done
+  │    ├─ SRP-22   Final Parser Assembly and Real Sample Tests ✅ Done
+  │    └─ SRP-23   Parse Core Main Row Identity and Product Columns ✅ Done
+  ├─ SRP-11   Parsed Data Models                  ⬜ To Do
+  │    ├─ SRP-24   Create ParsedReport model           ✅ Done
+  │    ├─ SRP-25   Create CustomerSection model        ✅ Done
+  │    ├─ SRP-26   Create ParsedItem model             ✅ Done
+  │    ├─ SRP-27   Create ContinuationRow model        ✅ Done
+  │    ├─ SRP-28   Create totals models                ✅ Done
+  │    ├─ SRP-29   Implement parser-to-model mapping service ✅ Done
+  │    └─ SRP-30   Add persistence tests               ✅ Done
+  ├─ SRP-12   Processed Data Retrieval API        ⬜ ← current
+  ├─ SRP-13   Basic Dashboard View                ⬜ To Do
+  ├─ SRP-14   Error Handling and Validation       ⬜ To Do
+  └─ SRP-15   Documentation and Demo Readiness    ⬜ To Do
 ```
-
 ---
 
 ## Backlog Order
 
 1. ~~SRP-1 – Initial Project Setup~~ ✅ Done
-2. SRP-9  – Django Project and App Scaffold  ✅ Done
-3. SRP-3  – File Upload API (SRP-4 → 5 → 6 → 7 → 8)  ✅ Done
-4. SRP-10 – TXT Parsing Engine  ✅ Done
-5. SRP-11 – Parsed Data Models  ← current
-6. SRP-12 – Processed Data Retrieval API
+2. ~~SRP-9 – Django Project and App Scaffold~~ ✅ Done
+3. ~~SRP-3 – File Upload API~~ ✅ Done
+4. ~~SRP-10 – TXT Parsing Engine~~ ✅ Done
+5. SRP-11 – Parsed Data Models
+6. SRP-12 – Processed Data Retrieval API  ← current
 7. SRP-13 – Basic Dashboard View
 8. SRP-14 – Error Handling and Validation
 9. SRP-15 – Documentation and Demo Readiness

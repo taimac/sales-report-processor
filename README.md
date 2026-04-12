@@ -278,6 +278,44 @@ Output:
 docs/jira_backlog_SRP.md
 ```
 
+### Ticket Workflow Automation
+
+To automate the post-ticket workflow:
+
+- push feature branch
+- optionally create PR
+- close current Jira ticket with a comment
+- derive the next ticket from the ordered Jira backlog and move it to In Progress
+- refresh `docs/jira_backlog_SRP.md`
+- update `docs/AI/AI_CONTEXT_SRP.md`
+- commit the refreshed docs
+- merge the PR
+- sync `dev`
+- optionally delete the merged feature branch
+
+`docs/jira_backlog_SRP.md` now includes an `Execution Order` section with explicit
+parent/subtask relationships. The workflow script uses that section as the source
+of truth for automated decisions.
+
+Dry run:
+
+```bash
+./venv/bin/python complete_ticket_workflow.py \
+  --current-ticket SRP-30 \
+  --jira-comment "Completed SRP-30. Persistence flow is covered by tests." \
+  --dry-run
+```
+
+Real run:
+
+```bash
+./venv/bin/python complete_ticket_workflow.py \
+  --current-ticket SRP-30 \
+  --jira-comment "Completed SRP-30. Persistence flow is covered by tests." \
+  --create-pr \
+  --delete-branch
+```
+
 ---
 
 ## Development Roadmap (MVP)

@@ -282,7 +282,22 @@ def parse_main_row_operational_fields(line: str) -> dict[str, str]:
     qt_prod = parts[date_index + 4] if len(parts) > date_index + 4 else ""
     qt_fatur = parts[date_index + 5] if len(parts) > date_index + 5 else ""
     sdo_estoq = parts[date_index + 6] if len(parts) > date_index + 6 else ""
-    sit = " ".join(parts[date_index + 7:]) if len(parts) > date_index + 7 else ""
+    
+    tail_start = date_index + 7
+
+    price_index = next(
+        (
+            i for i in range(tail_start, len(parts))
+            if re.fullmatch(r"\d+,\d{3}", parts[i])
+        ),
+        None,
+    )
+
+    if price_index is None:
+        sit = " ".join(parts[tail_start:]) if len(parts) > tail_start else ""
+    else:
+        sit = " ".join(parts[tail_start:price_index])
+
 
     return {
         "ord_prod": ord_prod,
@@ -609,11 +624,15 @@ def assemble_report(file_path: str) -> dict:
             "totals": block_totals,
         })
 
-    # Step 4 — global totals
-    grand_totals = extract_totals(lines)
+    # Step 4 — report-level totals
+    # Only grand totals belong to the full report payload.
+    report_totals = extract_totals(lines)
+    totals = {
+        "grand_totals": report_totals.get("grand_totals", []),
+    }
 
     return {
         "metadata": data["metadata"],
         "customers": customers,
-        "grand_totals": grand_totals,
+        "totals": totals,
     }

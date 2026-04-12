@@ -59,7 +59,7 @@ def persist_report(uploaded_report):
     # STEP 3 — Persist customer sections and their items
     # ---------------------------------------------------------
     # Each customer section groups multiple items
-    for idx, customer_data in enumerate(data.get("customers", [])):
+    for customer_data in data.get("customers", []):
         customer = CustomerSection.objects.create(
             parsed_report=parsed_report,
             representative=customer_data.get("representative", ""),
@@ -125,11 +125,10 @@ def persist_report(uploaded_report):
         # STEP 4 — Persist customer totals
         # -----------------------------------------------------
         # Totals are extracted separately and aligned by index
-        client_totals = data.get("totals", {}).get("client_totals", [])
+        customer_totals = customer_data.get("totals", {}).get("client_totals", [])
+        total_data = customer_totals[0] if customer_totals else None
 
-        if idx < len(client_totals):
-            total_data = client_totals[idx]
-
+        if total_data:
             CustomerTotal.objects.create(
                 customer_section=customer,
                 total_ped=total_data.get("total_ped", ""),
@@ -138,6 +137,7 @@ def persist_report(uploaded_report):
                 total_sdo=total_data.get("total_sdo", ""),
                 total_valor=total_data.get("total_valor", ""),
             )
+
 
     # ---------------------------------------------------------
     # STEP 5 — Persist report (grand) totals
