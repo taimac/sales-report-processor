@@ -1,5 +1,5 @@
 # Jira Backlog for Project SRP
-_Exported: 2026-04-12 01:30:33_
+_Exported: 2026-04-12 02:13:29_
 
 **Total Issues:** 30
 
@@ -20,7 +20,7 @@ This section is the source of truth for workflow automation. It preserves Jira r
 | 9 | subtask | SRP-8 | SRP-3 | Document upload endpoint behavior | Done | SRP Sprint 1 |
 | 10 | story | SRP-10 | SRP-2 | TXT Parsing Engine | Done | SRP Sprint 2 |
 | 11 | story | SRP-11 | SRP-2 | Parsed Data Models | In Progress | SRP Sprint 2 |
-| 12 | story | SRP-12 | SRP-2 | Processed Data Retrieval API | To Do | SRP Sprint 3 |
+| 12 | story | SRP-12 | SRP-2 | Processed Data Retrieval API | In Progress | SRP Sprint 3 |
 | 13 | story | SRP-13 | SRP-2 | Basic Dashboard View | To Do | SRP Sprint 3 |
 | 14 | story | SRP-14 | SRP-2 | Error Handling and Validation | To Do | SRP Sprint 4 |
 | 15 | story | SRP-15 | SRP-2 | Documentation and Demo Readiness | To Do | SRP Sprint 4 |
@@ -68,7 +68,7 @@ This section is the source of truth for workflow automation. It preserves Jira r
     - SRP-28 — Create totals models [Done]
     - SRP-29 — Implement parser-to-model mapping service [Done]
     - SRP-30 — Add persistence tests [Done]
-  - SRP-12 — Processed Data Retrieval API [To Do]
+  - SRP-12 — Processed Data Retrieval API [In Progress]
   - SRP-13 — Basic Dashboard View [To Do]
   - SRP-14 — Error Handling and Validation [To Do]
   - SRP-15 — Documentation and Demo Readiness [To Do]
@@ -77,18 +77,17 @@ This section is the source of truth for workflow automation. It preserves Jira r
 
 ## Summary
 
-- **To Do:** 5 issues
-- **In Progress:** 1 issues
+- **To Do:** 4 issues
+- **In Progress:** 2 issues
 - **Done:** 24 issues
 
 ---
 
-## To Do (5 issues)
+## To Do (4 issues)
 
 | Key | Summary | Status | Created | Updated | Sprint |
 |-----|---------|--------|---------|---------|--------|
 | SRP-2 | Sales Report Processor MVP | To Do | 2026-04-04 | 2026-04-04 | No Sprint |
-| SRP-12 | Processed Data Retrieval API | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 3 |
 | SRP-13 | Basic Dashboard View | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 3 |
 | SRP-14 | Error Handling and Validation | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 4 |
 | SRP-15 | Documentation and Demo Readiness | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 4 |
@@ -220,25 +219,6 @@ _No comments_
 
 ---
 
-### SRP-12 – Processed Data Retrieval API
-
-- **Status:** To Do
-- **Type:** Story
-- **Parent:** SRP-2
-- **Created:** 2026-04-04
-- **Updated:** 2026-04-04
-- **Sprint:** SRP Sprint 3
-
-**Description**
-
-_No content_
-
-**Comments**
-
-_No comments_
-
----
-
 ### SRP-13 – Basic Dashboard View
 
 - **Status:** To Do
@@ -296,11 +276,12 @@ _No comments_
 
 ---
 
-## In Progress (1 issues)
+## In Progress (2 issues)
 
 | Key | Summary | Status | Created | Updated | Sprint |
 |-----|---------|--------|---------|---------|--------|
 | SRP-11 | Parsed Data Models | In Progress | 2026-04-04 | 2026-04-07 | SRP Sprint 2 |
+| SRP-12 | Processed Data Retrieval API | In Progress | 2026-04-04 | 2026-04-12 | SRP Sprint 3 |
 
 ### SRP-11 – Parsed Data Models
 
@@ -448,6 +429,25 @@ _No comments_
 
 ---
 
+### SRP-12 – Processed Data Retrieval API
+
+- **Status:** In Progress
+- **Type:** Story
+- **Parent:** SRP-2
+- **Created:** 2026-04-04
+- **Updated:** 2026-04-12
+- **Sprint:** SRP Sprint 3
+
+**Description**
+
+_No content_
+
+**Comments**
+
+_No comments_
+
+---
+
 ## Done (24 issues)
 
 | Key | Summary | Status | Created | Updated | Sprint |
@@ -475,7 +475,7 @@ _No comments_
 | SRP-27 | Create ContinuationRow model | Done | 2026-04-07 | 2026-04-08 | SRP Sprint 2 |
 | SRP-28 | Create totals models | Done | 2026-04-07 | 2026-04-09 | SRP Sprint 2 |
 | SRP-29 | Implement parser-to-model mapping service | Done | 2026-04-07 | 2026-04-09 | SRP Sprint 2 |
-| SRP-30 | Add persistence tests | Done | 2026-04-07 | 2026-04-11 | SRP Sprint 2 |
+| SRP-30 | Add persistence tests | Done | 2026-04-07 | 2026-04-12 | SRP Sprint 2 |
 
 ### SRP-1 – Initial Project Setup
 
@@ -2368,7 +2368,7 @@ Proceed to SRP-12 — Processed Data Retrieval API
 - **Type:** Subtask
 - **Parent:** SRP-11
 - **Created:** 2026-04-07
-- **Updated:** 2026-04-11
+- **Updated:** 2026-04-12
 - **Sprint:** SRP Sprint 2
 
 **Description**
@@ -2420,6 +2420,8 @@ Result:
 * relationships and mapped totals are verified
 * data loss during persistence mapping is checked
 * acceptance criteria for SRP-30 are satisfied
+- **Tailor Maciel** (2026-04-12): Completed SRP-30. Persistence flow is covered by tests.
+- **Tailor Maciel** (2026-04-12): Completed SRP-30. Persistence flow is covered by tests.
 
 ---
 
