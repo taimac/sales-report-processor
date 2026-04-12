@@ -207,7 +207,7 @@ def fetch_jira_issues(jira: JIRA) -> list[Any]:
     """
     Fetch all project issues from Jira.
     """
-    jql = f"project={JIRA_PROJECT} ORDER BY created DESC"
+    jql = f"project={JIRA_PROJECT} ORDER BY Rank ASC, created ASC"
     print(f"Fetching issues from project {JIRA_PROJECT}...")
     print(f"Using JQL: {jql}\n")
 
@@ -236,17 +236,94 @@ def group_issues_by_status(issues: list[Any]) -> dict[str, list[Any]]:
     return status_groups
 
 
+def get_parent_key(issue: Any) -> str:
+    """
+    Return the parent ticket key for subtasks when available.
+    """
+    parent = getattr(issue.fields, "parent", None)
+    if parent:
+        return getattr(parent, "key", "")
+    return ""
+
+
+def is_subtask(issue: Any) -> bool:
+    """
+    Detect whether an issue is a Jira subtask.
+    """
+    issue_type = getattr(issue.fields, "issuetype", None)
+    return bool(issue_type and getattr(issue_type, "subtask", False))
+
+
+def build_execution_order(issues: list[Any], sprint_field_id: str | None) -> list[dict[str, str]]:
+    """
+    Build a flat execution order that preserves Jira rank and makes
+    parent/subtask relationships explicit for automation.
+    """
+    ordered: list[dict[str, str]] = []
+
+    for issue in issues:
+        ordered.append(
+            {
+                "level": "subtask" if is_subtask(issue) else "story",
+                "key": issue.key,
+                "parent": get_parent_key(issue),
+                "summary": safe_markdown(issue.fields.summary),
+                "status": issue.fields.status.name,
+                "sprint": safe_markdown(extract_sprint_name(issue, sprint_field_id)),
+            }
+        )
+
+    return ordered
+
+
+def write_hierarchy(
+    file,
+    execution_order: list[dict[str, str]],
+    parent_key: str = "",
+    depth: int = 0,
+) -> None:
+    """
+    Render a readable hierarchy section from the flat execution order.
+    """
+    entries = [entry for entry in execution_order if entry["parent"] == parent_key]
+    for entry in entries:
+        indent = "  " * depth
+        file.write(
+            f"{indent}- {entry['key']} — {entry['summary']} [{entry['status']}]\n"
+        )
+        write_hierarchy(file, execution_order, entry["key"], depth + 1)
+
+
 def export_to_markdown(jira: JIRA, issues: list[Any]) -> None:
     """
     Export Jira issues to Markdown.
     """
     sprint_field_id = get_sprint_field_id(jira)
     status_groups = group_issues_by_status(issues)
+    execution_order = build_execution_order(issues, sprint_field_id)
 
     with OUTPUT_FILE.open("w", encoding="utf-8") as file:
         file.write(f"# Jira Backlog for Project {JIRA_PROJECT}\n")
         file.write(f"_Exported: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}_\n\n")
         file.write(f"**Total Issues:** {len(issues)}\n\n")
+
+        file.write("## Execution Order\n\n")
+        file.write(
+            "This section is the source of truth for workflow automation. "
+            "It preserves Jira rank order and makes story/subtask hierarchy explicit.\n\n"
+        )
+        file.write("| Order | Level | Key | Parent | Summary | Status | Sprint |\n")
+        file.write("|-------|-------|-----|--------|---------|--------|--------|\n")
+        for index, entry in enumerate(execution_order, start=1):
+            file.write(
+                f"| {index} | {entry['level']} | {entry['key']} | {entry['parent']} | "
+                f"{entry['summary']} | {entry['status']} | {entry['sprint']} |\n"
+            )
+        file.write("\n")
+
+        file.write("## Hierarchy\n\n")
+        write_hierarchy(file, execution_order)
+        file.write("\n---\n\n")
 
         file.write("## Summary\n\n")
         for status_name, status_issues in status_groups.items():
@@ -282,11 +359,15 @@ def export_to_markdown(jira: JIRA, issues: list[Any]) -> None:
                 created = format_date(issue.fields.created)
                 updated = format_date(issue.fields.updated)
                 sprint = safe_markdown(extract_sprint_name(issue, sprint_field_id))
+                parent_key = get_parent_key(issue)
+                issue_level = "Subtask" if is_subtask(issue) else "Story"
                 description = extract_description(issue)
                 comments = extract_comments(issue)
 
                 file.write(f"### {key} – {summary}\n\n")
                 file.write(f"- **Status:** {status}\n")
+                file.write(f"- **Type:** {issue_level}\n")
+                file.write(f"- **Parent:** {parent_key or '—'}\n")
                 file.write(f"- **Created:** {created}\n")
                 file.write(f"- **Updated:** {updated}\n")
                 file.write(f"- **Sprint:** {sprint}\n\n")
