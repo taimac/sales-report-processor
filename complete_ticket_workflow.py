@@ -162,7 +162,6 @@ def add_comment_and_transition(
         jira.add_comment(ticket_key, comment)
 
     transition_id = get_issue_transition_id(jira, issue, target_transition_names)  # ← client passed
-
     if transition_id is None:
         raise RuntimeError(
             f"Could not find transition for {ticket_key}. "
@@ -340,7 +339,18 @@ def pr_exists(branch_name: str, *, dry_run: bool) -> bool:
     except subprocess.CalledProcessError:
         return False
 
-
+def pr_number(branch_name: str, *, dry_run: bool) -> str | None:
+    """Return PR number for branch, or None if no open PR exists."""
+    if dry_run:
+        return "99"
+    try:
+        return run(
+            ["gh", "pr", "view", branch_name, "--json", "number", "--jq", ".number"],
+            capture_output=True,
+        )
+    except subprocess.CalledProcessError:
+        return None
+    
 def has_doc_changes(*, dry_run: bool) -> bool:
     if dry_run:
         return True
@@ -429,16 +439,14 @@ def main() -> None:
     else:
         print("No backlog/context doc changes to commit")
 
-    run(
-        [
-            "gh",
-            "pr",
-            "merge",
-            branch_name,
-            f"--{args.merge_method}",
-        ],
-        dry_run=args.dry_run,
-    )
+    pr_num = pr_number(branch_name, dry_run=args.dry_run)
+    if pr_num:
+        run(
+            ["gh", "pr", "merge", branch_name, f"--{args.merge_method}"],
+            dry_run=args.dry_run,
+        )
+    else:
+        print(f"No open PR found for {branch_name} — skipping merge step.")
 
     run(["git", "checkout", args.base_branch], dry_run=args.dry_run)
     run(["git", "pull", "origin", args.base_branch], dry_run=args.dry_run)
