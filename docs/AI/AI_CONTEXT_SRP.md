@@ -18,6 +18,10 @@ store structured data, expose it via API, and display it on a basic dashboard.
 - SRP-1 (Initial Project Setup) is **Done**
 - SRP-9 (Django Project and App Scaffold) is **Done**
 - SRP-3 (File Upload API) is **Done** (including SRP-4 → SRP-8)
+- SRP-10 (TXT Parsing Engine) is **Done**
+- SRP-11 (Parsed Data Models) is **Done**
+- SRP-12 (Processed Data Retrieval API) is **Done**
+- SRP-13 (Basic Dashboard View) is **In Progress**
 
 ### Implemented So Far
 
@@ -32,8 +36,20 @@ store structured data, expose it via API, and display it on a basic dashboard.
   - Rejects invalid or missing files with clear errors
 - Files stored under:
   - `backend/media/reports/`
+- Parsed data models and persistence service implemented
+- Retrieval list/detail API is implemented and validated
+- Retrieval API tests are implemented and passing
+- SRP delivery governance is now defined in:
+  - `docs/AI/AI_DELIVERY_SYSTEM_SRP.md`
 - Backend tests implemented and passing
 - Upload endpoint documented in README
+
+### Active Delivery Focus
+
+- Current story: `SRP-13 — Basic Dashboard View`
+- Current phase: plan and scope the minimal MVP dashboard on top of the validated retrieval API
+- Prerequisite now satisfied:
+  - `SRP-12` retrieval endpoints and tests are complete
 
 ---
 
@@ -82,6 +98,7 @@ sales-report-processor/
 - `venv` is at root level — activate from root: `source venv/bin/activate`
 - `requirements.txt` is at root level
 - `fetch_jira_backlog_srp.py` is a utility script at root — do not modify
+- `AI_DELIVERY_SYSTEM_SRP.md` governs ticket sequencing, readiness, and closure workflow
 - SQLite database file will be at `backend/db.sqlite3` — do not commit it
 
 ---
@@ -123,7 +140,7 @@ MVP is complete when:
   │    ├─ SRP-21   Client and Grand Total Extraction   ✅ Done
   │    ├─ SRP-22   Final Parser Assembly and Real Sample Tests ✅ Done
   │    └─ SRP-23   Parse Core Main Row Identity and Product Columns ✅ Done
-  ├─ SRP-11   Parsed Data Models                  ⬜ To Do
+  ├─ SRP-11   Parsed Data Models                  ✅ Done
   │    ├─ SRP-24   Create ParsedReport model           ✅ Done
   │    ├─ SRP-25   Create CustomerSection model        ✅ Done
   │    ├─ SRP-26   Create ParsedItem model             ✅ Done
@@ -131,8 +148,12 @@ MVP is complete when:
   │    ├─ SRP-28   Create totals models                ✅ Done
   │    ├─ SRP-29   Implement parser-to-model mapping service ✅ Done
   │    └─ SRP-30   Add persistence tests               ✅ Done
-  ├─ SRP-12   Processed Data Retrieval API        ⬜ ← current
-  ├─ SRP-13   Basic Dashboard View                ⬜ To Do
+  ├─ SRP-12   Processed Data Retrieval API        ⬜ To Do
+  │    ├─ SRP-31   Validate Current Retrieval API Against Story Criteria ⬜ To Do
+  │    ├─ SRP-32   Complete Retrieval API Behavior Gaps ⬜ To Do
+  │    ├─ SRP-33   Add or Update Retrieval API Tests   ⬜ To Do
+  │    └─ SRP-34   Sync SRP-12 Delivery State and Docs ⬜ To Do
+  ├─ SRP-13   Basic Dashboard View                ⬜ ← current
   ├─ SRP-14   Error Handling and Validation       ⬜ To Do
   └─ SRP-15   Documentation and Demo Readiness    ⬜ To Do
 ```
@@ -144,8 +165,8 @@ MVP is complete when:
 2. ~~SRP-9 – Django Project and App Scaffold~~ ✅ Done
 3. ~~SRP-3 – File Upload API~~ ✅ Done
 4. ~~SRP-10 – TXT Parsing Engine~~ ✅ Done
-5. SRP-11 – Parsed Data Models
-6. SRP-12 – Processed Data Retrieval API  ← current
-7. SRP-13 – Basic Dashboard View
+5. ~~SRP-11 – Parsed Data Models~~ ✅ Done
+6. SRP-12 – Processed Data Retrieval API
+7. SRP-13 – Basic Dashboard View  ← current
 8. SRP-14 – Error Handling and Validation
 9. SRP-15 – Documentation and Demo Readiness

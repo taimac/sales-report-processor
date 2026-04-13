@@ -1,11 +1,13 @@
 from pathlib import Path
 
 from rest_framework import status
+from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .models import UploadedReport
+from .models import ParsedReport, UploadedReport
+from .serializers import ParsedReportDetailSerializer, ParsedReportListSerializer
 
 
 class ReportUploadView(APIView):
@@ -87,4 +89,35 @@ class ReportUploadView(APIView):
                 "message": "File uploaded successfully.",
             },
             status=status.HTTP_201_CREATED,
+        )
+
+
+class ParsedReportListView(ListAPIView):
+    """
+    Return a lightweight list of persisted parsed reports.
+    """
+
+    serializer_class = ParsedReportListSerializer
+
+    def get_queryset(self):
+        return ParsedReport.objects.select_related(
+            "uploaded_report",
+            "total",
+        ).order_by("-created_at")
+
+
+class ParsedReportDetailView(RetrieveAPIView):
+    """
+    Return the full nested structure for one persisted parsed report.
+    """
+
+    serializer_class = ParsedReportDetailSerializer
+
+    def get_queryset(self):
+        return ParsedReport.objects.select_related(
+            "uploaded_report",
+            "total",
+        ).prefetch_related(
+            "customers__total",
+            "customers__items__continuations",
         )

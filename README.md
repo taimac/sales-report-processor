@@ -92,6 +92,7 @@ sales-report-processor/
 │   ├── AI/                   ← AI system documentation
 │   │   ├── AI_CONTEXT_SRP.md
 │   │   ├── AI_OS_SRP.md
+│   │   ├── AI_DELIVERY_SYSTEM_SRP.md
 │   │   ├── AI_DECISION_RULES_SRP.md
 │   │   ├── AI_RUNTIME_LOOP_SRP.md
 │   │   ├── AI_OUTPUT_CONTRACTS_SRP.md
@@ -119,9 +120,22 @@ sales-report-processor/
 - SRP-6 — File validation (TXT/PDF) ✅
 - SRP-7 — Backend tests for upload endpoint ✅
 - SRP-8 — Upload endpoint documentation ✅
+- SRP-10 — TXT Parsing Engine ✅
+- SRP-11 — Parsed Data Models ✅
+- SRP-12 — Processed Data Retrieval API ✅
 
 ### Current Focus
-- SRP-10 — TXT Parsing Engine
+- SRP-13 — Basic Dashboard View
+
+### Active Delivery Work
+- define the minimal dashboard scope for MVP
+- choose the first view and data slices to expose
+- plan the smallest testable dashboard implementation
+
+### Delivery Governance
+- Project-level delivery control now lives in `docs/AI/AI_DELIVERY_SYSTEM_SRP.md`
+- Ticket sequencing and readiness are resolved from Jira backlog authority first, then validated against local codebase truth
+- `SRP-12` is complete and `SRP-13` is the active delivery story
 ---
 
 ## Example Use Case
@@ -240,6 +254,24 @@ backend/media/reports/
 - .pdf → accepted
 - others → rejected
 
+## Processed Reports API
+
+### Endpoints
+
+```
+GET /api/reports/
+GET /api/reports/{id}/
+```
+
+### Purpose
+
+Return persisted processed report data for API consumers and the future MVP dashboard.
+
+### Delivery Note
+
+The retrieval layer is complete under `SRP-12` and has passing backend coverage.
+Current delivery work now moves to `SRP-13`, where the MVP dashboard will consume the validated retrieval API.
+
 ### 2. Install dependencies
 
 ```bash
@@ -265,6 +297,12 @@ python manage.py runserver
 ## Jira Integration
 
 This project uses Jira for backlog tracking and planning.
+
+Project-level ticket governance is defined in:
+
+```text
+docs/AI/AI_DELIVERY_SYSTEM_SRP.md
+```
 
 To export backlog:
 
@@ -334,16 +372,16 @@ The MVP is structured into a clear sequence of deliverable stories, ensuring inc
   Endpoint to receive, validate, and store TXT/PDF reports.
 
 - **SRP-10 — TXT Parsing Engine**
-  Initial parsing logic to extract structured fields from TXT reports.
+  Initial parsing logic to extract structured fields from TXT reports. ✅
 
 - **SRP-11 — Parsed Data Models**
-  Database models to store extracted report data.
+  Database models and persistence layer to store extracted report data. ✅
 
-- **SRP-12 — Processed Data Retrieval API**
-  API endpoints to expose structured data for consumption.
+- **SRP-12 — Processed Data Retrieval API** ✅
+  Retrieval endpoints, serializers, and tests are implemented and validated.
 
 - **SRP-13 — Basic Dashboard View**
-  Simple interface to display summarised data and extracted records.
+  Active story. Next step is the smallest dashboard that reads the processed reports API and presents summary plus extracted records.
 
 - **SRP-14 — Error Handling and Validation**
   Improve robustness through validation and consistent error responses.
