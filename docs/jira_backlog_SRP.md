@@ -1,7 +1,7 @@
 # Jira Backlog for Project SRP
-_Exported: 2026-04-12 02:13:29_
+_Exported: 2026-04-13 01:36:28_
 
-**Total Issues:** 30
+**Total Issues:** 34
 
 ## Execution Order
 
@@ -19,9 +19,9 @@ This section is the source of truth for workflow automation. It preserves Jira r
 | 8 | subtask | SRP-7 | SRP-3 | Add backend tests for upload endpoint | Done | SRP Sprint 1 |
 | 9 | subtask | SRP-8 | SRP-3 | Document upload endpoint behavior | Done | SRP Sprint 1 |
 | 10 | story | SRP-10 | SRP-2 | TXT Parsing Engine | Done | SRP Sprint 2 |
-| 11 | story | SRP-11 | SRP-2 | Parsed Data Models | In Progress | SRP Sprint 2 |
-| 12 | story | SRP-12 | SRP-2 | Processed Data Retrieval API | In Progress | SRP Sprint 3 |
-| 13 | story | SRP-13 | SRP-2 | Basic Dashboard View | To Do | SRP Sprint 3 |
+| 11 | story | SRP-11 | SRP-2 | Parsed Data Models | Done | SRP Sprint 2 |
+| 12 | story | SRP-12 | SRP-2 | Processed Data Retrieval API | Done | SRP Sprint 3 |
+| 13 | story | SRP-13 | SRP-2 | Basic Dashboard View | In Progress | SRP Sprint 3 |
 | 14 | story | SRP-14 | SRP-2 | Error Handling and Validation | To Do | SRP Sprint 4 |
 | 15 | story | SRP-15 | SRP-2 | Documentation and Demo Readiness | To Do | SRP Sprint 4 |
 | 16 | subtask | SRP-16 | SRP-10 | TXT Reader and Header Metadata Extraction | Done | SRP Sprint 2 |
@@ -39,6 +39,10 @@ This section is the source of truth for workflow automation. It preserves Jira r
 | 28 | subtask | SRP-28 | SRP-11 | Create totals models | Done | SRP Sprint 2 |
 | 29 | subtask | SRP-29 | SRP-11 | Implement parser-to-model mapping service | Done | SRP Sprint 2 |
 | 30 | subtask | SRP-30 | SRP-11 | Add persistence tests | Done | SRP Sprint 2 |
+| 31 | subtask | SRP-31 | SRP-12 | Validate Current Retrieval API Against Story Criteria | Done | SRP Sprint 3 |
+| 32 | subtask | SRP-32 | SRP-12 | Complete Retrieval API Behavior Gaps | Done | SRP Sprint 3 |
+| 33 | subtask | SRP-33 | SRP-12 | Add or Update Retrieval API Tests | Done | SRP Sprint 3 |
+| 34 | subtask | SRP-34 | SRP-12 | Sync SRP-12 Delivery State and Docs | Done | SRP Sprint 3 |
 
 ## Hierarchy
 
@@ -60,7 +64,7 @@ This section is the source of truth for workflow automation. It preserves Jira r
     - SRP-21 — Client and Grand Total Extraction [Done]
     - SRP-22 — Final Parser Assembly and Real Sample Tests [Done]
     - SRP-23 — Parse Core Main Row Identity and Product Columns [Done]
-  - SRP-11 — Parsed Data Models [In Progress]
+  - SRP-11 — Parsed Data Models [Done]
     - SRP-24 — Create ParsedReport model [Done]
     - SRP-25 — Create CustomerSection model [Done]
     - SRP-26 — Create ParsedItem model [Done]
@@ -68,8 +72,12 @@ This section is the source of truth for workflow automation. It preserves Jira r
     - SRP-28 — Create totals models [Done]
     - SRP-29 — Implement parser-to-model mapping service [Done]
     - SRP-30 — Add persistence tests [Done]
-  - SRP-12 — Processed Data Retrieval API [In Progress]
-  - SRP-13 — Basic Dashboard View [To Do]
+  - SRP-12 — Processed Data Retrieval API [Done]
+    - SRP-31 — Validate Current Retrieval API Against Story Criteria [Done]
+    - SRP-32 — Complete Retrieval API Behavior Gaps [Done]
+    - SRP-33 — Add or Update Retrieval API Tests [Done]
+    - SRP-34 — Sync SRP-12 Delivery State and Docs [Done]
+  - SRP-13 — Basic Dashboard View [In Progress]
   - SRP-14 — Error Handling and Validation [To Do]
   - SRP-15 — Documentation and Demo Readiness [To Do]
 
@@ -77,18 +85,17 @@ This section is the source of truth for workflow automation. It preserves Jira r
 
 ## Summary
 
-- **To Do:** 4 issues
-- **In Progress:** 2 issues
-- **Done:** 24 issues
+- **To Do:** 3 issues
+- **In Progress:** 1 issues
+- **Done:** 30 issues
 
 ---
 
-## To Do (4 issues)
+## To Do (3 issues)
 
 | Key | Summary | Status | Created | Updated | Sprint |
 |-----|---------|--------|---------|---------|--------|
 | SRP-2 | Sales Report Processor MVP | To Do | 2026-04-04 | 2026-04-04 | No Sprint |
-| SRP-13 | Basic Dashboard View | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 3 |
 | SRP-14 | Error Handling and Validation | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 4 |
 | SRP-15 | Documentation and Demo Readiness | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 4 |
 
@@ -219,25 +226,6 @@ _No comments_
 
 ---
 
-### SRP-13 – Basic Dashboard View
-
-- **Status:** To Do
-- **Type:** Story
-- **Parent:** SRP-2
-- **Created:** 2026-04-04
-- **Updated:** 2026-04-04
-- **Sprint:** SRP Sprint 3
-
-**Description**
-
-_No content_
-
-**Comments**
-
-_No comments_
-
----
-
 ### SRP-14 – Error Handling and Validation
 
 - **Status:** To Do
@@ -276,166 +264,19 @@ _No comments_
 
 ---
 
-## In Progress (2 issues)
+## In Progress (1 issues)
 
 | Key | Summary | Status | Created | Updated | Sprint |
 |-----|---------|--------|---------|---------|--------|
-| SRP-11 | Parsed Data Models | In Progress | 2026-04-04 | 2026-04-07 | SRP Sprint 2 |
-| SRP-12 | Processed Data Retrieval API | In Progress | 2026-04-04 | 2026-04-12 | SRP Sprint 3 |
+| SRP-13 | Basic Dashboard View | In Progress | 2026-04-04 | 2026-04-13 | SRP Sprint 3 |
 
-### SRP-11 – Parsed Data Models
-
-- **Status:** In Progress
-- **Type:** Story
-- **Parent:** SRP-2
-- **Created:** 2026-04-04
-- **Updated:** 2026-04-07
-- **Sprint:** SRP Sprint 2
-
-**Description**
-
-Implement database models to persist structured data produced by the TXT parsing engine (SRP-10).
-
-This story introduces the data layer of the Sales Report Processor MVP, enabling parsed report data to be stored in SQLite and later retrieved via API.
-
-The models must reflect the hierarchical structure of the parsed report, including:
-
-* report metadata
-* customer sections
-* parsed items (main rows)
-* continuation rows
-* totals
-
-The goal is to transform the in-memory parsed output into a *persistent, queryable dataset*, forming the foundation for SRP-12 (API retrieval) and SRP-13 (dashboard).
-
-----
-
-### *Goal*
-
-Enable the system to store parsed TXT report data in a structured relational format, preserving hierarchy and supporting future API access.
-
-----
-
-### *Context*
-
-SRP-10 delivers a fully functional parsing engine that converts raw TXT reports into structured Python data.
-
-However, this data currently exists only in memory.
-
-To complete the MVP pipeline, the system must:
-
-* persist parsed data in the database
-* maintain relationships between report → customers → items → continuations
-* support efficient querying and retrieval
-
-This story bridges the gap between parsing and API exposure.
-
-----
-
-### *Scope*
-
-#### *Included*
-
-* Create database models for parsed report data
-* Store:
-** report metadata (generated date/time, file reference)
-** customer sections (representative, customer name)
-** parsed items (full row data)
-** continuation rows (linked to parent item)
-** totals (client-level and global)
-* Establish relationships:
-** ParsedReport → CustomerSection (1:N)
-** CustomerSection → ParsedItem (1:N)
-** ParsedItem → ContinuationRow (1:N)
-* Link parsed data to uploaded file (`UploadedReport`)
-* Create Django migrations
-* Ensure compatibility with SRP-22 output structure
-
-----
-
-#### *Not Included*
-
-* API endpoints (SRP-12)
-* Frontend/dashboard (SRP-13)
-* Advanced normalization or optimization
-* Complex indexing or performance tuning
-
-----
-
-### *Proposed Model Structure (MVP-level)*
-
-* *ParsedReport*
-** FK → UploadedReport
-** generated_date
-** generated_time
-* *CustomerSection*
-** FK → ParsedReport
-** representative
-** customer_name
-* *ParsedItem*
-** FK → CustomerSection
-** All parsed fields from SRP-23/18/19
-* *ContinuationRow*
-** FK → ParsedItem
-** ord_prod
-** sit_ordem
-** qt_prod
-** sit
-* *Totals (optional design choice)*
-** Either:
-*** separate model
-*** or JSON field on CustomerSection / ParsedReport
-
-----
-
-### *Acceptance Criteria*
-
-* Parsed report structure can be saved into the database
-* Relationships between report, customers, items, and continuations are preserved
-* Data from SRP-22 output maps correctly to models
-* Migrations run successfully
-* Data can be queried via Django ORM
-* No data loss from parsed structure
-
-----
-
-### *Definition of Done*
-
-* Models implemented in `reports/models.py`
-* Migrations created and applied
-* Sample parsed report successfully stored in DB
-* Relationships verified (via shell or tests)
-* Code follows project conventions (clean, readable, minimal complexity)
-
-----
-
-### *Notes*
-
-* Keep the model design simple (MVP-first approach)
-* Avoid over-normalization or premature optimization
-* Preserve flexibility for future API and analytics layers
-* This story enables SRP-12 (Processed Data Retrieval API)
-
-----
-
-### *Dependencies*
-
-* SRP-10 — TXT Parsing Engine (completed)
-* SRP-3 — File Upload API (provides UploadedReport)
-
-**Comments**
-
-_No comments_
-
----
-
-### SRP-12 – Processed Data Retrieval API
+### SRP-13 – Basic Dashboard View
 
 - **Status:** In Progress
 - **Type:** Story
 - **Parent:** SRP-2
 - **Created:** 2026-04-04
-- **Updated:** 2026-04-12
+- **Updated:** 2026-04-13
 - **Sprint:** SRP Sprint 3
 
 **Description**
@@ -448,7 +289,7 @@ _No comments_
 
 ---
 
-## Done (24 issues)
+## Done (30 issues)
 
 | Key | Summary | Status | Created | Updated | Sprint |
 |-----|---------|--------|---------|---------|--------|
@@ -461,6 +302,8 @@ _No comments_
 | SRP-7 | Add backend tests for upload endpoint | Done | 2026-04-04 | 2026-04-06 | SRP Sprint 1 |
 | SRP-8 | Document upload endpoint behavior | Done | 2026-04-04 | 2026-04-06 | SRP Sprint 1 |
 | SRP-10 | TXT Parsing Engine | Done | 2026-04-04 | 2026-04-07 | SRP Sprint 2 |
+| SRP-11 | Parsed Data Models | Done | 2026-04-04 | 2026-04-13 | SRP Sprint 2 |
+| SRP-12 | Processed Data Retrieval API | Done | 2026-04-04 | 2026-04-13 | SRP Sprint 3 |
 | SRP-16 | TXT Reader and Header Metadata Extraction | Done | 2026-04-06 | 2026-04-07 | SRP Sprint 2 |
 | SRP-17 | Line Classification and Report Structure Detection | Done | 2026-04-06 | 2026-04-07 | SRP Sprint 2 |
 | SRP-18 | Parse Production, Delivery, and Quantity Columns | Done | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
@@ -476,6 +319,10 @@ _No comments_
 | SRP-28 | Create totals models | Done | 2026-04-07 | 2026-04-09 | SRP Sprint 2 |
 | SRP-29 | Implement parser-to-model mapping service | Done | 2026-04-07 | 2026-04-09 | SRP Sprint 2 |
 | SRP-30 | Add persistence tests | Done | 2026-04-07 | 2026-04-12 | SRP Sprint 2 |
+| SRP-31 | Validate Current Retrieval API Against Story Criteria | Done | 2026-04-13 | 2026-04-13 | SRP Sprint 3 |
+| SRP-32 | Complete Retrieval API Behavior Gaps | Done | 2026-04-13 | 2026-04-13 | SRP Sprint 3 |
+| SRP-33 | Add or Update Retrieval API Tests | Done | 2026-04-13 | 2026-04-13 | SRP Sprint 3 |
+| SRP-34 | Sync SRP-12 Delivery State and Docs | Done | 2026-04-13 | 2026-04-13 | SRP Sprint 3 |
 
 ### SRP-1 – Initial Project Setup
 
@@ -1303,6 +1150,228 @@ Next phase:
 
 * SRP-12 (Processed Data Retrieval API)
 * SRP-13 (Basic Dashboard View)
+
+---
+
+### SRP-11 – Parsed Data Models
+
+- **Status:** Done
+- **Type:** Story
+- **Parent:** SRP-2
+- **Created:** 2026-04-04
+- **Updated:** 2026-04-13
+- **Sprint:** SRP Sprint 2
+
+**Description**
+
+Implement database models to persist structured data produced by the TXT parsing engine (SRP-10).
+
+This story introduces the data layer of the Sales Report Processor MVP, enabling parsed report data to be stored in SQLite and later retrieved via API.
+
+The models must reflect the hierarchical structure of the parsed report, including:
+
+* report metadata
+* customer sections
+* parsed items (main rows)
+* continuation rows
+* totals
+
+The goal is to transform the in-memory parsed output into a *persistent, queryable dataset*, forming the foundation for SRP-12 (API retrieval) and SRP-13 (dashboard).
+
+----
+
+### *Goal*
+
+Enable the system to store parsed TXT report data in a structured relational format, preserving hierarchy and supporting future API access.
+
+----
+
+### *Context*
+
+SRP-10 delivers a fully functional parsing engine that converts raw TXT reports into structured Python data.
+
+However, this data currently exists only in memory.
+
+To complete the MVP pipeline, the system must:
+
+* persist parsed data in the database
+* maintain relationships between report → customers → items → continuations
+* support efficient querying and retrieval
+
+This story bridges the gap between parsing and API exposure.
+
+----
+
+### *Scope*
+
+#### *Included*
+
+* Create database models for parsed report data
+* Store:
+** report metadata (generated date/time, file reference)
+** customer sections (representative, customer name)
+** parsed items (full row data)
+** continuation rows (linked to parent item)
+** totals (client-level and global)
+* Establish relationships:
+** ParsedReport → CustomerSection (1:N)
+** CustomerSection → ParsedItem (1:N)
+** ParsedItem → ContinuationRow (1:N)
+* Link parsed data to uploaded file (`UploadedReport`)
+* Create Django migrations
+* Ensure compatibility with SRP-22 output structure
+
+----
+
+#### *Not Included*
+
+* API endpoints (SRP-12)
+* Frontend/dashboard (SRP-13)
+* Advanced normalization or optimization
+* Complex indexing or performance tuning
+
+----
+
+### *Proposed Model Structure (MVP-level)*
+
+* *ParsedReport*
+** FK → UploadedReport
+** generated_date
+** generated_time
+* *CustomerSection*
+** FK → ParsedReport
+** representative
+** customer_name
+* *ParsedItem*
+** FK → CustomerSection
+** All parsed fields from SRP-23/18/19
+* *ContinuationRow*
+** FK → ParsedItem
+** ord_prod
+** sit_ordem
+** qt_prod
+** sit
+* *Totals (optional design choice)*
+** Either:
+*** separate model
+*** or JSON field on CustomerSection / ParsedReport
+
+----
+
+### *Acceptance Criteria*
+
+* Parsed report structure can be saved into the database
+* Relationships between report, customers, items, and continuations are preserved
+* Data from SRP-22 output maps correctly to models
+* Migrations run successfully
+* Data can be queried via Django ORM
+* No data loss from parsed structure
+
+----
+
+### *Definition of Done*
+
+* Models implemented in `reports/models.py`
+* Migrations created and applied
+* Sample parsed report successfully stored in DB
+* Relationships verified (via shell or tests)
+* Code follows project conventions (clean, readable, minimal complexity)
+
+----
+
+### *Notes*
+
+* Keep the model design simple (MVP-first approach)
+* Avoid over-normalization or premature optimization
+* Preserve flexibility for future API and analytics layers
+* This story enables SRP-12 (Processed Data Retrieval API)
+
+----
+
+### *Dependencies*
+
+* SRP-10 — TXT Parsing Engine (completed)
+* SRP-3 — File Upload API (provides UploadedReport)
+
+**Comments**
+
+- **Tailor Maciel** (2026-04-13): All SRP-11 subtasks are complete. Parsed data models, parser-to-model mapping, and persistence tests are finished and validated. Proceeding to SRP-12 - Processed Data Retrieval API.
+
+---
+
+### SRP-12 – Processed Data Retrieval API
+
+- **Status:** Done
+- **Type:** Story
+- **Parent:** SRP-2
+- **Created:** 2026-04-04
+- **Updated:** 2026-04-13
+- **Sprint:** SRP Sprint 3
+
+**Description**
+
+Implement the processed data retrieval API for the Sales Report Processor MVP.
+
+This story exposes persisted parsed report data through read-only API endpoints so the system can return structured results after report processing. It builds on SRP-11, which introduced the parsed data model layer, and provides the retrieval layer required before SRP-13 (Basic Dashboard View).
+
+The API must allow consumers to:
+- list processed reports
+- retrieve one processed report by ID
+- access persisted report metadata, totals, and parsed hierarchy
+- receive clear behavior for empty state and missing records
+
+This story is backend-only and remains inside MVP scope.
+
+### Goal
+Enable the system to return persisted processed report data through simple read-only API endpoints so parsed reports can be consumed by clients and used by the basic dashboard.
+
+### Scope
+#### Included
+- Add read-only retrieval endpoints for processed reports
+- Support GET /api/reports/ and GET /api/reports/{id}/
+- Return persisted parsed report data from SQLite
+- Include top-level report metadata in list responses
+- Include report total summary in list responses when available
+- Include full nested parsed structure in detail responses
+- Return empty list when no processed reports exist
+- Return 404 Not Found for missing report IDs
+- Add or update backend tests for retrieval behavior
+- Keep implementation aligned with Django/DRF and existing SRP structure
+
+#### Not Included
+- File upload behavior changes
+- Automatic parsing/persistence after upload
+- Dashboard UI or template work
+- Authentication or permissions
+- Advanced filtering, search, pagination, or export features
+- PDF parsing logic
+- SalesApp integration
+- Frontend SPA work
+
+### Acceptance Criteria
+- [ ] GET /api/reports/ returns 200 OK
+- [ ] When no processed reports exist, GET /api/reports/ returns an empty list
+- [ ] List response returns processed reports in newest-first order
+- [ ] List response includes top-level report metadata and report total summary
+- [ ] List response does not require the full nested customer/item tree
+- [ ] GET /api/reports/{id}/ returns 200 OK for an existing processed report
+- [ ] Detail response includes the persisted nested structure needed to inspect one processed report
+- [ ] GET /api/reports/{id}/ returns 404 Not Found for a missing report
+- [ ] Retrieval behavior is covered by backend tests
+- [ ] Endpoints remain read-only and within MVP scope
+
+### Dependencies
+- SRP-11 — Parsed Data Models must be Done
+- SRP-10 — TXT Parsing Engine must be Done
+- SRP-3 — File Upload API must be Done
+
+### Notes
+- Keep response shape practical and minimal for MVP
+- This story is the retrieval foundation for SRP-13
+
+**Comments**
+
+- **Tailor Maciel** (2026-04-13): Completed SRP-12. Processed report retrieval is implemented with list/detail endpoints, serializers, and passing backend tests. Subtasks SRP-31 through SRP-34 were completed during validation and delivery-state sync. Proceeding to SRP-13 - Basic Dashboard View.
 
 ---
 
@@ -2421,7 +2490,166 @@ Result:
 * data loss during persistence mapping is checked
 * acceptance criteria for SRP-30 are satisfied
 - **Tailor Maciel** (2026-04-12): Completed SRP-30. Persistence flow is covered by tests.
-- **Tailor Maciel** (2026-04-12): Completed SRP-30. Persistence flow is covered by tests.
+
+---
+
+### SRP-31 – Validate Current Retrieval API Against Story Criteria
+
+- **Status:** Done
+- **Type:** Subtask
+- **Parent:** SRP-12
+- **Created:** 2026-04-13
+- **Updated:** 2026-04-13
+- **Sprint:** SRP Sprint 3
+
+**Description**
+
+### Purpose
+Confirm what parts of SRP-12 are already satisfied by the codebase and identify any real remaining gap.
+
+### Scope
+- Compare current endpoints, serializers, and tests against SRP-12 acceptance criteria
+- Record which criteria are already satisfied
+- Record any missing or mismatched behavior
+
+### Deliverables
+- Validation note for SRP-12
+- Explicit list of satisfied vs missing acceptance criteria
+
+### Acceptance Criteria
+- [ ] Current retrieval endpoints are reviewed against the approved SRP-12 story
+- [ ] Existing list/detail behavior is mapped to acceptance criteria
+- [ ] Any remaining gap is stated clearly and minimally
+- [ ] No implementation changes are included in this subtask
+
+### Technical Notes
+- Files: reports/views.py, reports/serializers.py, reports/tests/test_retrieval_api.py
+- API impact: none
+- This is validation only
+
+**Comments**
+
+- **Tailor Maciel** (2026-04-13): Validated the existing retrieval implementation against the approved SRP-12 story. List/detail endpoints, serializers, routes, and tests satisfy the defined acceptance criteria. No remaining retrieval-specific implementation gap was identified.
+
+---
+
+### SRP-32 – Complete Retrieval API Behavior Gaps
+
+- **Status:** Done
+- **Type:** Subtask
+- **Parent:** SRP-12
+- **Created:** 2026-04-13
+- **Updated:** 2026-04-13
+- **Sprint:** SRP Sprint 3
+
+**Description**
+
+### Purpose
+Implement only the missing retrieval behavior required to satisfy the approved SRP-12 acceptance criteria.
+
+### Scope
+- Adjust list/detail retrieval behavior only if validation finds a real gap
+- Keep endpoints read-only
+- Keep response shape aligned with MVP needs
+
+### Deliverables
+- Minimal backend changes to retrieval API behavior
+- Retrieval behavior aligned with the approved SRP-12 story
+
+### Acceptance Criteria
+- [ ] GET /api/reports/ satisfies the approved list behavior
+- [ ] GET /api/reports/{id}/ satisfies the approved detail behavior
+- [ ] Missing report IDs return 404
+- [ ] No non-MVP retrieval features are added
+
+### Technical Notes
+- Files: reports/views.py, reports/serializers.py, reports/urls.py
+- API impact: read-only retrieval endpoints only
+- Do not add filtering, pagination, auth, or dashboard work
+
+**Comments**
+
+- **Tailor Maciel** (2026-04-13): No additional retrieval behavior changes were required. Validation confirmed the current implementation already satisfies the approved SRP-12 scope, so this subtask is closed as no-op completion.
+
+---
+
+### SRP-33 – Add or Update Retrieval API Tests
+
+- **Status:** Done
+- **Type:** Subtask
+- **Parent:** SRP-12
+- **Created:** 2026-04-13
+- **Updated:** 2026-04-13
+- **Sprint:** SRP Sprint 3
+
+**Description**
+
+### Purpose
+Ensure the approved SRP-12 acceptance criteria are covered by backend tests.
+
+### Scope
+- Add or update tests for list/detail retrieval behavior
+- Cover empty state, ordering, response shape, and missing report handling
+- Align tests with the approved SRP-12 response contract
+
+### Deliverables
+- Retrieval API test coverage matching the SRP-12 acceptance criteria
+
+### Acceptance Criteria
+- [ ] Tests cover empty list behavior
+- [ ] Tests cover newest-first list ordering
+- [ ] Tests cover top-level list response shape
+- [ ] Tests cover full detail response shape
+- [ ] Tests cover 404 for missing report IDs
+
+### Technical Notes
+- Files: reports/tests/test_retrieval_api.py
+- API impact: none
+- Test only approved MVP retrieval behavior
+
+**Comments**
+
+- **Tailor Maciel** (2026-04-13): Existing retrieval tests were validated successfully. Commands run: `env DEBUG=True ../venv/bin/python manage.py test reports.tests.test_retrieval_api` and `env DEBUG=True ../venv/bin/python manage.py test reports`. Retrieval coverage is passing.
+
+---
+
+### SRP-34 – Sync SRP-12 Delivery State and Docs
+
+- **Status:** Done
+- **Type:** Subtask
+- **Parent:** SRP-12
+- **Created:** 2026-04-13
+- **Updated:** 2026-04-13
+- **Sprint:** SRP Sprint 3
+
+**Description**
+
+### Purpose
+Align local delivery state after SRP-12 validation/completion so backlog, context, and project docs reflect reality.
+
+### Scope
+- Update SRP delivery state after SRP-12 is confirmed complete
+- Refresh backlog/context files as needed
+- Update local documentation only where SRP-12 behavior is explicitly documented
+
+### Deliverables
+- Refreshed SRP backlog/context state
+- Minimal retrieval API doc updates if needed
+
+### Acceptance Criteria
+- [ ] SRP-12 status is aligned with validated codebase truth
+- [ ] Local AI context is refreshed if delivery state changes
+- [ ] Retrieval API documentation is updated if required
+- [ ] SRP-13 becomes the next active focus after SRP-12 closure
+
+### Technical Notes
+- Files: docs/jira_backlog_SRP.md, docs/AI/AI_CONTEXT_SRP.md, README.md if needed
+- API impact: none
+- This is delivery hygiene, not feature expansion
+
+**Comments**
+
+- **Tailor Maciel** (2026-04-13): Local delivery docs were aligned for SRP-12 completion and SRP-13 handoff. README, AI context, and local agent guidance now reflect retrieval completion and dashboard as the next active story.
 
 ---
 
