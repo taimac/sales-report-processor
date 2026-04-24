@@ -32,32 +32,33 @@ class ReportPersistenceTests(TestCase):
 
         customer = CustomerSection.objects.get(
             parsed_report=parsed,
-            customer_name="UTIMIL",
+            customer_name="CHAPAPLANA",
         )
-        self.assertEqual(customer.representative, "MACIEL")
+        self.assertEqual(customer.representative, "Marcos")
 
         item = ParsedItem.objects.get(
             customer_section=customer,
-            pedido="402973",
+            pedido="400396",
         )
         self.assertEqual(item.seq, "10")
-        self.assertEqual(item.descricao, "TIRA ZC BOB 0,95 NBR7008 ZC CR NO REV")
-        self.assertEqual(item.ord_prod, "9.148.823")
-        self.assertEqual(item.qt_ped, "2.000")
-        self.assertEqual(item.qt_prod, "857")
-        self.assertEqual(item.sit, "Em Produ")
+        self.assertEqual(item.descricao, "TIRA ZC BOB 1,25 NBR7008 ZC CR MI REV")
+        self.assertEqual(item.ord_prod, "9.139.943")
+        self.assertEqual(item.qt_ped, "12.000")
+        self.assertEqual(item.qt_prod, "8.386")
+        self.assertEqual(item.sit, "Fat Parc")
 
-        continuation = ContinuationRow.objects.get(parsed_item=item)
-        self.assertEqual(continuation.ord_prod, "9.148.942")
-        self.assertEqual(continuation.qt_prod, "1.172")
-        self.assertEqual(continuation.sit, "Em Produ")
+        continuation = ContinuationRow.objects.filter(parsed_item=item).order_by("id").first()
+        self.assertIsNotNone(continuation)
+        self.assertEqual(continuation.ord_prod, "9.139.944")
+        self.assertEqual(continuation.qt_prod, "4.148")
+        self.assertEqual(continuation.sit, "Fat Parc")
 
         customer_total = CustomerTotal.objects.get(customer_section=customer)
-        self.assertEqual(customer_total.total_ped, "4.000")
-        self.assertEqual(customer_total.total_in_prod, "3.611")
-        self.assertEqual(customer_total.total_fatur, "0")
-        self.assertEqual(customer_total.total_sdo, "1.582")
-        self.assertEqual(customer_total.total_valor, "31.649,460")
+        self.assertEqual(customer_total.total_ped, "71.500")
+        self.assertEqual(customer_total.total_in_prod, "92.679")
+        self.assertEqual(customer_total.total_fatur, "32.196")
+        self.assertEqual(customer_total.total_sdo, "31.903")
+        self.assertEqual(customer_total.total_valor, "505.528,840")
 
         report_total = ReportTotal.objects.get(parsed_report=parsed)
         self.assertEqual(report_total.total_ped, "292.850")
@@ -192,4 +193,102 @@ class ReportPersistenceTests(TestCase):
         with self.assertRaises(IntegrityError):
             persist_report(self.uploaded_report)
 
-        
+        self.assertEqual(ParsedReport.objects.count(), 0)
+        self.assertEqual(CustomerSection.objects.count(), 0)
+        self.assertEqual(ParsedItem.objects.count(), 0)
+        self.assertEqual(ContinuationRow.objects.count(), 0)
+        self.assertEqual(CustomerTotal.objects.count(), 0)
+        self.assertEqual(ReportTotal.objects.count(), 0)
+
+    @patch('reports.services.report_persistence.ContinuationRow.objects.create')
+    @patch('reports.services.report_persistence.assemble_report')
+    def test_persist_report_rolls_back_all_records_when_nested_create_fails(
+        self,
+        mock_assemble,
+        mock_create_continuation,
+    ):
+        sample_output = {
+            'metadata': {
+                'generated_date': '2023-10-01',
+                'generated_time': '12:00:00'
+            },
+            'customers': [
+                {
+                    'representative': 'Rep1',
+                    'customer_name': 'Customer A',
+                    'items': [
+                        {
+                            'est': 'EST1',
+                            'pedido': 'PED1',
+                            'seq': '1',
+                            'descricao': 'Desc1',
+                            'espess': '10',
+                            'larg': '20',
+                            'compr': '30',
+                            'ord_prod': 'ORD001',
+                            'sit_ordem': 'Active',
+                            'dt_entr': '2023-01-01',
+                            'aa': '2023',
+                            'qt_ped': '10',
+                            'qt_pc': '5',
+                            'qt_prod': '10',
+                            'qt_fatur': '5',
+                            'sdo_estoq': '0',
+                            'sit': 'OK',
+                            'pre_liq': '100.0',
+                            'pf': '110.0',
+                            'vlr_peca': '10.0',
+                            'pag': 'Paid',
+                            'transp': 'Trans',
+                            'cr_pro': 'CR1',
+                            'cr_fat': 'CR2',
+                            'o_compra': 'OC1',
+                            'item_cli': 'IC1',
+                            'mnf': 'MNF1',
+                            'continuations': [
+                                {
+                                    'ord_prod': 'ORD001',
+                                    'sit_ordem': 'Continued',
+                                    'qt_prod': '5',
+                                    'sit': 'Pending'
+                                }
+                            ]
+                        }
+                    ],
+                    'totals': {
+                        'client_totals': [
+                            {
+                                'total_ped': '10',
+                                'total_in_prod': '5',
+                                'total_fatur': '5',
+                                'total_sdo': '0',
+                                'total_valor': '100.0'
+                            }
+                        ],
+                    }
+                }
+            ],
+            'totals': {
+                'grand_totals': [
+                    {
+                        'total_ped': '10',
+                        'total_in_prod': '5',
+                        'total_fatur': '5',
+                        'total_sdo': '0',
+                        'total_valor': '100.0'
+                    }
+                ],
+            }
+        }
+        mock_assemble.return_value = sample_output
+        mock_create_continuation.side_effect = IntegrityError("nested write failed")
+
+        with self.assertRaises(IntegrityError):
+            persist_report(self.uploaded_report)
+
+        self.assertEqual(ParsedReport.objects.count(), 0)
+        self.assertEqual(CustomerSection.objects.count(), 0)
+        self.assertEqual(ParsedItem.objects.count(), 0)
+        self.assertEqual(ContinuationRow.objects.count(), 0)
+        self.assertEqual(CustomerTotal.objects.count(), 0)
+        self.assertEqual(ReportTotal.objects.count(), 0)
