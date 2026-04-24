@@ -21,7 +21,7 @@ store structured data, expose it via API, and display it on a basic dashboard.
 - SRP-10 (TXT Parsing Engine) is **Done**
 - SRP-11 (Parsed Data Models) is **Done**
 - SRP-12 (Processed Data Retrieval API) is **Done**
-- SRP-13 (Basic Dashboard View) is **Implemented Locally**
+- SRP-13 (Basic Dashboard View) is **Done**
 
 ### Implemented So Far
 
@@ -39,7 +39,7 @@ store structured data, expose it via API, and display it on a basic dashboard.
 - Parsed data models and persistence service implemented
 - Retrieval list/detail API is implemented and validated
 - Retrieval API tests are implemented and passing
-- Initial dashboard route and service layer are implemented for SRP-13
+- Initial dashboard route and service layer are implemented and merged for SRP-13
 - KPI strip focus for SRP-13:
   - `Pedidos em Atraso` counts unique `pedido + seq` lines with `dt_entr` before today
   - `Produzido Com Data Vencida` sums `sdo_estoq` on overdue rows
@@ -50,7 +50,8 @@ store structured data, expose it via API, and display it on a basic dashboard.
   - `Faturado` uses the current report invoiced total
   - `Valor em Pedidos` uses the current report value total
   - `Quantidade Pedida` uses the current report ordered total
-  - `Preco Medio` uses `Valor em Pedidos / Quantidade Pedida`
+  - `Preco Medio` prefers an item-level weighted average when item coverage
+    matches report totals, with fallback to `Valor em Pedidos / Quantidade Pedida`
   - `Itens Acionaveis` and `Clientes com Flags` remain out of the main KPI strip for now
 - Visao Operacional focus for SRP-13:
   - overdue order-line pressure versus total unique `pedido + seq`
@@ -82,17 +83,18 @@ store structured data, expose it via API, and display it on a basic dashboard.
 
 ### Active Delivery Focus
 
-- Current story: `SRP-13 — Basic Dashboard View`
-- Current phase: local closure and delivery-state synchronization after the
-  implemented dashboard flow
-- Prerequisite satisfied:
+- Current story: `SRP-14 — Error Handling and Validation`
+- Current phase: post-SRP-13 transition and next-slice definition
+- Prerequisites satisfied:
   - `SRP-12` retrieval endpoints and tests are complete
-- Primary local authority for the reconciled dashboard shape:
+  - `SRP-13` dashboard flow is implemented, reviewed, merged, and closed
+- Primary local authority for the finalized SRP-13 dashboard shape:
   - `docs/AI/SRP_13_DASHBOARD_AGREED_SCOPE.md`
   - `docs/AI/SRP_13_IMPLEMENTATION_SLICES.md`
-- Resume point after local SRP-13 implementation:
-  - reconcile remaining delivery-state truth against backlog/export wording
-  - then package the MVP flow for the next ticket transition
+  - `docs/AI/SRP_13_CLOSURE_RECOMMENDATION.md`
+- Resume point after SRP-13 closure:
+  - confirm SRP-14 readiness against current MVP scope
+  - define the first minimal implementation slice for validation and error handling
 
 ---
 
@@ -197,7 +199,7 @@ MVP is complete when:
   │    ├─ SRP-32   Complete Retrieval API Behavior Gaps ✅ Done
   │    ├─ SRP-33   Add or Update Retrieval API Tests   ✅ Done
   │    └─ SRP-34   Sync SRP-12 Delivery State and Docs ✅ Done
-  ├─ SRP-13   Basic Dashboard View                🟡 Implemented locally / state sync pending
+  ├─ SRP-13   Basic Dashboard View                ✅ Done
   ├─ SRP-14   Error Handling and Validation       ⬜ To Do
   └─ SRP-15   Documentation and Demo Readiness    ⬜ To Do
 ```
@@ -211,6 +213,6 @@ MVP is complete when:
 4. ~~SRP-10 – TXT Parsing Engine~~ ✅ Done
 5. ~~SRP-11 – Parsed Data Models~~ ✅ Done
 6. ~~SRP-12 – Processed Data Retrieval API~~ ✅ Done
-7. SRP-13 – Basic Dashboard View  ← local implementation complete, closure sync pending
-8. SRP-14 – Error Handling and Validation
+7. ~~SRP-13 – Basic Dashboard View~~ ✅ Done
+8. SRP-14 – Error Handling and Validation  ← next
 9. SRP-15 – Documentation and Demo Readiness

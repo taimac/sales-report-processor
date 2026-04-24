@@ -141,16 +141,16 @@ sales-report-processor/
 - SRP-12 — Processed Data Retrieval API ✅
 
 ### Current Focus
-- SRP-13 — Basic Dashboard View
+- SRP-14 — Error Handling and Validation
 
 ### Active Delivery Work
-- reconcile local delivery-state docs after the implemented SRP-13 dashboard flow
-- package the dashboard path for the next ticket transition
+- confirm the SRP-14 validation/error-handling scope against the shipped MVP flow
+- define the first minimal implementation slice for robustness work
 
 ### Delivery Governance
 - Project-level delivery control now lives in `docs/AI/AI_DELIVERY_SYSTEM_SRP.md`
 - Ticket sequencing and readiness are resolved from Jira backlog authority first, then validated against local codebase truth
-- `SRP-12` is complete and `SRP-13` is implemented locally, with backlog/state synchronization still pending
+- `SRP-12` is complete and `SRP-13` is implemented, merged into `dev`, and closed
 
 ### Dashboard Snapshot
 - `GET /dashboard/` renders the latest parsed report using a server-rendered,
@@ -304,7 +304,7 @@ Return persisted processed report data for API consumers and the future MVP dash
 ### Delivery Note
 
 The retrieval layer is complete under `SRP-12` and has passing backend coverage.
-Current delivery work now moves to `SRP-13`, where the MVP dashboard will consume the validated retrieval API.
+The dashboard layer was completed under `SRP-13`, and the next planned story is `SRP-14` for validation and error handling hardening.
 
 ## Dashboard
 
@@ -462,11 +462,11 @@ The MVP is structured into a clear sequence of deliverable stories, ensuring inc
 - **SRP-12 — Processed Data Retrieval API** ✅
   Retrieval endpoints, serializers, and tests are implemented and validated.
 
-- **SRP-13 — Basic Dashboard View**
-  Active story. Current implementation direction is an action-oriented dashboard for sales follow-up, client priority, and operational worklist visibility.
+- **SRP-13 — Basic Dashboard View** ✅
+  Story-driven operational dashboard delivered and merged into `dev`.
 
 - **SRP-14 — Error Handling and Validation**
-  Improve robustness through validation and consistent error responses.
+  Current next story. Improve robustness through validation and consistent error responses.
 
 - **SRP-15 — Documentation and Demo Readiness**
   Finalise documentation and prepare the project for presentation.

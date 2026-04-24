@@ -120,8 +120,8 @@ Use:
 - TXT parsing exists
 - Parsed-data persistence work exists in the project
 - Retrieval API work is complete under `SRP-12`
-- Dashboard work is the next delivery stage under `SRP-13`
-- Dashboard remains part of MVP but is downstream of integration completion
+- Dashboard work is complete under `SRP-13`
+- The next planned delivery stage is `SRP-14` for validation and error handling
 
 Because implementation can move ahead of narrative docs, **codebase truth must override stale narrative state statements** when the two diverge. 
 
