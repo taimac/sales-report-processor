@@ -170,6 +170,18 @@ sales-report-processor/
 * One ticket at a time
 * No hidden scope expansion
 
+## Engineering Standards
+
+All SRP work must respect these software lifecycle principles:
+
+* software design before implementation when the feature introduces new structure or flow
+* separation of concerns between view, service, persistence, parsing, and presentation layers
+* high cohesion inside each file/module
+* loose coupling between layers and responsibilities
+* security-first defaults and explicit validation
+* tests for behavior-changing work
+* documentation updates as part of implementation closure, not as optional cleanup
+
 ---
 
 # 7. Delivery Governance Rule

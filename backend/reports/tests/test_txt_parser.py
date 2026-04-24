@@ -8,6 +8,7 @@ from reports.services.txt_parser import (
     classify_line, 
     classify_report_lines, 
     detect_customer_blocks,
+    _extract_primary_status,
     parse_main_detail_lines,
     parse_main_row_identity_fields,
     parse_main_row_full_step_1,
@@ -128,6 +129,28 @@ class TxtParserMainRowParsingTests(SimpleTestCase):
         self.assertEqual(parsed["larg"], "23,50")
         self.assertEqual(parsed["compr"], "0")
 
+    def test_parse_main_row_identity_fields_keeps_three_digit_seq(self) -> None:
+        line = next(
+            l for l in self.data["lines"]
+            if l.startswith("11  402258    150 TIRA FF BOB 0,60 SAE1006 OL")
+        )
+
+        parsed = parse_main_row_identity_fields(line)
+
+        self.assertEqual(parsed["pedido"], "402258")
+        self.assertEqual(parsed["seq"], "150")
+
+    def test_parse_main_row_full_keeps_three_digit_seq(self) -> None:
+        line = next(
+            l for l in self.data["lines"]
+            if l.startswith("11  402258    200 TIRA FF BOB 0,60 SAE1006 OL")
+        )
+
+        parsed = parse_main_row_full(line)
+
+        self.assertEqual(parsed["pedido"], "402258")
+        self.assertEqual(parsed["seq"], "200")
+
     def test_parse_main_detail_lines_returns_only_main_rows(self) -> None:
         parsed_rows = parse_main_detail_lines(self.data["lines"])
 
@@ -161,6 +184,49 @@ class TxtParserOperationalTests(SimpleTestCase):
         self.assertEqual(parsed["sdo_estoq"], "1.454")
         self.assertTrue(parsed["sit"])
 
+    def test_extract_primary_status_keeps_known_multiword_statuses(self) -> None:
+        self.assertEqual(_extract_primary_status("Fat Parc      9,290 0,000 435"), "Fat Parc")
+        self.assertEqual(_extract_primary_status("Em Produ      8,870 0,000 350"), "Em Produ")
+        self.assertEqual(_extract_primary_status("OP Cancel     7,740 0,000 612"), "OP Cancel")
+        self.assertEqual(_extract_primary_status("Sem MP        5,250 0,000 612"), "Sem MP")
+
+    def test_parse_operational_fields_normalizes_status_at_parse_time(self) -> None:
+        flantech_line = next(
+            l for l in self.data["lines"]
+            if l.startswith("11  400396     10 TIRA ZC BOB 1,25 NBR7008 ZC CR MI REV")
+        )
+        gpaniz_line = next(
+            l for l in self.data["lines"]
+            if l.startswith("11  404565     10 CHAPA ZC 0,50")
+        )
+        utimil_line = next(
+            l for l in self.data["lines"]
+            if l.startswith("11  402973     10 TIRA ZC BOB 0,95 NBR7008 ZC CR NO REV")
+        )
+
+        self.assertEqual(parse_main_row_full_step_1(flantech_line)["sit"], "Fat Parc")
+        self.assertEqual(parse_main_row_full_step_1(gpaniz_line)["sit"], "OP Cancel")
+        self.assertEqual(parse_main_row_full_step_1(utimil_line)["sit"], "Em Produ")
+
+    def test_parse_operational_fields_when_ord_prod_is_blank(self) -> None:
+        line = next(
+            l for l in self.data["lines"]
+            if l.startswith("11  404521     30 TIRA ZC BOB 1,25 NBR7008 ZC CR MI REV")
+        )
+
+        parsed = parse_main_row_full_step_1(line)
+
+        self.assertEqual(parsed["ord_prod"], "")
+        self.assertEqual(parsed["sit_ordem"], "")
+        self.assertEqual(parsed["dt_entr"], "06/04/26")
+        self.assertEqual(parsed["aa"], "Nao")
+        self.assertEqual(parsed["qt_ped"], "500")
+        self.assertEqual(parsed["qt_pc"], "0")
+        self.assertEqual(parsed["qt_prod"], "0")
+        self.assertEqual(parsed["qt_fatur"], "0")
+        self.assertEqual(parsed["sdo_estoq"], "0")
+        self.assertEqual(parsed["sit"], "Planejmto")
+
 class TxtParserCommercialTests(SimpleTestCase):
     def setUp(self) -> None:
         self.sample_path = (
@@ -177,13 +243,79 @@ class TxtParserCommercialTests(SimpleTestCase):
 
         parsed = parse_main_row_full(line)
 
-        self.assertEqual(parsed["pre_liq"], "7,740")
+        self.assertEqual(parsed["pre_liq"], "3,740")
         self.assertEqual(parsed["pf"], "0,000")
         self.assertEqual(parsed["pag"], "612")
         self.assertEqual(parsed["transp"], "A�OLOG-RS")
         self.assertEqual(parsed["cr_pro"], "Sim")
         self.assertEqual(parsed["cr_fat"], "Sim")
         self.assertEqual(parsed["o_compra"], "208575")
+
+    def test_parse_commercial_fields_handles_two_token_transporter(self) -> None:
+        line = next(
+            l for l in self.data["lines"]
+            if l.startswith("11  402254     40 CHAPA GR LTQ  8,00 NBR 6656 LNE 38")
+        )
+
+        parsed = parse_main_row_full(line)
+
+        self.assertEqual(parsed["transp"], "RETIRA RS")
+        self.assertEqual(parsed["cr_pro"], "Sim")
+        self.assertEqual(parsed["cr_fat"], "Sim")
+        self.assertEqual(parsed["o_compra"], "319655")
+        self.assertEqual(parsed["sit"], "Produzido")
+
+    def test_parse_commercial_fields_preserves_sem_mp_status(self) -> None:
+        line = next(
+            l for l in self.data["lines"]
+            if l.startswith("11  404651     20 CHAPA FQ 2,65 NBR6658")
+        )
+
+        parsed = parse_main_row_full(line)
+
+        self.assertEqual(parsed["sit"], "Sem MP")
+        self.assertEqual(parsed["transp"], "A�OLOG-RS")
+        self.assertEqual(parsed["cr_pro"], "Sim")
+        self.assertEqual(parsed["cr_fat"], "Sim")
+
+    def test_parse_commercial_fields_handles_missing_o_compra_with_two_numeric_refs(self) -> None:
+        line = next(
+            l for l in self.data["lines"]
+            if l.startswith("11  402150     10 TIRA FQ DEC BOB 2,25 NBR6658 OL")
+        )
+
+        parsed = parse_main_row_full(line)
+
+        self.assertEqual(parsed["transp"], "A�OLOG-RS")
+        self.assertEqual(parsed["cr_pro"], "Sim")
+        self.assertEqual(parsed["cr_fat"], "Sim")
+        self.assertEqual(parsed["o_compra"], "")
+        self.assertEqual(parsed["item_cli"], "20013")
+        self.assertEqual(parsed["mnf"], "4")
+
+    def test_parse_commercial_fields_treats_two_full_numeric_refs_as_o_compra_and_item_cli(self) -> None:
+        line = next(
+            l for l in self.data["lines"]
+            if l.startswith("11  400569     60 TIRA ZC BOB 1,95 NBR7008 ZC CR MI RV Z")
+        )
+
+        parsed = parse_main_row_full(line)
+
+        self.assertEqual(parsed["o_compra"], "17369")
+        self.assertEqual(parsed["item_cli"], "20005")
+        self.assertEqual(parsed["mnf"], "")
+
+    def test_parse_commercial_fields_keeps_cfe_email_as_single_purchase_order(self) -> None:
+        line = next(
+            l for l in self.data["lines"]
+            if l.startswith("11  403827     20 TIRA ZC BOB 1,25 NBR7008 ZC CR MI REV")
+        )
+
+        parsed = parse_main_row_full(line)
+
+        self.assertEqual(parsed["o_compra"], "cfe email")
+        self.assertEqual(parsed["item_cli"], "")
+        self.assertEqual(parsed["mnf"], "")
 
 from reports.services.txt_parser import attach_continuation_rows
 

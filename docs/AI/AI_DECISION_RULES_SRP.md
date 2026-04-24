@@ -13,6 +13,20 @@ Always Django / DRF. No exceptions for MVP.
 
 ---
 
+## Architecture Rules
+
+| Need | Decision |
+|------|----------|
+| Business logic | Prefer a dedicated service layer before inflating views |
+| Views | Handle request/response orchestration, not decision-heavy domain logic |
+| Templates | Render prepared context only; avoid embedded operational rules |
+| Module design | Prefer high cohesion and small responsibilities |
+| Coupling | Prefer explicit interfaces between layers and avoid unnecessary cross-layer dependencies |
+| Security | Validate input and choose safe defaults before convenience shortcuts |
+| Tests | Add focused tests near the changed behavior before considering the work complete |
+
+---
+
 ## Database
 
 | Phase | Database | Reason |
@@ -61,7 +75,8 @@ to ensure zero friction when migrating to PostgreSQL.
 |------|----------|
 | Dashboard | Simple Django template or minimal HTML view |
 | No React for MVP | React SPA is a future phase |
-| Data display | Summary stats + table of extracted records |
+| Data display | Summary stats + actionable tables/worklists prepared by the backend |
+| Template responsibility | Presentation only; no decision-heavy operational logic in templates |
 
 ---
 
@@ -91,3 +106,15 @@ If information is missing:
 → state the assumption explicitly
 → make the safest minimal choice
 → never invent file structure or completed features
+
+---
+
+## Documentation Rule
+
+When implementation changes project meaning, also update the relevant docs:
+
+- `README.md` for public/local project usage
+- `AI_CONTEXT_SRP.md` for current interpreted project state
+- backlog-derived delivery docs when ticket state changes
+
+Documentation is part of the implementation lifecycle for SRP.

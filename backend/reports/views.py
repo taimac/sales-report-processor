@@ -1,5 +1,6 @@
 from pathlib import Path
 
+from django.views.generic import TemplateView
 from rest_framework import status
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.parsers import FormParser, MultiPartParser
@@ -8,6 +9,7 @@ from rest_framework.views import APIView
 
 from .models import ParsedReport, UploadedReport
 from .serializers import ParsedReportDetailSerializer, ParsedReportListSerializer
+from .services.dashboard_service import build_dashboard
 
 
 class ReportUploadView(APIView):
@@ -121,3 +123,32 @@ class ParsedReportDetailView(RetrieveAPIView):
             "customers__total",
             "customers__items__continuations",
         )
+
+
+class DashboardView(TemplateView):
+    """
+    Render the latest processed report as an action-oriented sales dashboard.
+    """
+
+    template_name = "reports/dashboard.html"
+
+    def get_context_data(self, **kwargs):
+        """
+        Load the latest parsed report and prepare dashboard context.
+        """
+        context = super().get_context_data(**kwargs)
+        parsed_report = (
+            ParsedReport.objects.select_related(
+                "uploaded_report",
+                "total",
+            )
+            .prefetch_related(
+                "customers__total",
+                "customers__items__continuations",
+            )
+            .order_by("-created_at")
+            .first()
+        )
+
+        context["dashboard"] = build_dashboard(parsed_report) if parsed_report else None
+        return context
