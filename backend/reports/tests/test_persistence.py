@@ -3,7 +3,10 @@ from django.core.files.base import ContentFile
 from django.db.utils import IntegrityError
 from unittest.mock import patch
 from reports.models import UploadedReport, ParsedReport, CustomerSection, ParsedItem, ContinuationRow, CustomerTotal, ReportTotal
-from reports.services.report_persistence import persist_report
+from reports.services.report_persistence import (
+    ReportProcessingError,
+    persist_report,
+)
 
 
 class ReportPersistenceTests(TestCase):
@@ -189,8 +192,42 @@ class ReportPersistenceTests(TestCase):
         }
         mock_assemble.return_value = invalid_output
 
-        # Expect IntegrityError when NOT NULL constraint is violated
-        with self.assertRaises(IntegrityError):
+        with self.assertRaisesMessage(
+            ReportProcessingError,
+            "Parsed report metadata is missing generated_date.",
+        ):
+            persist_report(self.uploaded_report)
+
+        self.assertEqual(ParsedReport.objects.count(), 0)
+        self.assertEqual(CustomerSection.objects.count(), 0)
+        self.assertEqual(ParsedItem.objects.count(), 0)
+        self.assertEqual(ContinuationRow.objects.count(), 0)
+        self.assertEqual(CustomerTotal.objects.count(), 0)
+        self.assertEqual(ReportTotal.objects.count(), 0)
+
+    @patch('reports.services.report_persistence.assemble_report')
+    def test_persist_report_requires_grand_totals(self, mock_assemble):
+        invalid_output = {
+            'metadata': {
+                'generated_date': '2023-10-01',
+                'generated_time': '12:00:00',
+            },
+            'customers': [
+                {
+                    'representative': 'Rep1',
+                    'customer_name': 'Customer A',
+                    'items': [],
+                    'totals': {'client_totals': []},
+                }
+            ],
+            'totals': {'grand_totals': []},
+        }
+        mock_assemble.return_value = invalid_output
+
+        with self.assertRaisesMessage(
+            ReportProcessingError,
+            "Parsed report must include at least one grand total record.",
+        ):
             persist_report(self.uploaded_report)
 
         self.assertEqual(ParsedReport.objects.count(), 0)
