@@ -519,7 +519,8 @@ def _compute_client_flag_map(action_items: list[dict], client_rows: list[dict], 
                 "production_follow_up": "Sim" if "production_follow_up" in signals else "Nao",
                 "delivery_attention": "Sim" if "delivery_attention" in signals else "Nao",
                 "stock_balance": "Sim" if "stock_balance" in signals else "Nao",
-                "high_value_customer": value_level if row["customer_id"] in high_value_customer_ids else value_level,
+                "high_value_customer": "Sim" if row["customer_id"] in high_value_customer_ids else "Nao",
+                "high_value_tier": value_level,
             }
         )
 
@@ -1200,11 +1201,19 @@ def build_dashboard(parsed_report, *, today: date | None = None) -> dict:
 
             falta_produzir_total += remaining_to_produce
 
-            if delivery_date and delivery_date <= today and item.get("pedido") and item.get("seq"):
+            clamped_remaining = max(Decimal("0"), remaining_to_produce)
+            overdue_backlog = max(clamped_remaining, open_balance)
+
+            if (
+                delivery_date
+                and delivery_date <= today
+                and overdue_backlog > 0
+                and item.get("pedido")
+                and item.get("seq")
+            ):
                 overdue_orders.add((item.get("pedido"), item.get("seq")))
-                em_atraso_total += remaining_to_produce
+                em_atraso_total += clamped_remaining
                 produzido_data_vencida_total += _calculate_overdue_stock_balance(item)
-                clamped_remaining = max(Decimal("0"), remaining_to_produce)
                 overdue_weight_by_client[customer["customer_name"]] += clamped_remaining
                 overdue_stock_by_client[customer["customer_name"]] += open_balance
                 overdue_stock_value_by_client[customer["customer_name"]] += open_balance * unit_price

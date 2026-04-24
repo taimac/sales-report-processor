@@ -337,8 +337,12 @@ class DashboardServiceTests(TestCase):
 
         dashboard = build_dashboard(parsed_report, today=date(2026, 4, 13))
 
-        self.assertEqual(dashboard["summary"]["em_atraso"], "-31")
+        self.assertEqual(dashboard["summary"]["pedidos_em_atraso"], 0)
+        self.assertEqual(dashboard["summary"]["em_atraso"], "0")
+        self.assertEqual(dashboard["operational_comparison"]["late_lines"], 0)
+        self.assertEqual(dashboard["operational_comparison"]["late_pct"], 0)
         self.assertEqual(dashboard["overdue_weight_chart"], [])
+        self.assertEqual(dashboard["overdue_stock_chart"], [])
         self.assertEqual(dashboard["overdue_value_chart"], [])
 
     def test_operational_charts_add_outros_bucket_when_more_than_top_five_clients_exist(self):
@@ -448,6 +452,7 @@ class DashboardServiceTests(TestCase):
         self.assertIn("high_value_customer", action_rows["BETA"]["signals"])
         self.assertIn("high_value_customer", action_rows["GAMMA"]["signals"])
         self.assertNotIn("high_value_customer", action_rows["DELTA"]["signals"])
+        self.assertIn("Cliente de Alto Valor", dashboard["client_360"]["flags"])
 
     def test_build_dashboard_flags_credit_block_and_uses_continuation_order_status(self):
         uploaded_report = UploadedReport.objects.create(file="reports/credit-block.txt")
