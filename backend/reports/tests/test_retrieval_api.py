@@ -142,6 +142,21 @@ class ParsedReportRetrievalAPITests(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
+    def test_detail_returns_200_when_report_total_is_missing(self):
+        uploaded_report = UploadedReport.objects.create(file="reports/no-total.txt")
+        parsed_report = ParsedReport.objects.create(
+            uploaded_report=uploaded_report,
+            generated_date="06/04/2026",
+            generated_time="15:55:47",
+        )
+
+        response = self.client.get(f"/api/reports/{parsed_report.id}/")
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["id"], parsed_report.id)
+        self.assertIsNone(response.data["report_total"])
+        self.assertEqual(response.data["customers"], [])
+
 
 class ParsedReportListSerializerQueryTests(TestCase):
     def test_list_queryset_supports_report_total_without_customers(self):
