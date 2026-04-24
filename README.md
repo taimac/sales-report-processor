@@ -126,7 +126,9 @@ sales-report-processor/
 
 ## Current Status
 
-🚧 MVP in development
+SRP MVP is delivered through `SRP-14`.
+
+Public packaging and showcase cleanup are in progress under `SRP-15`.
 
 ### Done
 - SRP-1 — Initial Project Setup ✅
@@ -141,11 +143,11 @@ sales-report-processor/
 - SRP-12 — Processed Data Retrieval API ✅
 
 ### Current Focus
-- SRP-14 — Error Handling and Validation
+- SRP-15 — Documentation and Demo Readiness
 
 ### Active Delivery Work
-- confirm the SRP-14 validation/error-handling scope against the shipped MVP flow
-- define the first minimal implementation slice for robustness work
+- define the public vs private documentation boundary
+- package a clean public run and demo path
 
 ### Delivery Governance
 - Project-level delivery control now lives in `docs/AI/AI_DELIVERY_SYSTEM_SRP.md`
@@ -168,6 +170,10 @@ sales-report-processor/
 - `Carteira em Foco` ranks accounts by business priority
 - `Cliente 360` drills into the first-ranked account from `Carteira em Foco`
 - Dashboard service and view tests pass locally
+
+### Public Demo Path
+- Public setup and demo walkthrough:
+  [docs/demo_guide.md](docs/demo_guide.md)
 ---
 
 ## Example Use Case
