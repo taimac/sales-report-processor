@@ -84,15 +84,20 @@ store structured data, expose it via API, and display it on a basic dashboard.
 ### Active Delivery Focus
 
 - Current story: `SRP-14 — Error Handling and Validation`
-- Current phase: post-SRP-13 transition and next-slice definition
+- Current phase: SRP-14 implementation in progress through focused subtask slices
 - Prerequisites satisfied:
   - `SRP-12` retrieval endpoints and tests are complete
   - `SRP-13` dashboard flow is implemented, reviewed, merged, and closed
 - Primary local authority for the finalized SRP-13 dashboard shape:
   - `docs/AI/SRP_13_DASHBOARD_AGREED_SCOPE.md`
-- Resume point after SRP-13 closure:
-  - confirm SRP-14 readiness against current MVP scope
-  - define the first minimal implementation slice for validation and error handling
+- Current subtask focus: `SRP-42 — Validate endpoint failure states and sync tests`
+- Recent completion:
+  - `SRP-39` defined the processing failure contract in Jira
+  - `SRP-40` made report persistence atomic
+  - `SRP-41` added explicit processing-path validation before persistence
+- Resume point:
+  - validate endpoint-facing failure and empty-state safety
+  - extend tests only where the SRP-14 contract now requires it
 
 ---
 
@@ -198,7 +203,11 @@ MVP is complete when:
   │    ├─ SRP-33   Add or Update Retrieval API Tests   ✅ Done
   │    └─ SRP-34   Sync SRP-12 Delivery State and Docs ✅ Done
   ├─ SRP-13   Basic Dashboard View                ✅ Done
-  ├─ SRP-14   Error Handling and Validation       ⬜ To Do
+  ├─ SRP-14   Error Handling and Validation       ⬜ ← current story
+  │    ├─ SRP-39   Define processing failure contract ✅ Done
+  │    ├─ SRP-40   Make report persistence atomic ✅ Done
+  │    ├─ SRP-41   Implement explicit validation and error handling for processing path ✅ Done
+  │    └─ SRP-42   Validate endpoint failure states and sync tests ⬜ ← current
   └─ SRP-15   Documentation and Demo Readiness    ⬜ To Do
 ```
 ---
@@ -212,5 +221,5 @@ MVP is complete when:
 5. ~~SRP-11 – Parsed Data Models~~ ✅ Done
 6. ~~SRP-12 – Processed Data Retrieval API~~ ✅ Done
 7. ~~SRP-13 – Basic Dashboard View~~ ✅ Done
-8. SRP-14 – Error Handling and Validation  ← next
+8. SRP-14 – Error Handling and Validation  ← current
 9. SRP-15 – Documentation and Demo Readiness
