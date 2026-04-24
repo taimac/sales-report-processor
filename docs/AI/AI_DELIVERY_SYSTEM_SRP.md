@@ -152,6 +152,13 @@ If code appears to satisfy a ticket but Jira/backlog is not updated:
 - flag the mismatch explicitly
 - require backlog/context update during closure
 
+### Temporary per-ticket docs rule
+If temporary local ticket-planning or closure docs are created to bridge
+ambiguity during execution:
+- do not treat them as backlog authority
+- do not let them become a second source of truth for ticket governance
+- remove or archive them after Jira/backlog state is synchronized
+
 ### Live Jira vs backlog export mismatch
 If live Jira ticket and backlog export disagree:
 - live Jira ticket wins for the current session

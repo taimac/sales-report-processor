@@ -115,6 +115,16 @@ When implementation changes project meaning, also update the relevant docs:
 
 - `README.md` for public/local project usage
 - `AI_CONTEXT_SRP.md` for current interpreted project state
-- backlog-derived delivery docs when ticket state changes
+- `docs/jira_backlog_SRP.md` when Jira/export state changes
 
 Documentation is part of the implementation lifecycle for SRP.
+
+Do not create or preserve multiple local ticket-control files that duplicate:
+
+- current ticket status
+- next ticket
+- official acceptance criteria
+- closure state
+
+If a temporary planning or closure note is useful during execution, it should be
+removed or archived once Jira and the backlog export become current again.

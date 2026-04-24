@@ -1,8 +1,7 @@
 # SRP_13_DASHBOARD_AGREED_SCOPE.md
 ## Purpose
-Recover and consolidate what was agreed about the SRP dashboard so future
-sessions can resume from a stable reference instead of rediscovering prior
-discussion.
+Preserve the durable SRP-13 dashboard design rationale without turning this
+file into a second ticket tracker or competing backlog authority.
 ## Date
 2026-04-23
 ## Author
@@ -11,6 +10,19 @@ Codex
 Systems / Sales Report Processor (SRP)
 
 # SRP-13 Dashboard Agreed Scope
+
+## Status
+
+This file is retained as historical design rationale only.
+
+It is **not** the source of truth for:
+
+- current ticket status
+- next ticket selection
+- official acceptance criteria
+- closure state
+
+Those belong to Jira and the exported backlog in `docs/jira_backlog_SRP.md`.
 
 ## Decision Log
 
@@ -35,7 +47,6 @@ Systems / Sales Report Processor (SRP)
 
 ## Sources Used
 
-- `docs/AI/SRP_13_DASHBOARD_WORKING_NOTES.md`
 - `docs/jira_backlog_SRP.md` (`SRP-13`)
 - `README.md`
 - `backend/reports/tests/test_dashboard_view.py`

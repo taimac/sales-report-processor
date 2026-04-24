@@ -90,8 +90,6 @@ store structured data, expose it via API, and display it on a basic dashboard.
   - `SRP-13` dashboard flow is implemented, reviewed, merged, and closed
 - Primary local authority for the finalized SRP-13 dashboard shape:
   - `docs/AI/SRP_13_DASHBOARD_AGREED_SCOPE.md`
-  - `docs/AI/SRP_13_IMPLEMENTATION_SLICES.md`
-  - `docs/AI/SRP_13_CLOSURE_RECOMMENDATION.md`
 - Resume point after SRP-13 closure:
   - confirm SRP-14 readiness against current MVP scope
   - define the first minimal implementation slice for validation and error handling
