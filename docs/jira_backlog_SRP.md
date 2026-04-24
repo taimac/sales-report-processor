@@ -1,7 +1,7 @@
 # Jira Backlog for Project SRP
-_Exported: 2026-04-13 01:36:28_
+_Exported: 2026-04-13 11:11:58_
 
-**Total Issues:** 34
+**Total Issues:** 38
 
 ## Execution Order
 
@@ -43,6 +43,10 @@ This section is the source of truth for workflow automation. It preserves Jira r
 | 32 | subtask | SRP-32 | SRP-12 | Complete Retrieval API Behavior Gaps | Done | SRP Sprint 3 |
 | 33 | subtask | SRP-33 | SRP-12 | Add or Update Retrieval API Tests | Done | SRP Sprint 3 |
 | 34 | subtask | SRP-34 | SRP-12 | Sync SRP-12 Delivery State and Docs | Done | SRP Sprint 3 |
+| 35 | subtask | SRP-35 | SRP-13 | Create dashboard service layer and action rules | To Do | SRP Sprint 3 |
+| 36 | subtask | SRP-36 | SRP-13 | Add dashboard view, route, and latest-report selection | To Do | SRP Sprint 3 |
+| 37 | subtask | SRP-37 | SRP-13 | Implement dashboard template and operational sections | To Do | SRP Sprint 3 |
+| 38 | subtask | SRP-38 | SRP-13 | Add dashboard tests and sync documentation | To Do | SRP Sprint 3 |
 
 ## Hierarchy
 
@@ -78,6 +82,10 @@ This section is the source of truth for workflow automation. It preserves Jira r
     - SRP-33 — Add or Update Retrieval API Tests [Done]
     - SRP-34 — Sync SRP-12 Delivery State and Docs [Done]
   - SRP-13 — Basic Dashboard View [In Progress]
+    - SRP-35 — Create dashboard service layer and action rules [To Do]
+    - SRP-36 — Add dashboard view, route, and latest-report selection [To Do]
+    - SRP-37 — Implement dashboard template and operational sections [To Do]
+    - SRP-38 — Add dashboard tests and sync documentation [To Do]
   - SRP-14 — Error Handling and Validation [To Do]
   - SRP-15 — Documentation and Demo Readiness [To Do]
 
@@ -85,19 +93,23 @@ This section is the source of truth for workflow automation. It preserves Jira r
 
 ## Summary
 
-- **To Do:** 3 issues
+- **To Do:** 7 issues
 - **In Progress:** 1 issues
 - **Done:** 30 issues
 
 ---
 
-## To Do (3 issues)
+## To Do (7 issues)
 
 | Key | Summary | Status | Created | Updated | Sprint |
 |-----|---------|--------|---------|---------|--------|
 | SRP-2 | Sales Report Processor MVP | To Do | 2026-04-04 | 2026-04-04 | No Sprint |
 | SRP-14 | Error Handling and Validation | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 4 |
 | SRP-15 | Documentation and Demo Readiness | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 4 |
+| SRP-35 | Create dashboard service layer and action rules | To Do | 2026-04-13 | 2026-04-13 | SRP Sprint 3 |
+| SRP-36 | Add dashboard view, route, and latest-report selection | To Do | 2026-04-13 | 2026-04-13 | SRP Sprint 3 |
+| SRP-37 | Implement dashboard template and operational sections | To Do | 2026-04-13 | 2026-04-13 | SRP Sprint 3 |
+| SRP-38 | Add dashboard tests and sync documentation | To Do | 2026-04-13 | 2026-04-13 | SRP Sprint 3 |
 
 ### SRP-2 – Sales Report Processor MVP
 
@@ -264,6 +276,195 @@ _No comments_
 
 ---
 
+### SRP-35 – Create dashboard service layer and action rules
+
+- **Status:** To Do
+- **Type:** Subtask
+- **Parent:** SRP-13
+- **Created:** 2026-04-13
+- **Updated:** 2026-04-13
+- **Sprint:** SRP Sprint 3
+
+**Description**
+
+### Purpose
+Build the dashboard service that aggregates the latest parsed report into summary metrics, client rows, action queue buckets, and worklist rows.
+
+### Scope
+- Create a dedicated dashboard service module
+- Aggregate report totals and client totals
+- Define deterministic action-signal rules
+- Keep decision logic out of templates
+
+### Deliverables
+- dashboard service layer
+- action-signal and prioritization logic
+
+### Acceptance Criteria
+- [ ] Service returns summary, action queue, client rows, and worklist rows
+- [ ] Action buckets are deterministic
+- [ ] Client ordering uses action priority and open value
+- [ ] Service remains separate from the view/template layer
+
+### Technical Notes
+- Files: reports/services/dashboard_service.py
+- API impact: none
+- Validation notes: keep parsing/format handling safe and non-fatal
+
+### Dependencies
+- SRP-12 must be Done
+
+### Suggested Story Points
+- 2
+
+**Comments**
+
+_No comments_
+
+---
+
+### SRP-36 – Add dashboard view, route, and latest-report selection
+
+- **Status:** To Do
+- **Type:** Subtask
+- **Parent:** SRP-13
+- **Created:** 2026-04-13
+- **Updated:** 2026-04-13
+- **Sprint:** SRP Sprint 3
+
+**Description**
+
+### Purpose
+Expose the dashboard through a human-facing Django view that selects the latest processed report and handles empty state cleanly.
+
+### Scope
+- Add dashboard route
+- Add dashboard view
+- Select latest ParsedReport
+- Pass prepared dashboard context to template
+
+### Deliverables
+- dashboard view
+- dashboard route
+
+### Acceptance Criteria
+- [ ] `GET /dashboard/` returns `200 OK`
+- [ ] Latest ParsedReport is used when data exists
+- [ ] Empty state renders when no processed reports exist
+- [ ] View orchestration remains thin
+
+### Technical Notes
+- Files: backend/srp/urls.py, reports/views.py
+- API impact: adds human-facing dashboard page
+- Validation notes: no internal HTTP call to retrieval API
+
+### Dependencies
+- Create dashboard service layer and action rules
+
+### Suggested Story Points
+- 1
+
+**Comments**
+
+_No comments_
+
+---
+
+### SRP-37 – Implement dashboard template and operational sections
+
+- **Status:** To Do
+- **Type:** Subtask
+- **Parent:** SRP-13
+- **Created:** 2026-04-13
+- **Updated:** 2026-04-13
+- **Sprint:** SRP Sprint 3
+
+**Description**
+
+### Purpose
+Render the dashboard as a single-page operational surface for daily sales follow-up.
+
+### Scope
+- Add top KPI strip
+- Add action queue section
+- Add client portfolio table
+- Add order/material worklist
+- Add empty state presentation
+
+### Deliverables
+- dashboard template
+
+### Acceptance Criteria
+- [ ] KPI strip is rendered
+- [ ] Action queue buckets are rendered
+- [ ] Client portfolio table is rendered
+- [ ] Worklist is rendered
+- [ ] Template focuses on presentation rather than business rules
+
+### Technical Notes
+- Files: reports/templates/reports/dashboard.html
+- API impact: none
+- Validation notes: mobile-friendly enough for MVP and no fancy UI dependencies
+
+### Dependencies
+- Add dashboard view, route, and latest-report selection
+
+### Suggested Story Points
+- 1
+
+**Comments**
+
+_No comments_
+
+---
+
+### SRP-38 – Add dashboard tests and sync documentation
+
+- **Status:** To Do
+- **Type:** Subtask
+- **Parent:** SRP-13
+- **Created:** 2026-04-13
+- **Updated:** 2026-04-13
+- **Sprint:** SRP Sprint 3
+
+**Description**
+
+### Purpose
+Validate the dashboard behavior and keep SRP documentation aligned with the new implementation and engineering standards.
+
+### Scope
+- Add dashboard service tests
+- Add dashboard view tests
+- Update README and AI context if the dashboard behavior changes project truth
+- Keep delivery-state documentation aligned
+
+### Deliverables
+- dashboard tests
+- updated local docs
+
+### Acceptance Criteria
+- [ ] Dashboard service behavior is covered by tests
+- [ ] Dashboard view behavior is covered by tests
+- [ ] Empty and populated states are validated
+- [ ] Local docs reflect the dashboard and delivery-state truth
+
+### Technical Notes
+- Files: reports/tests/test_dashboard_service.py, reports/tests/test_dashboard_view.py, README.md, docs/AI/AI_CONTEXT_SRP.md
+- API impact: none
+- Validation notes: documentation continuity is part of the definition of done
+
+### Dependencies
+- Implement dashboard template and operational sections
+
+### Suggested Story Points
+- 1
+
+**Comments**
+
+_No comments_
+
+---
+
 ## In Progress (1 issues)
 
 | Key | Summary | Status | Created | Updated | Sprint |
@@ -281,7 +482,77 @@ _No comments_
 
 **Description**
 
-_No content_
+Implement the SRP dashboard as a server-rendered operations page focused on the sales representative's daily decision flow.
+
+This story extends the original basic dashboard intent into a practical operational dashboard that uses the latest persisted parsed report to surface:
+- valuable KPIs
+- actionable order/material signals
+- client priority visibility
+- a working queue for commercial follow-up
+
+The dashboard must help answer:
+- what needs attention now
+- which clients or orders are at risk or stuck
+- what volume is still open vs in production vs invoiced
+- where the sales rep should follow up first
+
+The page must remain implementation-simple:
+- Django template based
+- read-only
+- no React
+- no background jobs
+- no automation actions yet
+- no parser expansion
+
+### Goal
+Deliver one useful dashboard page that turns persisted report data into practical daily sales priorities, client visibility, and operational follow-up cues.
+
+### Scope
+#### Included
+- Add a human-facing dashboard route at `GET /dashboard/`
+- Use the latest persisted `ParsedReport` as the dashboard source
+- Show a top KPI strip with report totals and action counts
+- Show an action queue with deterministic priority buckets
+- Show a client portfolio table with customer totals and action flag counts
+- Show an order/material worklist with commercially relevant item fields
+- Use a dedicated dashboard service layer for aggregation and action-signal logic
+- Handle empty state cleanly when no processed reports exist
+- Add or update backend tests for dashboard service and dashboard view behavior
+- Update local documentation to reflect the dashboard and the governing delivery rules
+
+#### Not Included
+- Upload/parsing integration changes
+- Automatic actions, reminders, or workflow execution
+- Authentication or permissions
+- Filtering, search, pagination, or multi-report comparison
+- React or SPA frontend work
+- Charts or advanced visualization libraries
+- PDF parsing expansion
+
+### Acceptance Criteria
+- [ ] `GET /dashboard/` returns `200 OK`
+- [ ] When no processed reports exist, the dashboard renders a clean empty state without crashing
+- [ ] The dashboard uses the latest persisted `ParsedReport`
+- [ ] The page shows a KPI strip with total clients, ordered quantity, in production, invoiced, open balance, total report value, actionable item count, and actionable client count
+- [ ] The page shows an action queue with explicit deterministic buckets for operational follow-up
+- [ ] The page shows a client portfolio table ordered by action priority and open value
+- [ ] The page shows an order/material worklist with key operational and commercial fields
+- [ ] Business rules for prioritization live outside the template layer
+- [ ] Dashboard behavior is covered by tests
+- [ ] Implementation follows SRP engineering standards: separation of concerns, high cohesion, loose coupling, security-first defaults, and documentation continuity
+
+### Technical Notes
+- Prefer direct model access through Django ORM instead of calling the API over HTTP internally
+- Keep dashboard business logic in a service layer, not in the template
+- Keep the first version single-page and latest-report only
+- Use the dashboard to surface guidance signals, not to trigger automation actions
+
+### Dependencies
+- SRP-11 — Parsed Data Models must be Done
+- SRP-12 — Processed Data Retrieval API must be Done
+
+### Suggested Story Points
+- 5
 
 **Comments**
 

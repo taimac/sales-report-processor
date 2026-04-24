@@ -58,7 +58,7 @@ The goal is to transform raw operational data into usable business intelligence.
   - status
 - Structured data storage
 - API to retrieve processed data
-- Basic dashboard (summary + table view)
+- Basic dashboard with story-driven operational sections
 
 ### Not Included (Future Phases)
 
@@ -79,6 +79,22 @@ The goal is to transform raw operational data into usable business intelligence.
 - **Parsing:** Python (regex / text processing)
 - **Frontend (MVP):** Simple server-rendered view or minimal interface
 - **Environment:** Local (Docker planned)
+
+---
+
+## Engineering Standards
+
+This project follows a lightweight but explicit software lifecycle discipline:
+
+- design before building when a feature introduces new structure or flow
+- separation of concerns between view, service, persistence, parsing, and presentation layers
+- high cohesion inside modules
+- loose coupling between layers
+- security-first defaults and validation
+- tests for behavior-changing work
+- documentation updates as part of implementation closure
+
+These standards apply even when SRP remains MVP-simple.
 
 ---
 
@@ -128,14 +144,30 @@ sales-report-processor/
 - SRP-13 — Basic Dashboard View
 
 ### Active Delivery Work
-- define the minimal dashboard scope for MVP
-- choose the first view and data slices to expose
-- plan the smallest testable dashboard implementation
+- reconcile local delivery-state docs after the implemented SRP-13 dashboard flow
+- package the dashboard path for the next ticket transition
 
 ### Delivery Governance
 - Project-level delivery control now lives in `docs/AI/AI_DELIVERY_SYSTEM_SRP.md`
 - Ticket sequencing and readiness are resolved from Jira backlog authority first, then validated against local codebase truth
-- `SRP-12` is complete and `SRP-13` is the active delivery story
+- `SRP-12` is complete and `SRP-13` is implemented locally, with backlog/state synchronization still pending
+
+### Dashboard Snapshot
+- `GET /dashboard/` renders the latest parsed report using a server-rendered,
+  story-driven operational layout
+- The current dashboard flow is:
+  - `Indicadores Principais`
+  - `Visao Operacional`
+  - `Excecoes Operacionais`
+  - `Fila de Prioridades`
+  - `Carteira em Foco`
+  - `Clientes em Evidencia`
+  - `Cliente 360`
+  - `Timeline de Entregas`
+- `Fila de Prioridades` is the main action surface
+- `Carteira em Foco` ranks accounts by business priority
+- `Cliente 360` drills into the first-ranked account from `Carteira em Foco`
+- Dashboard service and view tests pass locally
 ---
 
 ## Example Use Case
@@ -145,10 +177,12 @@ sales-report-processor/
 3. System parses key data from TXT reports
 4. Structured data is saved in the database
 5. Dashboard displays:
-   - total reports processed
-   - number of records extracted
-   - status distribution
-   - table of extracted data
+   - top operational KPIs
+   - operational pressure views
+   - priority queue for immediate follow-up
+   - client-priority portfolio ranking
+   - account drilldown for the top focused client
+   - supporting delivery and exception detail
 
 ---
 
@@ -272,6 +306,54 @@ Return persisted processed report data for API consumers and the future MVP dash
 The retrieval layer is complete under `SRP-12` and has passing backend coverage.
 Current delivery work now moves to `SRP-13`, where the MVP dashboard will consume the validated retrieval API.
 
+## Dashboard
+
+### Endpoint
+
+```
+GET /dashboard/
+```
+
+### Purpose
+
+Render the latest processed report as a daily sales action dashboard with:
+
+- top KPI strip
+- operational charts for overdue pressure, overdue stock, and value at risk
+- client portfolio table
+- order/material worklist
+
+### KPI Rules
+
+The principal indicators are aligned to wallet and delivery management:
+
+- `Pedidos em Atraso` counts unique `pedido + seq` lines where `dt_entr` is before today
+- `Produzido Com Data Vencida` sums `sdo_estoq` for overdue rows
+- `Peso em Atraso` uses the same remaining-to-produce formula, but only for overdue rows
+- `Falta Produzir` uses `qt_ped - qt_fatur - sdo_estoq`
+- `Entrega Esse Mes` uses `qt_ped` for rows whose `dt_entr` falls in the current month
+- `Saldo em Estoque` uses the current report open balance
+- `Faturado` uses the current report invoiced total
+- `Valor em Pedidos` uses the current report value total
+- `Quantidade Pedida` uses the current report ordered total
+- `Preco Medio` uses `Valor em Pedidos / Quantidade Pedida`
+- the noisy `Itens Acionaveis` and `Clientes com Flags` counters are intentionally kept out of the principal KPI strip for now
+
+### Visao Operacional
+
+The operational board is chart-led and answers four questions:
+
+- how many order lines are overdue relative to the full report line count
+- which clients concentrate delayed remaining demand
+- which clients already hold produced stock with overdue delivery dates
+- which clients concentrate overdue commercial value, split between produced overdue stock and delayed remaining demand
+
+### Data Source
+
+- Uses the latest persisted `ParsedReport`
+- Queries Django models directly
+- Does not call the API over HTTP internally
+
 ### 2. Install dependencies
 
 ```bash
@@ -381,7 +463,7 @@ The MVP is structured into a clear sequence of deliverable stories, ensuring inc
   Retrieval endpoints, serializers, and tests are implemented and validated.
 
 - **SRP-13 — Basic Dashboard View**
-  Active story. Next step is the smallest dashboard that reads the processed reports API and presents summary plus extracted records.
+  Active story. Current implementation direction is an action-oriented dashboard for sales follow-up, client priority, and operational worklist visibility.
 
 - **SRP-14 — Error Handling and Validation**
   Improve robustness through validation and consistent error responses.

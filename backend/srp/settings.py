@@ -32,6 +32,7 @@ ALLOWED_HOSTS = config("ALLOWED_HOSTS", default="127.0.0.1,localhost").split(","
 # Application definition
 
 INSTALLED_APPS = [
+    'rest_framework',
     'reports',
     'django.contrib.admin',
     'django.contrib.auth',

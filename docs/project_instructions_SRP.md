@@ -15,6 +15,7 @@ Part of the broader SalesApp vision, developed independently.
 - Focus on working features over completeness
 - Avoid over-engineering
 - Each feature must be demonstrable
+- Treat documentation as part of delivery, not as an optional afterthought
 
 ---
 
@@ -42,7 +43,23 @@ Part of the broader SalesApp vision, developed independently.
 - Validate all inputs
 - Handle errors with clear messages
 - Keep code readable and simple
-- Tests are encouraged but lightweight for MVP
+- Tests are required for behavior-changing work
+
+---
+
+## Engineering Standards
+
+All SRP work must follow these software lifecycle principles:
+
+- **Software design first**: define boundaries, responsibilities, and data flow before implementing non-trivial features
+- **Separation of concerns**: keep parsing, persistence, API, dashboard, and delivery-governance logic in distinct layers
+- **High cohesion**: each module should have one clear reason to change
+- **Loose coupling**: views should not contain business rules that belong in services; templates should not contain decision logic
+- **Security-first mindset**: validate inputs, avoid exposing internal details unnecessarily, and prefer explicit safe defaults
+- **Test-driven discipline**: new behavior must be covered by tests close to the changed logic
+- **Documentation continuity**: update README, AI context, and delivery-state docs when the implementation meaningfully changes
+
+These principles are mandatory project standards, even when the implementation remains MVP-simple.
 
 ---
 

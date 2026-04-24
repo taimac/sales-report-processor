@@ -15,6 +15,10 @@ All other files define mechanics only.
 3. Avoid unnecessary complexity
 4. Do not assume features exist
 5. If unsure → do not assume → keep solution minimal
+6. Design before building when the feature introduces new structure or flow
+7. Prefer separation of concerns, high cohesion, and loose coupling
+8. Treat security and tests as default engineering responsibilities
+9. Treat documentation as part of the software lifecycle, not post-work cleanup
 
 ---
 
@@ -36,6 +40,10 @@ When there is a conflict, resolve in this order:
 - Prefer the simplest working solution
 - Always produce runnable, copy-paste ready code
 - Never invent project structure — use `AI_CONTEXT_SRP.md`
+- Keep business logic out of templates whenever possible
+- Do not collapse service, view, and persistence responsibilities into one layer
+- Add or update tests when behavior changes
+- Update delivery-state docs when implementation changes affect project truth
 
 ---
 

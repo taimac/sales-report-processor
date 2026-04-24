@@ -20,6 +20,22 @@ MAIN_ROW_LEADING_PATTERN = re.compile(
 
 THICKNESS_PATTERN = re.compile(r"\d+,\d{2}")
 
+KNOWN_MULTIWORD_STATUSES = (
+    "Em Produ",
+    "Fat Parc",
+    "OP Cancel",
+    "Sem MP",
+)
+
+KNOWN_SINGLEWORD_STATUSES = {
+    "Em",
+    "Fat",
+    "OP",
+    "Produzido",
+    "Pendente",
+    "Aguardando",
+}
+
 
 
 def read_txt_report(file_path: str | Path) -> dict[str, Any]:
@@ -209,11 +225,14 @@ def parse_main_row_identity_fields(line: str) -> dict[str, str]:
             "compr": "",
         }
 
+    leading_match = MAIN_ROW_LEADING_PATTERN.match(line)
+    seq = leading_match.group("seq") if leading_match else line[15:17].strip()
+
     return {
         "raw_line": line,
         "est": line[0:2].strip(),
         "pedido": line[4:10].strip(),
-        "seq": line[15:17].strip(),
+        "seq": seq,
         "descricao": line[18:56].strip(),
         "espess": line[59:63].strip(),
         "larg": line[64:72].strip(),
@@ -233,6 +252,33 @@ def parse_main_detail_lines(lines: list[str]) -> list[dict[str, str]]:
 
     return parsed_rows
 
+def _extract_primary_status(raw_status: str) -> str:
+    """
+    Extract the canonical item status from a possibly over-captured status field.
+
+    The TXT rows can leak extra columns into the status area. We normalize at
+    parse time so only the real status reaches persistence.
+    """
+    if not raw_status or not raw_status.strip():
+        return ""
+
+    cleaned_status = raw_status.strip()
+
+    for candidate in KNOWN_MULTIWORD_STATUSES:
+        if cleaned_status.startswith(candidate):
+            return candidate
+
+    first_token = cleaned_status.split()[0]
+    if first_token in KNOWN_SINGLEWORD_STATUSES:
+        return first_token
+
+    return first_token
+
+
+def _is_credit_token(token: str) -> bool:
+    return token.strip().lower() in {"sim", "nao", "não"}
+
+
 def parse_main_row_operational_fields(line: str) -> dict[str, str]:
     """
     Parse SRP-18 operational and quantity columns from a main detail row.
@@ -240,6 +286,7 @@ def parse_main_row_operational_fields(line: str) -> dict[str, str]:
     Strategy:
     - SRP-23 already parsed up to `compr`
     - from the remainder, use whitespace tokenization because numeric widths vary
+    - NEW: Clean the `sit` field to extract only the primary status token
     """
     if classify_line(line) != "main_detail":
         return {}
@@ -248,7 +295,7 @@ def parse_main_row_operational_fields(line: str) -> dict[str, str]:
     parts = remainder.split()
 
     # Expected order in the remainder:
-    # ord_prod, sit_ordem(optional like LC10), dt_entr, aa,
+    # ord_prod(optional), sit_ordem(optional like LC10), dt_entr, aa,
     # qt_ped, qt_pc, qt_prod, qt_fatur, sdo_estoq, sit...
     #
     # In some rows, sit_ordem is blank.
@@ -259,7 +306,7 @@ def parse_main_row_operational_fields(line: str) -> dict[str, str]:
         None,
     )
 
-    if date_index is None or date_index < 1:
+    if date_index is None:
         return {
             "ord_prod": "",
             "sit_ordem": "",
@@ -273,8 +320,20 @@ def parse_main_row_operational_fields(line: str) -> dict[str, str]:
             "sit": "",
         }
 
-    ord_prod = parts[0]
-    sit_ordem = " ".join(parts[1:date_index]) if date_index > 1 else ""
+    pre_date_parts = parts[:date_index]
+
+    if not pre_date_parts:
+        ord_prod = ""
+        sit_ordem = ""
+    elif re.fullmatch(r"\d[\d\.]*", pre_date_parts[0]):
+        ord_prod = pre_date_parts[0]
+        sit_ordem = " ".join(pre_date_parts[1:])
+    else:
+        # Some rows omit the production order entirely but may still carry
+        # order-status tokens before the delivery date.
+        ord_prod = ""
+        sit_ordem = " ".join(pre_date_parts)
+
     dt_entr = parts[date_index]
     aa = parts[date_index + 1] if len(parts) > date_index + 1 else ""
     qt_ped = parts[date_index + 2] if len(parts) > date_index + 2 else ""
@@ -294,10 +353,12 @@ def parse_main_row_operational_fields(line: str) -> dict[str, str]:
     )
 
     if price_index is None:
-        sit = " ".join(parts[tail_start:]) if len(parts) > tail_start else ""
+        raw_sit = " ".join(parts[tail_start:]) if len(parts) > tail_start else ""
     else:
-        sit = " ".join(parts[tail_start:price_index])
+        raw_sit = " ".join(parts[tail_start:price_index])
 
+    # CRITICAL FIX: Extract only the primary status token at parse time
+    sit = _extract_primary_status(raw_sit)
 
     return {
         "ord_prod": ord_prod,
@@ -309,7 +370,7 @@ def parse_main_row_operational_fields(line: str) -> dict[str, str]:
         "qt_prod": qt_prod,
         "qt_fatur": qt_fatur,
         "sdo_estoq": sdo_estoq,
-        "sit": sit,
+        "sit": sit,  # ← Now clean: "Fat" instead of "Fat Parc 9,290 0,000 ..."
     }
 
 def parse_main_row_full_step_1(line: str) -> dict[str, str]:
@@ -389,6 +450,9 @@ def parse_main_row_commercial_fields(line: str) -> dict[str, str]:
 
     pre_liq = commercial_parts[0] if len(commercial_parts) > 0 else ""
 
+    def is_numeric_token(token: str) -> bool:
+        return bool(re.fullmatch(r"\d+(?:\.\d+)*", token))
+
     pf = ""
     vlr_peca = ""
     pag = ""
@@ -399,33 +463,76 @@ def parse_main_row_commercial_fields(line: str) -> dict[str, str]:
     item_cli = ""
     mnf = ""
 
-    # Case 1: only one monetary token appears after pre_liq
-    # Map it to PF and leave vlr_peca blank
-    if (
-        len(commercial_parts) >= 3
-        and re.fullmatch(r"\d+,\d{3}", commercial_parts[1])
-        and commercial_parts[2].isdigit()
-    ):
-        pf = commercial_parts[1]
-        vlr_peca = ""
-        pag = commercial_parts[2]
-        transp = commercial_parts[3] if len(commercial_parts) > 3 else ""
-        cr_pro = commercial_parts[4] if len(commercial_parts) > 4 else ""
-        cr_fat = commercial_parts[5] if len(commercial_parts) > 5 else ""
-        o_compra = commercial_parts[6] if len(commercial_parts) > 6 else ""
-        item_cli = commercial_parts[7] if len(commercial_parts) > 7 else ""
-        mnf = commercial_parts[8] if len(commercial_parts) > 8 else ""
-    else:
-        # Case 2: PF is present
-        pf = commercial_parts[1] if len(commercial_parts) > 1 else ""
-        vlr_peca = commercial_parts[2] if len(commercial_parts) > 2 else ""
-        pag = commercial_parts[3] if len(commercial_parts) > 3 else ""
-        transp = commercial_parts[4] if len(commercial_parts) > 4 else ""
-        cr_pro = commercial_parts[5] if len(commercial_parts) > 5 else ""
-        cr_fat = commercial_parts[6] if len(commercial_parts) > 6 else ""
-        o_compra = commercial_parts[7] if len(commercial_parts) > 7 else ""
-        item_cli = commercial_parts[8] if len(commercial_parts) > 8 else ""
-        mnf = commercial_parts[9] if len(commercial_parts) > 9 else ""
+    tail = commercial_parts[1:]
+    pag_index = next((i for i, token in enumerate(tail) if is_numeric_token(token)), None)
+    if pag_index is None:
+        return {
+            "pre_liq": pre_liq,
+            "pf": "",
+            "vlr_peca": "",
+            "pag": "",
+            "transp": "",
+            "cr_pro": "",
+            "cr_fat": "",
+            "o_compra": "",
+            "item_cli": "",
+            "mnf": "",
+        }
+
+    pre_pag = tail[:pag_index]
+    if len(pre_pag) >= 1:
+        pf = pre_pag[0]
+    if len(pre_pag) >= 2:
+        vlr_peca = pre_pag[1]
+    pag = tail[pag_index]
+
+    credit_index = next(
+        (i for i in range(pag_index + 1, len(tail)) if _is_credit_token(tail[i])),
+        None,
+    )
+    if credit_index is None:
+        transp = " ".join(tail[pag_index + 1:]).strip()
+        return {
+            "pre_liq": pre_liq,
+            "pf": pf,
+            "vlr_peca": vlr_peca,
+            "pag": pag,
+            "transp": transp,
+            "cr_pro": "",
+            "cr_fat": "",
+            "o_compra": "",
+            "item_cli": "",
+            "mnf": "",
+        }
+
+    transp = " ".join(tail[pag_index + 1:credit_index]).strip()
+    cr_pro = tail[credit_index] if credit_index < len(tail) else ""
+    cr_fat = tail[credit_index + 1] if credit_index + 1 < len(tail) else ""
+
+    refs = [token for token in tail[credit_index + 2:] if token]
+
+    if len(refs) == 1:
+        o_compra = refs[0]
+    elif len(refs) == 2:
+        first_is_numeric = refs[0].isdigit()
+        second_is_numeric = refs[1].isdigit()
+
+        if first_is_numeric and second_is_numeric:
+            if len(refs[1]) <= 2:
+                item_cli = refs[0]
+                mnf = refs[1]
+            else:
+                o_compra = refs[0]
+                item_cli = refs[1]
+        elif not first_is_numeric and not second_is_numeric:
+            o_compra = " ".join(refs)
+        else:
+            o_compra = refs[0]
+            item_cli = refs[1]
+    elif len(refs) >= 3:
+        o_compra = refs[0]
+        item_cli = refs[1]
+        mnf = refs[2]
 
     return {
         "pre_liq": pre_liq,

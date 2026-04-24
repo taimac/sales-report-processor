@@ -18,6 +18,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
+from reports.views import DashboardView
 
 urlpatterns = [
     # Default Django admin route.
@@ -26,6 +27,7 @@ urlpatterns = [
     # Reports API routes.
     # Includes /api/reports/upload/
     path("api/reports/", include("reports.urls")),
+    path("dashboard/", DashboardView.as_view(), name="reports-dashboard"),
 ]
 
 # In development, serve uploaded media files through Django.

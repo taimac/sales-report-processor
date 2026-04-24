@@ -11,6 +11,7 @@ This bootstrap must ensure the SRP agent loads not only implementation rules, bu
 - readiness before implementation
 - authority level for the session
 - delivery flow from diagnosis to closure
+- mandatory engineering principles that govern design, cohesion, coupling, security, tests, and documentation continuity
 
 ---
 
@@ -75,6 +76,16 @@ At the start of every SRP session, first determine:
    - check the Ticket Readiness Gate from `AI_DELIVERY_SYSTEM_SRP.md`
 
 Only implement if the current authority level allows it **and** the Ticket Readiness Gate is fully satisfied.
+
+When implementation is allowed, apply SRP engineering standards by default:
+
+- design before build for non-trivial features
+- separation of concerns
+- high cohesion
+- loose coupling
+- security-first defaults
+- tests for behavior changes
+- documentation updates as part of delivery
 
 ---
 

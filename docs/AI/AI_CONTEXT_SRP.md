@@ -21,7 +21,7 @@ store structured data, expose it via API, and display it on a basic dashboard.
 - SRP-10 (TXT Parsing Engine) is **Done**
 - SRP-11 (Parsed Data Models) is **Done**
 - SRP-12 (Processed Data Retrieval API) is **Done**
-- SRP-13 (Basic Dashboard View) is **In Progress**
+- SRP-13 (Basic Dashboard View) is **Implemented Locally**
 
 ### Implemented So Far
 
@@ -39,6 +39,42 @@ store structured data, expose it via API, and display it on a basic dashboard.
 - Parsed data models and persistence service implemented
 - Retrieval list/detail API is implemented and validated
 - Retrieval API tests are implemented and passing
+- Initial dashboard route and service layer are implemented for SRP-13
+- KPI strip focus for SRP-13:
+  - `Pedidos em Atraso` counts unique `pedido + seq` lines with `dt_entr` before today
+  - `Produzido Com Data Vencida` sums `sdo_estoq` on overdue rows
+  - `Peso em Atraso` uses `qt_ped - qt_fatur - sdo_estoq` on overdue rows
+  - `Falta Produzir` uses `qt_ped - qt_fatur - sdo_estoq`
+  - `Entrega Esse Mes` uses `qt_ped` for the current month
+  - `Saldo em Estoque` uses the current report open balance
+  - `Faturado` uses the current report invoiced total
+  - `Valor em Pedidos` uses the current report value total
+  - `Quantidade Pedida` uses the current report ordered total
+  - `Preco Medio` uses `Valor em Pedidos / Quantidade Pedida`
+  - `Itens Acionaveis` and `Clientes com Flags` remain out of the main KPI strip for now
+- Visao Operacional focus for SRP-13:
+  - overdue order-line pressure versus total unique `pedido + seq`
+  - overdue remaining demand by client
+  - overdue produced stock by client
+  - overdue commercial value by client using `pre_liq`
+- Current story-driven dashboard flow for SRP-13:
+  - `Indicadores Principais`
+  - `Visao Operacional`
+  - `Excecoes Operacionais`
+  - `Fila de Prioridades`
+  - `Carteira em Foco`
+  - `Clientes em Evidencia`
+  - `Cliente 360`
+  - `Timeline de Entregas`
+- `Fila de Prioridades` is rendered from `worklist_rows` as the main action queue
+- `Carteira em Foco` is rendered from `client_rows` with business-priority ordering
+- `Cliente 360` now follows the first-ranked `Carteira em Foco` account explicitly
+  and explains the handoff from portfolio priority into drilldown context
+- Support visibility now uses row-based sections instead of the earlier four-card
+  strip:
+  - `Excecoes Operacionais`
+  - `Clientes em Evidencia`
+- Dashboard service and view coverage are implemented and passing locally
 - SRP delivery governance is now defined in:
   - `docs/AI/AI_DELIVERY_SYSTEM_SRP.md`
 - Backend tests implemented and passing
@@ -47,9 +83,16 @@ store structured data, expose it via API, and display it on a basic dashboard.
 ### Active Delivery Focus
 
 - Current story: `SRP-13 — Basic Dashboard View`
-- Current phase: plan and scope the minimal MVP dashboard on top of the validated retrieval API
-- Prerequisite now satisfied:
+- Current phase: local closure and delivery-state synchronization after the
+  implemented dashboard flow
+- Prerequisite satisfied:
   - `SRP-12` retrieval endpoints and tests are complete
+- Primary local authority for the reconciled dashboard shape:
+  - `docs/AI/SRP_13_DASHBOARD_AGREED_SCOPE.md`
+  - `docs/AI/SRP_13_IMPLEMENTATION_SLICES.md`
+- Resume point after local SRP-13 implementation:
+  - reconcile remaining delivery-state truth against backlog/export wording
+  - then package the MVP flow for the next ticket transition
 
 ---
 
@@ -114,7 +157,8 @@ MVP is complete when:
    - order number, client, product, quantity, status
 5. Extracted data is stored in structured format in SQLite
 6. `GET /api/reports/` returns processed report data
-7. A basic dashboard displays summary and table of extracted records
+7. A basic dashboard displays a story-driven operational flow with summary,
+   queue, client focus, drilldown, and supporting detail
 8. Invalid files are rejected with clear error messages
 
 ---
@@ -148,12 +192,12 @@ MVP is complete when:
   │    ├─ SRP-28   Create totals models                ✅ Done
   │    ├─ SRP-29   Implement parser-to-model mapping service ✅ Done
   │    └─ SRP-30   Add persistence tests               ✅ Done
-  ├─ SRP-12   Processed Data Retrieval API        ⬜ To Do
-  │    ├─ SRP-31   Validate Current Retrieval API Against Story Criteria ⬜ To Do
-  │    ├─ SRP-32   Complete Retrieval API Behavior Gaps ⬜ To Do
-  │    ├─ SRP-33   Add or Update Retrieval API Tests   ⬜ To Do
-  │    └─ SRP-34   Sync SRP-12 Delivery State and Docs ⬜ To Do
-  ├─ SRP-13   Basic Dashboard View                ⬜ ← current
+  ├─ SRP-12   Processed Data Retrieval API        ✅ Done
+  │    ├─ SRP-31   Validate Current Retrieval API Against Story Criteria ✅ Done
+  │    ├─ SRP-32   Complete Retrieval API Behavior Gaps ✅ Done
+  │    ├─ SRP-33   Add or Update Retrieval API Tests   ✅ Done
+  │    └─ SRP-34   Sync SRP-12 Delivery State and Docs ✅ Done
+  ├─ SRP-13   Basic Dashboard View                🟡 Implemented locally / state sync pending
   ├─ SRP-14   Error Handling and Validation       ⬜ To Do
   └─ SRP-15   Documentation and Demo Readiness    ⬜ To Do
 ```
@@ -166,7 +210,7 @@ MVP is complete when:
 3. ~~SRP-3 – File Upload API~~ ✅ Done
 4. ~~SRP-10 – TXT Parsing Engine~~ ✅ Done
 5. ~~SRP-11 – Parsed Data Models~~ ✅ Done
-6. SRP-12 – Processed Data Retrieval API
-7. SRP-13 – Basic Dashboard View  ← current
+6. ~~SRP-12 – Processed Data Retrieval API~~ ✅ Done
+7. SRP-13 – Basic Dashboard View  ← local implementation complete, closure sync pending
 8. SRP-14 – Error Handling and Validation
 9. SRP-15 – Documentation and Demo Readiness

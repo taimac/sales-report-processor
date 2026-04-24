@@ -1,0 +1,1121 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Painel SRP</title>
+    <style>
+        :root {
+            --bg: #eef3fb;
+            --panel: #ffffff;
+            --panel-strong: #f5f8fc;
+            --ink: #243855;
+            --muted: #607089;
+            --line: #d7dfeb;
+            --accent: #2f5d95;
+            --accent-soft: #e9f1fb;
+            --green: #2e7d32;
+            --green-soft: #e8f5e9;
+            --orange: #ef6c00;
+            --orange-soft: #fff3e0;
+            --red: #d32f2f;
+            --red-soft: #ffebee;
+            --blue: #0288d1;
+            --blue-soft: #e1f5fe;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+            color: var(--ink);
+            background:
+                radial-gradient(circle at top center, rgba(255, 255, 255, 0.85), transparent 28%),
+                linear-gradient(180deg, #f8fbff 0%, var(--bg) 100%);
+        }
+
+        .page {
+            max-width: 1680px;
+            margin: 0 auto;
+            padding: 32px 20px 56px;
+        }
+
+        .hero {
+            display: grid;
+            justify-items: center;
+            gap: 14px;
+            margin-bottom: 28px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            margin: 0;
+            font-size: clamp(2rem, 3.6vw, 3rem);
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            padding: 10px 20px;
+            border: 2px solid rgba(47, 93, 149, 0.35);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 10px 30px rgba(36, 56, 85, 0.08);
+        }
+
+        .hero p,
+        .hero small {
+            margin: 0;
+            color: var(--muted);
+        }
+
+        .hero-meta {
+            background: rgba(255, 255, 255, 0.92);
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            padding: 14px 16px;
+            min-width: 320px;
+        }
+
+        .section {
+            margin-top: 28px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .section-header h2 {
+            margin: 0;
+            font-size: 1.35rem;
+        }
+
+        .section-header p {
+            margin: 0;
+            color: var(--muted);
+        }
+
+        .kpi-row {
+            display: grid;
+            gap: 14px;
+            margin-bottom: 14px;
+        }
+
+        .kpi-row--four {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+
+        .kpi-row--two {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .kpi-row--three {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .kpi-card,
+        .board-card,
+        .queue-card,
+        .table-shell,
+        .empty-state {
+            background: rgba(255, 255, 255, 0.96);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            box-shadow: 0 10px 30px rgba(36, 56, 85, 0.08);
+        }
+
+        .kpi-card {
+            padding: 0;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .kpi-card .label {
+            display: block;
+            color: var(--ink);
+            font-size: 0.84rem;
+            font-weight: 700;
+            padding: 12px 14px;
+            background: linear-gradient(180deg, #ffffff 0%, #f6f9fd 100%);
+            border-bottom: 1px solid var(--line);
+        }
+
+        .kpi-card .value {
+            font-size: 1.95rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            padding: 18px 12px 20px;
+            color: var(--ink);
+        }
+
+        .value-green { color: var(--green); }
+        .value-orange { color: var(--orange); }
+        .value-red { color: var(--red); }
+
+        .board-row-three,
+        .board-row-four {
+            display: grid;
+            gap: 14px;
+            margin-top: 16px;
+        }
+
+        .board-row-three {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .board-row-four {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+
+        .board-row-two {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+            margin-top: 16px;
+        }
+
+        .board-card,
+        .queue-card {
+            padding: 14px 16px 16px;
+        }
+
+        .board-card h3,
+        .queue-card h3 {
+            margin: 0 0 14px;
+            text-align: center;
+            font-size: 0.98rem;
+            color: var(--ink);
+        }
+
+        .mini-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: grid;
+            gap: 12px;
+        }
+
+        .mini-item {
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .mini-item:last-child {
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .mini-item strong {
+            display: block;
+            font-size: 0.98rem;
+            margin-bottom: 4px;
+        }
+
+        .mini-item span {
+            display: block;
+            color: var(--muted);
+            font-size: 0.86rem;
+        }
+
+        .status-row {
+            display: grid;
+            grid-template-columns: 92px 1fr;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .status-label {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--muted);
+        }
+
+        .stack-bar {
+            display: flex;
+            height: 16px;
+            overflow: hidden;
+            border-radius: 999px;
+            background: #edf2f8;
+            border: 1px solid #d7dfeb;
+        }
+
+        .seg-production { background: linear-gradient(180deg, #72b22b, #4f8f14); }
+        .seg-stock { background: linear-gradient(180deg, #1ea3f2, #0879b7); }
+        .seg-delay { background: linear-gradient(180deg, #ff9d2e, #ef6c00); }
+
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 14px;
+            font-size: 0.82rem;
+            color: var(--muted);
+        }
+
+        .legend span::before {
+            content: "";
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 2px;
+            margin-right: 6px;
+            vertical-align: middle;
+        }
+
+        .legend .legend-production::before { background: #5a9a1e; }
+        .legend .legend-stock::before { background: #128dd7; }
+        .legend .legend-delay::before { background: #ff8a1d; }
+
+        .stock-visual {
+            display: grid;
+            grid-template-columns: 180px 1fr;
+            gap: 18px;
+            align-items: center;
+        }
+
+        .stock-donut {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background:
+                radial-gradient(circle at center, #ffffff 0 46%, transparent 47%),
+                conic-gradient(#6fb02a 0 {{ dashboard.stock_snapshot.in_production_pct|default:50 }}%, #f4a100 {{ dashboard.stock_snapshot.in_production_pct|default:50 }}% 100%);
+            display: grid;
+            place-items: center;
+            margin: 0 auto;
+            box-shadow: inset 0 0 0 1px rgba(36, 56, 85, 0.06);
+        }
+
+        .stock-center {
+            text-align: center;
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        .stock-center strong {
+            display: block;
+            font-size: 2rem;
+        }
+
+        .stock-meta {
+            display: grid;
+            gap: 12px;
+        }
+
+        .stock-meta-row {
+            display: grid;
+            grid-template-columns: 18px 1fr auto;
+            gap: 10px;
+            align-items: center;
+            font-size: 0.92rem;
+        }
+
+        .swatch {
+            width: 14px;
+            height: 14px;
+            border-radius: 3px;
+        }
+
+        .swatch-green { background: #6fb02a; }
+        .swatch-yellow { background: #f4a100; }
+
+        .prod-row {
+            display: grid;
+            grid-template-columns: 100px 1fr 44px;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .prod-bar {
+            height: 14px;
+            border-radius: 999px;
+            background: linear-gradient(180deg, #2ea3ef, #0a7cc0);
+            position: relative;
+        }
+
+        .prod-line {
+            position: relative;
+            height: 3px;
+            border-radius: 999px;
+            background: #f08b1d;
+        }
+
+        .prod-line::after {
+            content: "";
+            position: absolute;
+            right: 0;
+            top: -4px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #f08b1d;
+        }
+
+        .flag-dot {
+            display: inline-block;
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            margin-right: 8px;
+            background: #f08b1d;
+        }
+
+        .table-shell {
+            overflow-x: auto;
+            overflow-y: hidden;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1160px;
+        }
+
+        th,
+        td {
+            padding: 12px 14px;
+            border-bottom: 1px solid rgba(210, 195, 173, 0.6);
+            text-align: left;
+            vertical-align: top;
+            font-size: 0.92rem;
+        }
+
+        th {
+            background: rgba(240, 227, 203, 0.65);
+            font-size: 0.8rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .empty-state {
+            padding: 28px;
+        }
+
+        .empty-state h2 {
+            margin-top: 0;
+        }
+
+        .section-meaning {
+            margin-top: 8px;
+            color: var(--muted);
+            font-size: 0.92rem;
+            line-height: 1.45;
+        }
+
+        .split-grid {
+            display: grid;
+            grid-template-columns: 1.3fr 1fr;
+            gap: 18px;
+        }
+
+        .summary-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: grid;
+            gap: 8px;
+        }
+
+        .summary-list li {
+            padding: 10px 12px;
+            border: 1px solid rgba(210, 195, 173, 0.6);
+            border-radius: 12px;
+            background: rgba(255, 250, 241, 0.72);
+        }
+
+        .timeline-day {
+            margin-top: 14px;
+        }
+
+        .timeline-day h4 {
+            margin: 0 0 8px;
+        }
+
+        .comparison-card {
+            display: grid;
+            gap: 14px;
+        }
+
+        .comparison-ring {
+            width: 180px;
+            height: 180px;
+            margin: 0 auto;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background:
+                radial-gradient(circle at center, #ffffff 0 50%, transparent 51%),
+                conic-gradient(#ef6c00 0 {{ dashboard.operational_comparison.late_pct|default:0 }}%, #dde8f5 {{ dashboard.operational_comparison.late_pct|default:0 }}% 100%);
+            box-shadow: inset 0 0 0 1px rgba(36, 56, 85, 0.08);
+        }
+
+        .comparison-center {
+            text-align: center;
+        }
+
+        .comparison-center strong {
+            display: block;
+            font-size: 2rem;
+            line-height: 1;
+        }
+
+        .comparison-center span {
+            color: var(--muted);
+            font-size: 0.92rem;
+        }
+
+        .comparison-meta {
+            display: grid;
+            gap: 8px;
+        }
+
+        .comparison-meta-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 10px 12px;
+            border: 1px solid rgba(215, 223, 235, 0.9);
+            border-radius: 12px;
+            background: rgba(245, 248, 252, 0.8);
+            font-size: 0.92rem;
+        }
+
+        .comparison-meta-row strong {
+            color: var(--ink);
+        }
+
+        .chart-list {
+            display: grid;
+            gap: 12px;
+        }
+
+        .chart-row {
+            display: grid;
+            grid-template-columns: 120px 1fr 92px;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .chart-label {
+            font-size: 0.84rem;
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        .chart-track {
+            position: relative;
+            height: 14px;
+            border-radius: 999px;
+            background: rgba(221, 232, 245, 0.9);
+            overflow: hidden;
+        }
+
+        .chart-bar {
+            height: 100%;
+            border-radius: 999px;
+            background: linear-gradient(90deg, #ef6c00 0%, #ffb347 100%);
+        }
+
+        .chart-bar--blue {
+            background: linear-gradient(90deg, #0b7ac0 0%, #39a8f0 100%);
+        }
+
+        .chart-value {
+            text-align: right;
+            font-weight: 700;
+            color: var(--ink);
+            font-size: 0.88rem;
+        }
+
+        .dual-chart-list {
+            display: grid;
+            gap: 14px;
+        }
+
+        .dual-chart-row {
+            display: grid;
+            gap: 8px;
+        }
+
+        .dual-chart-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 12px;
+        }
+
+        .dual-chart-head strong {
+            font-size: 0.9rem;
+        }
+
+        .dual-bars {
+            display: grid;
+            gap: 8px;
+        }
+
+        .dual-bar-row {
+            display: grid;
+            grid-template-columns: 130px 1fr 96px;
+            gap: 10px;
+            align-items: center;
+            font-size: 0.82rem;
+        }
+
+        .dual-bar-label {
+            color: var(--muted);
+            font-weight: 700;
+        }
+
+        .dual-value {
+            text-align: right;
+            font-size: 0.82rem;
+            font-weight: 700;
+        }
+
+        @media (max-width: 900px) {
+            .page {
+                padding: 24px 14px 42px;
+            }
+
+            .kpi-row,
+            .board-row-two,
+            .board-row-three,
+            .board-row-four,
+            .split-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stock-visual {
+                grid-template-columns: 1fr;
+            }
+
+            .chart-row,
+            .dual-bar-row {
+                grid-template-columns: 1fr;
+            }
+
+            .chart-value,
+            .dual-value {
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="page">
+        <section class="hero">
+            <div>
+                <p>Sales Report Processor</p>
+                <h1>Painel Diario de Acao Comercial</h1>
+                <small>Use o relatorio mais recente para priorizar follow-up de clientes, risco de materiais e volume comercial ainda em aberto.</small>
+            </div>
+            {% if dashboard %}
+            <div class="hero-meta">
+                <strong>Relatorio processado mais recente</strong>
+                <p>{{ dashboard.report_meta.uploaded_file }}</p>
+                <small>Gerado em {{ dashboard.report_meta.generated_date }} as {{ dashboard.report_meta.generated_time }}</small>
+            </div>
+            {% endif %}
+        </section>
+
+        {% if not dashboard %}
+        <section class="empty-state">
+            <h2>Nenhum relatorio processado disponivel ainda</h2>
+            <p>O painel precisa de pelo menos um relatorio persistido para mostrar prioridades comerciais, metricas de clientes e sinais de acao operacional.</p>
+            <p>Envie e processe um relatorio primeiro, depois volte aqui para ver a visao operacional mais recente.</p>
+        </section>
+        {% else %}
+        <section class="section">
+            <div class="section-header">
+                <h2>Indicadores Principais</h2>
+                <p>Panorama geral do relatorio atual.</p>
+            </div>
+            <p class="section-meaning">Esta faixa resume o volume comercial, o saldo aberto e os sinais que ajudam a priorizar wallet management e entrega.</p>
+            <div class="kpi-row kpi-row--four">
+                <article class="kpi-card">
+                    <span class="label">Total de Clientes</span>
+                    <div class="value">{{ dashboard.summary.total_clients }}</div>
+                </article>
+                <article class="kpi-card">
+                    <span class="label">Pedidos em Atraso</span>
+                    <div class="value">{{ dashboard.summary.pedidos_em_atraso }}</div>
+                </article>
+                <article class="kpi-card">
+                    <span class="label">Produzido Com Data Vencida</span>
+                    <div class="value">{{ dashboard.summary.produzido_data_vencida }}</div>
+                </article>
+                <article class="kpi-card">
+                    <span class="label">Peso em Atraso</span>
+                    <div class="value">{{ dashboard.summary.em_atraso }}</div>
+                </article>
+            </div>
+            <div class="kpi-row kpi-row--four">
+                <article class="kpi-card">
+                    <span class="label">Falta Produzir</span>
+                    <div class="value">{{ dashboard.summary.falta_produzir }}</div>
+                </article>
+                <article class="kpi-card">
+                    <span class="label">Entrega Esse Mes</span>
+                    <div class="value">{{ dashboard.summary.entrega_esse_mes }}</div>
+                </article>
+                <article class="kpi-card">
+                    <span class="label">Saldo em Estoque</span>
+                    <div class="value">{{ dashboard.summary.total_open_balance }}</div>
+                </article>
+                <article class="kpi-card">
+                    <span class="label">Faturado</span>
+                    <div class="value">{{ dashboard.summary.total_invoiced }}</div>
+                </article>
+            </div>
+            <div class="kpi-row kpi-row--three">
+                <article class="kpi-card">
+                    <span class="label">Valor em Pedidos</span>
+                    <div class="value">R$ {{ dashboard.summary.total_report_value }}</div>
+                </article>
+                <article class="kpi-card">
+                    <span class="label">Quantidade Pedida</span>
+                    <div class="value">{{ dashboard.summary.total_ordered }}</div>
+                </article>
+                <article class="kpi-card">
+                    <span class="label">Preco Medio</span>
+                    <div class="value">R$ {{ dashboard.summary.average_price }}</div>
+                </article>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="section-header">
+                <h2>Visao Operacional</h2>
+                <p>Concentracao operacional, exposicao vencida e valor comercial em risco.</p>
+            </div>
+            <div class="board-row-two">
+                <article class="board-card">
+                    <h3>Pedidos em Atraso vs Total de Itens/Pedidos</h3>
+                    <div class="comparison-card">
+                        <div class="comparison-ring">
+                            <div class="comparison-center">
+                                <strong>{{ dashboard.operational_comparison.late_pct }}%</strong>
+                                <span>em atraso</span>
+                            </div>
+                        </div>
+                        <div class="comparison-meta">
+                            <div class="comparison-meta-row">
+                                <span>Pedidos em Atraso</span>
+                                <strong>{{ dashboard.operational_comparison.late_lines }}</strong>
+                            </div>
+                            <div class="comparison-meta-row">
+                                <span>Total de Itens/Pedidos</span>
+                                <strong>{{ dashboard.operational_comparison.total_lines }}</strong>
+                            </div>
+                            <div class="comparison-meta-row">
+                                <span>Percentual em Atraso</span>
+                                <strong>{{ dashboard.operational_comparison.late_pct }}%</strong>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="board-card">
+                    <h3>Peso em Atraso por Cliente</h3>
+                    <div class="chart-list">
+                        {% for row in dashboard.overdue_weight_chart %}
+                        <div class="chart-row">
+                            <div class="chart-label">{{ row.customer_name }}</div>
+                            <div class="chart-track">
+                                <div class="chart-bar" style="width: {{ row.bar_pct }}%"></div>
+                            </div>
+                            <div class="chart-value">{{ row.value }}</div>
+                        </div>
+                        {% empty %}
+                        <p>Nenhum peso em atraso no momento.</p>
+                        {% endfor %}
+                    </div>
+                </article>
+            </div>
+
+            <div class="board-row-two">
+                <article class="board-card">
+                    <h3>Produzido com Data Vencida por Cliente</h3>
+                    <div class="chart-list">
+                        {% for row in dashboard.overdue_stock_chart %}
+                        <div class="chart-row">
+                            <div class="chart-label">{{ row.customer_name }}</div>
+                            <div class="chart-track">
+                                <div class="chart-bar chart-bar--blue" style="width: {{ row.bar_pct }}%"></div>
+                            </div>
+                            <div class="chart-value">{{ row.value }}</div>
+                        </div>
+                        {% empty %}
+                        <p>Nenhum saldo vencido produzido no momento.</p>
+                        {% endfor %}
+                    </div>
+                </article>
+
+                <article class="board-card">
+                    <h3>Valor em Risco por Cliente</h3>
+                    <div class="dual-chart-list">
+                        {% for row in dashboard.overdue_value_chart %}
+                        <div class="dual-chart-row">
+                            <div class="dual-chart-head">
+                                <strong>{{ row.customer_name }}</strong>
+                            </div>
+                            <div class="dual-bars">
+                                <div class="dual-bar-row">
+                                    <div class="dual-bar-label">Valor Total Data Vencida</div>
+                                    <div class="chart-track">
+                                        <div class="chart-bar chart-bar--blue" style="width: {{ row.stock_bar_pct }}%"></div>
+                                    </div>
+                                    <div class="dual-value">R$ {{ row.stock_value }}</div>
+                                </div>
+                                <div class="dual-bar-row">
+                                    <div class="dual-bar-label">Valor Total Peso em Atraso</div>
+                                    <div class="chart-track">
+                                        <div class="chart-bar" style="width: {{ row.delay_bar_pct }}%"></div>
+                                    </div>
+                                    <div class="dual-value">R$ {{ row.delay_value }}</div>
+                                </div>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <p>Sem valor comercial vencido relevante no momento.</p>
+                        {% endfor %}
+                    </div>
+                </article>
+            </div>
+
+        </section>
+
+        <section class="section">
+            <div class="section-header">
+                <h2>Excecoes Operacionais</h2>
+                <p>Sinais que explicam a pressao atual antes da leitura da fila principal.</p>
+            </div>
+            <p class="section-meaning">Estas excecoes mostram os eventos que alimentam a urgencia do relatorio. Elas preparam a leitura da fila ao deixar visivel quais desvios estao puxando prioridade agora.</p>
+            <article class="queue-card">
+                <div class="table-shell">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Sinal</th>
+                                <th>Cliente</th>
+                                <th>Pedido / Seq</th>
+                                <th>Prazo</th>
+                                <th>Motivo</th>
+                                <th>Acao</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row in dashboard.support_exception_rows %}
+                            <tr>
+                                <td>{{ row.signal_label }}</td>
+                                <td>{{ row.customer_name }}</td>
+                                <td>{{ row.pedido }}/{{ row.seq|default:"-" }}</td>
+                                <td>{{ row.dt_entr|default:"Sem prazo" }}</td>
+                                <td>{{ row.reason_text|default:"Sem motivo registrado" }}</td>
+                                <td>{{ row.next_action|default:"Acompanhar item" }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr><td colspan="6">Sem excecoes operacionais relevantes no momento.</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </article>
+        </section>
+
+        <section class="section">
+            <div class="section-header">
+                <h2>Fila de Prioridades</h2>
+                <p>Leitura principal de acao imediata a partir dos sinais operacionais do relatorio.</p>
+            </div>
+            <p class="section-meaning">Esta fila transforma a pressao mostrada em Visao Operacional em trabalho visivel: o que merece follow-up primeiro, por que entrou na fila e qual proxima acao comercial ou operacional faz mais sentido agora.</p>
+            <article class="queue-card">
+                <div class="table-shell">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Prioridade</th>
+                                <th>Flag Principal</th>
+                                <th>Cliente</th>
+                                <th>Pedido / Seq</th>
+                                <th>Material</th>
+                                <th>Prazo</th>
+                                <th>Motivo</th>
+                                <th>Acao Sugerida</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row in dashboard.worklist_rows %}
+                            <tr>
+                                <td>{{ row.priority_label|default:"Em acompanhamento" }}</td>
+                                <td>{{ row.primary_bucket_label }}</td>
+                                <td>{{ row.customer_name }}</td>
+                                <td>
+                                    <strong>{{ row.pedido|default:"-" }}</strong>
+                                    <br>
+                                    <span>Seq {{ row.seq|default:"-" }}</span>
+                                </td>
+                                <td>
+                                    <strong>{{ row.description|default:"-" }}</strong>
+                                    {% if row.ord_prod %}
+                                    <br>
+                                    <span>OP {{ row.ord_prod }}</span>
+                                    {% endif %}
+                                    {% if row.sit_ordem %}
+                                    <br>
+                                    <span>{{ row.sit_ordem }}</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <strong>{{ row.deadline_label|default:"Sem prazo definido" }}</strong>
+                                    {% if row.dt_entr %}
+                                    <br>
+                                    <span>{{ row.dt_entr }}</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ row.reason_text|default:"Sem motivo registrado" }}</td>
+                                <td>{{ row.next_action|default:"Acompanhar item" }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="8">Nenhum item acionavel no momento.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </article>
+        </section>
+
+        <section class="section">
+            <div class="section-header">
+                <h2>Carteira em Foco</h2>
+                <p>Clientes que merecem concentracao de leitura e follow-up depois da fila de prioridades.</p>
+            </div>
+            <p class="section-meaning">Se a fila responde o que precisa de acao primeiro, esta carteira responde quais contas merecem mais energia comercial agora, combinando prioridade operacional, quantidade de flags e valor em aberto.</p>
+            <article class="queue-card">
+                <div class="table-shell">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Cliente</th>
+                                <th>Representante</th>
+                                <th>Valor da Carteira</th>
+                                <th>Saldo em Aberto</th>
+                                <th>Qtd de Flags</th>
+                                <th>Prioridade da Conta</th>
+                                <th>Principal Sinal</th>
+                                <th>Motivo de Foco</th>
+                                <th>Proxima Leitura</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row in dashboard.client_rows %}
+                            <tr>
+                                <td><strong>{{ row.customer_name }}</strong></td>
+                                <td>{{ row.representative|default:"-" }}</td>
+                                <td>R$ {{ row.total_valor|default:"0" }}</td>
+                                <td>{{ row.total_sdo|default:"0" }}</td>
+                                <td>{{ row.action_flag_count }}</td>
+                                <td>{{ row.action_priority }}</td>
+                                <td>{{ row.dominant_signal_label }}</td>
+                                <td>{{ row.focus_reason }}</td>
+                                <td>{{ row.next_reading }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="9">Nenhum cliente em foco no momento.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </article>
+        </section>
+
+        <section class="section">
+            <div class="section-header">
+                <h2>Clientes em Evidencia</h2>
+                <p>Leitura complementar para reforcar quais contas pedem contexto antes do drilldown.</p>
+            </div>
+            <p class="section-meaning">Depois de entender a fila e a carteira principal, esta tabela ajuda a confirmar clientes que merecem leitura adicional por valor, quantidade de flags ou concentracao de risco.</p>
+            <article class="queue-card">
+                <div class="table-shell">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Sinal de Apoio</th>
+                                <th>Cliente</th>
+                                <th>Valor da Carteira</th>
+                                <th>Flags</th>
+                                <th>Motivo</th>
+                                <th>Proxima Leitura</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row in dashboard.support_client_rows %}
+                            <tr>
+                                <td>{{ row.support_label }}</td>
+                                <td>{{ row.customer_name }}</td>
+                                <td>R$ {{ row.total_valor|default:"0" }}</td>
+                                <td>{{ row.action_flag_count }}</td>
+                                <td>{{ row.focus_reason }}</td>
+                                <td>{{ row.next_reading }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr><td colspan="6">Sem clientes complementares em evidencia no momento.</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </article>
+        </section>
+
+        <section class="section">
+            <div class="section-header">
+                <h2>Cliente 360</h2>
+                <p>Drilldown da conta priorizada depois da leitura da carteira.</p>
+            </div>
+            {% if dashboard.client_360 %}
+            <p class="section-meaning">Conta selecionada a partir da {{ dashboard.client_360.selected_from }} para aprofundar o cliente com maior prioridade atual antes do follow-up. A leitura aqui deixa de ser panoramica e passa a ser decisional.</p>
+            <div class="split-grid">
+                <article class="queue-card">
+                    <h3>Cliente: {{ dashboard.client_360.customer_name }}</h3>
+                    <p class="section-meaning">Representante: {{ dashboard.client_360.representative }}</p>
+                    <h3>Handoff da Carteira</h3>
+                    <ul class="summary-list">
+                        <li>Origem: {{ dashboard.client_360.selected_from }} #{{ dashboard.client_360.selection_rank }}</li>
+                        <li>Principal sinal: {{ dashboard.client_360.dominant_signal_label }}</li>
+                        <li>Qtd de flags: {{ dashboard.client_360.action_flag_count }}</li>
+                        <li>Prioridade da conta: {{ dashboard.client_360.action_priority }}</li>
+                        <li>Motivo da selecao: {{ dashboard.client_360.selection_reason }}</li>
+                        <li>Proxima leitura sugerida: {{ dashboard.client_360.selection_hint }}</li>
+                    </ul>
+                    <h3>Resumo</h3>
+                    <ul class="summary-list">
+                        <li>Valor da carteira: R$ {{ dashboard.client_360.summary.portfolio_value }}</li>
+                        <li>Quantidade pedida: {{ dashboard.client_360.summary.total_ordered }}</li>
+                        <li>Quantidade produzida: {{ dashboard.client_360.summary.total_in_production }}</li>
+                        <li>Quantidade faturada: {{ dashboard.client_360.summary.total_invoiced }}</li>
+                        <li>Saldo: {{ dashboard.client_360.summary.open_balance }}</li>
+                        <li>Itens criticos no drilldown: {{ dashboard.client_360.critical_item_count }}</li>
+                    </ul>
+                    <h3>Flags</h3>
+                    {% if dashboard.client_360.flags %}
+                    <ul class="summary-list">
+                        {% for flag in dashboard.client_360.flags %}
+                        <li>{{ flag }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <p>Sem flags ativas para este cliente.</p>
+                    {% endif %}
+                </article>
+                <article class="queue-card">
+                    <h3>Itens Criticos</h3>
+                    <div class="table-shell">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Pedido</th>
+                                    <th>Seq</th>
+                                    <th>Descricao</th>
+                                    <th>Entrega</th>
+                                    <th>Situacao</th>
+                                    <th>Flag</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in dashboard.client_360.items %}
+                                <tr>
+                                    <td>{{ item.pedido }}</td>
+                                    <td>{{ item.seq }}</td>
+                                    <td>{{ item.description }}</td>
+                                    <td>{{ item.dt_entr|default:"-" }}</td>
+                                    <td>{{ item.sit|default:"-" }}</td>
+                                    <td>{{ item.primary_bucket_label }}</td>
+                                </tr>
+                                {% empty %}
+                                <tr><td colspan="6">Nenhum item critico para o cliente em foco.</td></tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </article>
+            </div>
+            {% endif %}
+        </section>
+
+        <section class="section">
+            <div class="section-header">
+                <h2>Timeline de Entregas</h2>
+                <p>O que precisa acontecer por data dentro do mes do relatorio.</p>
+            </div>
+            <div class="panel-stack">
+                {% for week in dashboard.delivery_timeline %}
+                <article class="queue-card">
+                    <h3>{{ week.label }}</h3>
+                    <p class="section-meaning">Peso da semana: {{ week.total_weight }} · Clientes impactados: {{ week.impacted_clients }} · Itens criticos: {{ week.critical_count }}</p>
+                    {% for day in week.days %}
+                    <div class="timeline-day">
+                        <h4>{{ day.label }}</h4>
+                        <div class="table-shell">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Cliente</th>
+                                        <th>Pedido</th>
+                                        <th>Seq</th>
+                                        <th>Descricao</th>
+                                        <th>Larg</th>
+                                        <th>Qt Ped</th>
+                                        <th>Sdo Estoq</th>
+                                        <th>Status</th>
+                                        <th>O.Compra</th>
+                                        <th>Item Cli</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in day.items %}
+                                    <tr>
+                                        <td>{{ item.customer_name }}</td>
+                                        <td>{{ item.pedido }}</td>
+                                        <td>{{ item.seq|default:"-" }}</td>
+                                        <td>{{ item.description|default:"-" }}</td>
+                                        <td>{{ item.larg|default:"-" }}</td>
+                                        <td>{{ item.qt_ped|default:"-" }}</td>
+                                        <td>{{ item.sdo_estoq|default:"-" }}</td>
+                                        <td>{{ item.sit|default:"-" }}</td>
+                                        <td>{{ item.o_compra|default:"-" }}</td>
+                                        <td>{{ item.item_cli|default:"-" }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </article>
+                {% empty %}
+                <article class="queue-card"><p>Sem entregas programadas para montar a timeline.</p></article>
+                {% endfor %}
+            </div>
+        </section>
+
+        {% endif %}
+    </main>
+</body>
+</html>
