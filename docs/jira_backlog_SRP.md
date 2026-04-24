@@ -1,7 +1,7 @@
 # Jira Backlog for Project SRP
-_Exported: 2026-04-24 17:47:42_
+_Exported: 2026-04-24 20:41:16_
 
-**Total Issues:** 42
+**Total Issues:** 45
 
 ## Execution Order
 
@@ -51,6 +51,9 @@ This section is the source of truth for workflow automation. It preserves Jira r
 | 40 | subtask | SRP-40 | SRP-14 | Make report persistence atomic | Done | SRP Sprint 4 |
 | 41 | subtask | SRP-41 | SRP-14 | Implement explicit validation and error handling for processing path | Done | SRP Sprint 4 |
 | 42 | subtask | SRP-42 | SRP-14 | Validate endpoint failure states and sync tests | Done | SRP Sprint 4 |
+| 43 | subtask | SRP-43 | SRP-15 | Define public vs private documentation boundary | To Do | SRP Sprint 4 |
+| 44 | subtask | SRP-44 | SRP-15 | Build public demo and run guide | Done | SRP Sprint 4 |
+| 45 | subtask | SRP-45 | SRP-15 | Final public repo documentation sync | In Progress | SRP Sprint 4 |
 
 ## Hierarchy
 
@@ -96,23 +99,27 @@ This section is the source of truth for workflow automation. It preserves Jira r
     - SRP-41 — Implement explicit validation and error handling for processing path [Done]
     - SRP-42 — Validate endpoint failure states and sync tests [Done]
   - SRP-15 — Documentation and Demo Readiness [To Do]
+    - SRP-43 — Define public vs private documentation boundary [To Do]
+    - SRP-44 — Build public demo and run guide [Done]
+    - SRP-45 — Final public repo documentation sync [In Progress]
 
 ---
 
 ## Summary
 
-- **To Do:** 2 issues
-- **In Progress:** 0 issues
-- **Done:** 40 issues
+- **To Do:** 3 issues
+- **In Progress:** 1 issues
+- **Done:** 41 issues
 
 ---
 
-## To Do (2 issues)
+## To Do (3 issues)
 
 | Key | Summary | Status | Created | Updated | Sprint |
 |-----|---------|--------|---------|---------|--------|
 | SRP-2 | Sales Report Processor MVP | To Do | 2026-04-04 | 2026-04-24 | No Sprint |
-| SRP-15 | Documentation and Demo Readiness | To Do | 2026-04-04 | 2026-04-04 | SRP Sprint 4 |
+| SRP-15 | Documentation and Demo Readiness | To Do | 2026-04-04 | 2026-04-24 | SRP Sprint 4 |
+| SRP-43 | Define public vs private documentation boundary | To Do | 2026-04-24 | 2026-04-24 | SRP Sprint 4 |
 
 ### SRP-2 – Sales Report Processor MVP
 
@@ -323,12 +330,148 @@ Sprint close note:
 - **Type:** Story
 - **Parent:** SRP-2
 - **Created:** 2026-04-04
-- **Updated:** 2026-04-04
+- **Updated:** 2026-04-24
 - **Sprint:** SRP Sprint 4
 
 **Description**
 
-_No content_
+Prepare Sales Report Processor to function as a clean public showcase repository that demonstrates business context, technical execution, and MVP completeness without exposing internal AI operating scaffolding.
+
+This story is about packaging the already-built MVP for external readers. It should make the repo easy to understand, run, validate, and demonstrate, while separating public-facing project documentation from private/internal workflow documentation.
+
+The repo should present:
+- the business problem
+- the MVP scope
+- the delivered architecture and flows
+- how to run and validate the project
+- how to demo the project clearly
+- current limitations and next-step possibilities
+
+This story should also define which internal process/AI docs should be removed from the public repo, reduced, or replaced by cleaner public-facing documentation.
+
+## Goal
+Make SRP presentation-ready as a public portfolio/showcase repo, while leaving room for a separate private operational continuation of the project.
+
+## Included
+- public-facing README refinement
+- demo-flow documentation
+- setup/run/validation instructions verified against current repo reality
+- clear statement of MVP boundaries and limitations
+- definition of what internal AI/process docs stay private vs public
+- removal or reduction of repo-visible internal scaffolding where appropriate
+
+## Not Included
+- new product features
+- daily-routine integration work
+- private operational workflow design
+- auth/deployment/platform expansion
+- parser/dashboard feature expansion
+- redesign of the actual MVP behavior
+
+## Acceptance Criteria
+- [ ] the repo reads cleanly as a public showcase project
+- [ ] a new reader can understand the business problem, MVP scope, and delivered flows
+- [ ] setup, run, and validation instructions are current and usable
+- [ ] one clear demo path is documented
+- [ ] repo-visible documentation is oriented toward external readers, not internal AI operations
+- [ ] internal-only process artifacts are removed, relocated, or clearly minimized
+- [ ] the project is ready to stand as a public reference before private continuation begins
+
+**Comments**
+
+- **Tailor Maciel** (2026-04-24): SRP-15 was reframed as a public-showcase packaging story. The goal is now to make the repo presentation-ready for external readers, while separating public project documentation from private operational AI workflow artifacts.
+
+---
+
+### SRP-43 – Define public vs private documentation boundary
+
+- **Status:** To Do
+- **Type:** Subtask
+- **Parent:** SRP-15
+- **Created:** 2026-04-24
+- **Updated:** 2026-04-24
+- **Sprint:** SRP Sprint 4
+
+**Description**
+
+Purpose
+Define what documentation and repo-visible operational artifacts belong in the public SRP showcase repo versus what should remain private, be relocated, or be reduced to lighter public-facing wording.
+
+Boundary Decision
+The public SRP repo should optimize for external readers: recruiters, technical peers, collaborators, and potential clients.
+
+Public-facing documentation should explain:
+- the business problem
+- the MVP scope
+- the architecture and delivered flows
+- how to set up, run, validate, and demo the project
+- current limitations and future directions
+
+Internal operational documentation should not remain part of the public-facing project surface when it primarily serves AI orchestration, ticket workflow, private execution habits, or project-control mechanics.
+
+Public / Private Classification
+
+Public keep
+- README.md as the main public entry point
+- minimal project docs that support setup, demo, architecture, and scope
+- concise public statements about delivery discipline or AI-assisted development when they add context
+- durable technical rationale only when it materially helps outside readers understand the system
+
+Private, relocate, or remove from public surface
+- docs/AI/* operating files that define AI runtime, delivery control, reasoning loops, bootstrap prompts, or internal context snapshots
+- docs/jira_backlog_SRP.md as a live internal tracking export
+- AGENTS.md when used primarily as an internal AI operating contract rather than public contributor guidance
+- workflow scripts and process docs whose main purpose is Jira/AI coordination rather than product understanding
+- temporary delivery-control notes, closure notes, or ticket-shadow artifacts
+
+Replacement Rule
+When an internal document is removed from the public surface, replace it only if its absence would make the project harder for an external reader to understand. Replacement docs should be public-oriented, concise, and product-centered.
+
+Implementation Handoff
+- SRP-44 should package the public run/demo flow around this boundary.
+- SRP-45 should apply the boundary by refining README and reducing or relocating internal-facing repo documentation.
+
+Acceptance Criteria
+- [ ] the public documentation audience is explicit
+- [ ] repo-visible internal operational artifacts are identified clearly
+- [ ] the keep / move / remove boundary is specific enough to implement without guesswork
+- [ ] the handoff into SRP-44 and SRP-45 is explicit
+
+**Comments**
+
+- **Tailor Maciel** (2026-04-24): Defined the public-vs-private documentation boundary for SRP. The repo should now be treated as a public showcase surface first, with internal AI operating docs, backlog exports, and workflow-control artifacts marked for relocation, removal, or reduction unless they materially help an external reader.
+
+---
+
+## In Progress (1 issues)
+
+| Key | Summary | Status | Created | Updated | Sprint |
+|-----|---------|--------|---------|---------|--------|
+| SRP-45 | Final public repo documentation sync | In Progress | 2026-04-24 | 2026-04-24 | SRP Sprint 4 |
+
+### SRP-45 – Final public repo documentation sync
+
+- **Status:** In Progress
+- **Type:** Subtask
+- **Parent:** SRP-15
+- **Created:** 2026-04-24
+- **Updated:** 2026-04-24
+- **Sprint:** SRP Sprint 4
+
+**Description**
+
+Purpose
+Align README and supporting docs to the final public-showcase direction after the documentation boundary and demo flow are defined.
+
+Deliverables
+- README and supporting docs aligned to public audience
+- stale internal-facing wording removed or reduced
+- final public MVP framing synced across repo docs
+
+Acceptance Criteria
+- [ ] public-facing documentation is consistent across repo entry points
+- [ ] stale or internal-only wording has been removed or minimized
+- [ ] the repo is ready to stand as a public reference
 
 **Comments**
 
@@ -336,7 +479,7 @@ _No comments_
 
 ---
 
-## Done (40 issues)
+## Done (41 issues)
 
 | Key | Summary | Status | Created | Updated | Sprint |
 |-----|---------|--------|---------|---------|--------|
@@ -380,6 +523,7 @@ _No comments_
 | SRP-40 | Make report persistence atomic | Done | 2026-04-24 | 2026-04-24 | SRP Sprint 4 |
 | SRP-41 | Implement explicit validation and error handling for processing path | Done | 2026-04-24 | 2026-04-24 | SRP Sprint 4 |
 | SRP-42 | Validate endpoint failure states and sync tests | Done | 2026-04-24 | 2026-04-24 | SRP Sprint 4 |
+| SRP-44 | Build public demo and run guide | Done | 2026-04-24 | 2026-04-24 | SRP Sprint 4 |
 
 ### SRP-1 – Initial Project Setup
 
@@ -3222,6 +3366,56 @@ Acceptance Criteria
 **Comments**
 
 - **Tailor Maciel** (2026-04-24): Added focused endpoint-safety tests and merged into dev through PR #26. Retrieval detail and dashboard entry points are now explicitly covered for failure-adjacent states where a ParsedReport exists without its related ReportTotal.
+
+---
+
+### SRP-44 – Build public demo and run guide
+
+- **Status:** Done
+- **Type:** Subtask
+- **Parent:** SRP-15
+- **Created:** 2026-04-24
+- **Updated:** 2026-04-24
+- **Sprint:** SRP Sprint 4
+
+**Description**
+
+Purpose
+Create one clean public-facing path for setting up, validating, and demonstrating the SRP MVP from a fresh reader perspective.
+
+Implementation Contract
+SRP-44 should package a single happy-path operator flow, not a broad documentation rewrite.
+
+The documented public flow should cover, in order:
+1. environment setup
+2. dependency installation
+3. local backend start
+4. upload of a sample TXT report
+5. retrieval check through the API
+6. dashboard check through the browser endpoint
+7. one concise test command for confidence validation
+
+Expected public artifacts from this slice
+- a setup/run section that matches the current repo reality
+- one demo walkthrough using the current sample report path where appropriate
+- one short validation command section
+- no Jira/AI workflow instructions on the public path
+
+Scope Rule
+This slice should improve the public run/demo experience only. It should not decide final removal of internal docs or fully rewrite all public-facing repo messaging. That broader cleanup belongs to SRP-45.
+
+Acceptance Criteria
+- [ ] a new reader can follow one setup-to-demo flow without relying on internal ticket context
+- [ ] the run commands match the current repository structure and environment
+- [ ] the demo flow covers upload, retrieval, and dashboard verification in one sequence
+- [ ] one current validation command section is included
+- [ ] the wording is public-facing and product-centered, not AI/workflow-centered
+- [ ] the handoff into SRP-45 is clear
+
+**Comments**
+
+- **Tailor Maciel** (2026-04-24): Refined SRP-44 into a single public operator flow: setup, run, upload, retrieval check, dashboard check, and one validation command. This should stay a narrow public demo-packaging slice, with broader public-doc cleanup deferred to SRP-45.
+- **Tailor Maciel** (2026-04-24): Implemented the public demo/run guide and merged it into dev through PR #27. The demo path now stays reproducible on a clean checkout by using a local upload check and a minimal seeded parsed report instead of relying on ignored media fixtures.
 
 ---
 

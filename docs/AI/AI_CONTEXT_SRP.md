@@ -84,7 +84,7 @@ store structured data, expose it via API, and display it on a basic dashboard.
 ### Active Delivery Focus
 
 - Current story: `SRP-15 — Documentation and Demo Readiness`
-- Current phase: post-SRP-14 closure and next-story definition
+- Current phase: public showcase packaging in progress
 - Prerequisites satisfied:
   - `SRP-12` retrieval endpoints and tests are complete
   - `SRP-13` dashboard flow is implemented, reviewed, merged, and closed
@@ -96,9 +96,13 @@ store structured data, expose it via API, and display it on a basic dashboard.
   - `SRP-40` made report persistence atomic
   - `SRP-41` added explicit processing-path validation before persistence
   - `SRP-42` locked endpoint-safe behavior for failure-adjacent states into tests
+  - `SRP-43` defined the public-vs-private documentation boundary
+  - `SRP-44` added the public run/demo guide
+- Current subtask focus: `SRP-45 — Final public repo documentation sync`
 - Resume point:
-  - diagnose `SRP-15` against the current merged MVP baseline
-  - define the smallest documentation/demo-readiness slice before implementation
+  - apply the public documentation boundary to repo-visible docs
+  - reduce or relocate internal-facing project-control surfaces
+  - leave the public repo in a clean showcase-ready state
 
 ---
 
