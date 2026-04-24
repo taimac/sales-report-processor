@@ -12,6 +12,37 @@ from reports.models import (
 from reports.services.txt_parser import assemble_report
 
 
+class ReportProcessingError(Exception):
+    """Raised when parsed report data is structurally invalid for persistence."""
+
+
+def _validate_persistence_contract(data):
+    """Validate the minimum parsed-data contract required for persistence."""
+    metadata = data.get("metadata", {})
+    customers = data.get("customers", [])
+    grand_totals = data.get("totals", {}).get("grand_totals", [])
+
+    if not metadata.get("generated_date"):
+        raise ReportProcessingError(
+            "Parsed report metadata is missing generated_date."
+        )
+
+    if not metadata.get("generated_time"):
+        raise ReportProcessingError(
+            "Parsed report metadata is missing generated_time."
+        )
+
+    if not customers:
+        raise ReportProcessingError(
+            "Parsed report must include at least one customer section."
+        )
+
+    if not grand_totals:
+        raise ReportProcessingError(
+            "Parsed report must include at least one grand total record."
+        )
+
+
 def persist_report(uploaded_report):
     """
     Orchestrates the full persistence pipeline for a supplier report.
@@ -46,6 +77,7 @@ def persist_report(uploaded_report):
     # - customers (sections with items)
     # - totals (client + grand totals)
     data = assemble_report(uploaded_report.file.path)
+    _validate_persistence_contract(data)
 
     with transaction.atomic():
         # ---------------------------------------------------------
