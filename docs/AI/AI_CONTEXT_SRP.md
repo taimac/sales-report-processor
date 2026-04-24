@@ -83,21 +83,22 @@ store structured data, expose it via API, and display it on a basic dashboard.
 
 ### Active Delivery Focus
 
-- Current story: `SRP-14 — Error Handling and Validation`
-- Current phase: SRP-14 implementation in progress through focused subtask slices
+- Current story: `SRP-15 — Documentation and Demo Readiness`
+- Current phase: post-SRP-14 closure and next-story definition
 - Prerequisites satisfied:
   - `SRP-12` retrieval endpoints and tests are complete
   - `SRP-13` dashboard flow is implemented, reviewed, merged, and closed
+  - `SRP-14` error handling and validation flow is implemented, merged, and closed
 - Primary local authority for the finalized SRP-13 dashboard shape:
   - `docs/AI/SRP_13_DASHBOARD_AGREED_SCOPE.md`
-- Current subtask focus: `SRP-42 — Validate endpoint failure states and sync tests`
 - Recent completion:
   - `SRP-39` defined the processing failure contract in Jira
   - `SRP-40` made report persistence atomic
   - `SRP-41` added explicit processing-path validation before persistence
+  - `SRP-42` locked endpoint-safe behavior for failure-adjacent states into tests
 - Resume point:
-  - validate endpoint-facing failure and empty-state safety
-  - extend tests only where the SRP-14 contract now requires it
+  - diagnose `SRP-15` against the current merged MVP baseline
+  - define the smallest documentation/demo-readiness slice before implementation
 
 ---
 
@@ -203,12 +204,12 @@ MVP is complete when:
   │    ├─ SRP-33   Add or Update Retrieval API Tests   ✅ Done
   │    └─ SRP-34   Sync SRP-12 Delivery State and Docs ✅ Done
   ├─ SRP-13   Basic Dashboard View                ✅ Done
-  ├─ SRP-14   Error Handling and Validation       ⬜ ← current story
+  ├─ SRP-14   Error Handling and Validation       ✅ Done
   │    ├─ SRP-39   Define processing failure contract ✅ Done
   │    ├─ SRP-40   Make report persistence atomic ✅ Done
   │    ├─ SRP-41   Implement explicit validation and error handling for processing path ✅ Done
-  │    └─ SRP-42   Validate endpoint failure states and sync tests ⬜ ← current
-  └─ SRP-15   Documentation and Demo Readiness    ⬜ To Do
+  │    └─ SRP-42   Validate endpoint failure states and sync tests ✅ Done
+  └─ SRP-15   Documentation and Demo Readiness    ⬜ ← next
 ```
 ---
 
@@ -221,5 +222,5 @@ MVP is complete when:
 5. ~~SRP-11 – Parsed Data Models~~ ✅ Done
 6. ~~SRP-12 – Processed Data Retrieval API~~ ✅ Done
 7. ~~SRP-13 – Basic Dashboard View~~ ✅ Done
-8. SRP-14 – Error Handling and Validation  ← current
-9. SRP-15 – Documentation and Demo Readiness
+8. ~~SRP-14 – Error Handling and Validation~~ ✅ Done
+9. SRP-15 – Documentation and Demo Readiness  ← next

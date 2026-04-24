@@ -1,5 +1,5 @@
 # Jira Backlog for Project SRP
-_Exported: 2026-04-24 17:30:33_
+_Exported: 2026-04-24 17:47:42_
 
 **Total Issues:** 42
 
@@ -22,7 +22,7 @@ This section is the source of truth for workflow automation. It preserves Jira r
 | 11 | story | SRP-11 | SRP-2 | Parsed Data Models | Done | SRP Sprint 2 |
 | 12 | story | SRP-12 | SRP-2 | Processed Data Retrieval API | Done | SRP Sprint 3 |
 | 13 | story | SRP-13 | SRP-2 | Basic Dashboard View | Done | SRP Sprint 3 |
-| 14 | story | SRP-14 | SRP-2 | Error Handling and Validation | In Progress | SRP Sprint 4 |
+| 14 | story | SRP-14 | SRP-2 | Error Handling and Validation | Done | SRP Sprint 4 |
 | 15 | story | SRP-15 | SRP-2 | Documentation and Demo Readiness | To Do | SRP Sprint 4 |
 | 16 | subtask | SRP-16 | SRP-10 | TXT Reader and Header Metadata Extraction | Done | SRP Sprint 2 |
 | 17 | subtask | SRP-17 | SRP-10 | Line Classification and Report Structure Detection | Done | SRP Sprint 2 |
@@ -50,7 +50,7 @@ This section is the source of truth for workflow automation. It preserves Jira r
 | 39 | subtask | SRP-39 | SRP-14 | Define processing failure contract | Done | SRP Sprint 4 |
 | 40 | subtask | SRP-40 | SRP-14 | Make report persistence atomic | Done | SRP Sprint 4 |
 | 41 | subtask | SRP-41 | SRP-14 | Implement explicit validation and error handling for processing path | Done | SRP Sprint 4 |
-| 42 | subtask | SRP-42 | SRP-14 | Validate endpoint failure states and sync tests | In Progress | SRP Sprint 4 |
+| 42 | subtask | SRP-42 | SRP-14 | Validate endpoint failure states and sync tests | Done | SRP Sprint 4 |
 
 ## Hierarchy
 
@@ -90,11 +90,11 @@ This section is the source of truth for workflow automation. It preserves Jira r
     - SRP-36 — Add dashboard view, route, and latest-report selection [Done]
     - SRP-37 — Implement dashboard template and operational sections [Done]
     - SRP-38 — Add dashboard tests and sync documentation [Done]
-  - SRP-14 — Error Handling and Validation [In Progress]
+  - SRP-14 — Error Handling and Validation [Done]
     - SRP-39 — Define processing failure contract [Done]
     - SRP-40 — Make report persistence atomic [Done]
     - SRP-41 — Implement explicit validation and error handling for processing path [Done]
-    - SRP-42 — Validate endpoint failure states and sync tests [In Progress]
+    - SRP-42 — Validate endpoint failure states and sync tests [Done]
   - SRP-15 — Documentation and Demo Readiness [To Do]
 
 ---
@@ -102,8 +102,8 @@ This section is the source of truth for workflow automation. It preserves Jira r
 ## Summary
 
 - **To Do:** 2 issues
-- **In Progress:** 2 issues
-- **Done:** 38 issues
+- **In Progress:** 0 issues
+- **Done:** 40 issues
 
 ---
 
@@ -336,105 +336,7 @@ _No comments_
 
 ---
 
-## In Progress (2 issues)
-
-| Key | Summary | Status | Created | Updated | Sprint |
-|-----|---------|--------|---------|---------|--------|
-| SRP-14 | Error Handling and Validation | In Progress | 2026-04-04 | 2026-04-24 | SRP Sprint 4 |
-| SRP-42 | Validate endpoint failure states and sync tests | In Progress | 2026-04-24 | 2026-04-24 | SRP Sprint 4 |
-
-### SRP-14 – Error Handling and Validation
-
-- **Status:** In Progress
-- **Type:** Story
-- **Parent:** SRP-2
-- **Created:** 2026-04-04
-- **Updated:** 2026-04-24
-- **Sprint:** SRP Sprint 4
-
-**Description**
-
-Strengthen SRP MVP robustness by making validation failures and processing failures behave predictably across upload, parsing, persistence, retrieval, and dashboard entry points.
-
-The goal is not to redesign the system or add advanced validation rules. The goal is to ensure the current MVP fails safely, returns clear outcomes, and does not leave partial or misleading state when bad input or invalid parsed data is encountered.
-
-The story should focus on:
-- explicit validation behavior for upload and processing inputs
-- safe persistence behavior when parsing output is incomplete or invalid
-- consistent error outcomes for missing or invalid report data
-- test coverage for failure paths that are currently implicit or only partially covered
-
-This remains MVP-scoped:
-- no auth
-- no workflow engine
-- no advanced PDF parsing
-- no background retries
-- no monitoring or alerting platform work
-
-Goal
-Make the current SRP flow reliable under bad input and failure conditions without expanding beyond MVP.
-
-Included
-- validate and document failure behavior for report processing
-- ensure persistence is atomic when processing fails
-- convert raw failure paths into explicit, testable behavior where appropriate
-- confirm retrieval and dashboard endpoints fail safely for missing or empty data states
-- add or update backend tests for validation and failure scenarios
-- sync docs only where behavior meaning changes
-
-Not Included
-- parser feature expansion
-- authentication or permissions
-- retry queues or async jobs
-- observability platform work
-- UI redesign
-- broad business-rule redesign
-
-Acceptance Criteria
-- [ ] upload endpoint continues to reject invalid or missing files with clear responses
-- [ ] report processing does not leave partial persisted state when parsing or persistence fails
-- [ ] invalid or incomplete parsed output is handled in a defined and testable way
-- [ ] retrieval and dashboard behavior remain safe for empty or missing data conditions
-- [ ] failure-path behavior is covered by backend tests
-- [ ] implementation remains MVP-simple and does not introduce new platform complexity
-
-**Comments**
-
-_No comments_
-
----
-
-### SRP-42 – Validate endpoint failure states and sync tests
-
-- **Status:** In Progress
-- **Type:** Subtask
-- **Parent:** SRP-14
-- **Created:** 2026-04-24
-- **Updated:** 2026-04-24
-- **Sprint:** SRP Sprint 4
-
-**Description**
-
-Purpose
-Confirm upload, retrieval, and dashboard endpoints behave safely under empty, missing, and failure-adjacent conditions.
-
-Deliverables
-- focused tests for endpoint failure states
-- any small endpoint-side adjustments needed for consistency
-
-Acceptance Criteria
-- [ ] upload invalid-input behavior is covered
-- [ ] retrieval missing or empty behavior is covered
-- [ ] dashboard empty-state safety remains covered
-- [ ] tests reflect the defined SRP-14 contract
-
-**Comments**
-
-_No comments_
-
----
-
-## Done (38 issues)
+## Done (40 issues)
 
 | Key | Summary | Status | Created | Updated | Sprint |
 |-----|---------|--------|---------|---------|--------|
@@ -450,6 +352,7 @@ _No comments_
 | SRP-11 | Parsed Data Models | Done | 2026-04-04 | 2026-04-13 | SRP Sprint 2 |
 | SRP-12 | Processed Data Retrieval API | Done | 2026-04-04 | 2026-04-13 | SRP Sprint 3 |
 | SRP-13 | Basic Dashboard View | Done | 2026-04-04 | 2026-04-24 | SRP Sprint 3 |
+| SRP-14 | Error Handling and Validation | Done | 2026-04-04 | 2026-04-24 | SRP Sprint 4 |
 | SRP-16 | TXT Reader and Header Metadata Extraction | Done | 2026-04-06 | 2026-04-07 | SRP Sprint 2 |
 | SRP-17 | Line Classification and Report Structure Detection | Done | 2026-04-06 | 2026-04-07 | SRP Sprint 2 |
 | SRP-18 | Parse Production, Delivery, and Quantity Columns | Done | 2026-04-07 | 2026-04-07 | SRP Sprint 2 |
@@ -476,6 +379,7 @@ _No comments_
 | SRP-39 | Define processing failure contract | Done | 2026-04-24 | 2026-04-24 | SRP Sprint 4 |
 | SRP-40 | Make report persistence atomic | Done | 2026-04-24 | 2026-04-24 | SRP Sprint 4 |
 | SRP-41 | Implement explicit validation and error handling for processing path | Done | 2026-04-24 | 2026-04-24 | SRP Sprint 4 |
+| SRP-42 | Validate endpoint failure states and sync tests | Done | 2026-04-24 | 2026-04-24 | SRP Sprint 4 |
 
 ### SRP-1 – Initial Project Setup
 
@@ -1638,6 +1542,67 @@ Recommended tracking sync:
 * move `SRP-13` to Done
 
 This is now a tracking update, not an implementation-completeness issue.
+
+---
+
+### SRP-14 – Error Handling and Validation
+
+- **Status:** Done
+- **Type:** Story
+- **Parent:** SRP-2
+- **Created:** 2026-04-04
+- **Updated:** 2026-04-24
+- **Sprint:** SRP Sprint 4
+
+**Description**
+
+Strengthen SRP MVP robustness by making validation failures and processing failures behave predictably across upload, parsing, persistence, retrieval, and dashboard entry points.
+
+The goal is not to redesign the system or add advanced validation rules. The goal is to ensure the current MVP fails safely, returns clear outcomes, and does not leave partial or misleading state when bad input or invalid parsed data is encountered.
+
+The story should focus on:
+- explicit validation behavior for upload and processing inputs
+- safe persistence behavior when parsing output is incomplete or invalid
+- consistent error outcomes for missing or invalid report data
+- test coverage for failure paths that are currently implicit or only partially covered
+
+This remains MVP-scoped:
+- no auth
+- no workflow engine
+- no advanced PDF parsing
+- no background retries
+- no monitoring or alerting platform work
+
+Goal
+Make the current SRP flow reliable under bad input and failure conditions without expanding beyond MVP.
+
+Included
+- validate and document failure behavior for report processing
+- ensure persistence is atomic when processing fails
+- convert raw failure paths into explicit, testable behavior where appropriate
+- confirm retrieval and dashboard endpoints fail safely for missing or empty data states
+- add or update backend tests for validation and failure scenarios
+- sync docs only where behavior meaning changes
+
+Not Included
+- parser feature expansion
+- authentication or permissions
+- retry queues or async jobs
+- observability platform work
+- UI redesign
+- broad business-rule redesign
+
+Acceptance Criteria
+- [ ] upload endpoint continues to reject invalid or missing files with clear responses
+- [ ] report processing does not leave partial persisted state when parsing or persistence fails
+- [ ] invalid or incomplete parsed output is handled in a defined and testable way
+- [ ] retrieval and dashboard behavior remain safe for empty or missing data conditions
+- [ ] failure-path behavior is covered by backend tests
+- [ ] implementation remains MVP-simple and does not introduce new platform complexity
+
+**Comments**
+
+- **Tailor Maciel** (2026-04-24): SRP-14 is now complete. The story delivered a defined processing failure contract, atomic persistence rollback, explicit processing-path validation before writes, and endpoint-level safety coverage for empty, missing, and failure-adjacent states.
 
 ---
 
@@ -3227,6 +3192,36 @@ Acceptance Criteria
 **Comments**
 
 - **Tailor Maciel** (2026-04-24): Implemented explicit processing-path validation before persistence and merged into dev through PR #25. Invalid parsed output now raises a defined application-level processing error before writes begin, while transactional rollback guarantees remain intact.
+
+---
+
+### SRP-42 – Validate endpoint failure states and sync tests
+
+- **Status:** Done
+- **Type:** Subtask
+- **Parent:** SRP-14
+- **Created:** 2026-04-24
+- **Updated:** 2026-04-24
+- **Sprint:** SRP Sprint 4
+
+**Description**
+
+Purpose
+Confirm upload, retrieval, and dashboard endpoints behave safely under empty, missing, and failure-adjacent conditions.
+
+Deliverables
+- focused tests for endpoint failure states
+- any small endpoint-side adjustments needed for consistency
+
+Acceptance Criteria
+- [ ] upload invalid-input behavior is covered
+- [ ] retrieval missing or empty behavior is covered
+- [ ] dashboard empty-state safety remains covered
+- [ ] tests reflect the defined SRP-14 contract
+
+**Comments**
+
+- **Tailor Maciel** (2026-04-24): Added focused endpoint-safety tests and merged into dev through PR #26. Retrieval detail and dashboard entry points are now explicitly covered for failure-adjacent states where a ParsedReport exists without its related ReportTotal.
 
 ---
 
