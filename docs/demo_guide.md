@@ -1,0 +1,186 @@
+<!--
+Purpose: Public setup, validation, and demo guide for the SRP MVP.
+Date: 2026-04-24
+Author: Codex
+Domain: Systems / SRP
+-->
+
+# SRP Demo Guide
+
+## Purpose
+
+Use this guide to run the Sales Report Processor MVP locally and walk through its
+main capabilities from an external-reader perspective.
+
+This demo path is intentionally simple:
+
+1. set up the local environment
+2. start the backend
+3. verify file upload
+4. persist the bundled TXT sample into structured data
+5. inspect retrieval endpoints
+6. inspect the dashboard
+7. run one focused validation command
+
+## Before You Start
+
+- Python 3.12 installed
+- terminal access
+- repo cloned locally
+
+The commands below assume you are at the project root:
+
+```bash
+cd sales-report-processor
+```
+
+## 1. Set Up The Environment
+
+Create and activate a virtual environment:
+
+```bash
+python -m venv venv
+source venv/bin/activate
+```
+
+Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+Create the local environment file:
+
+```bash
+cp .env.example .env
+```
+
+If your local `.env` carries a non-boolean `DEBUG` value, use `DEBUG=True`
+when running Django commands locally.
+
+## 2. Start The Backend
+
+From the project root:
+
+```bash
+cd backend
+python manage.py runserver
+```
+
+If needed:
+
+```bash
+cd backend
+env DEBUG=True python manage.py runserver
+```
+
+The app will be available at:
+
+- `http://127.0.0.1:8000/api/reports/upload/`
+- `http://127.0.0.1:8000/api/reports/`
+- `http://127.0.0.1:8000/dashboard/`
+
+## 3. Verify File Upload
+
+In a second terminal, from the project root:
+
+```bash
+curl -X POST http://127.0.0.1:8000/api/reports/upload/ \
+  -F "file=@backend/media/reports/carteira_06_04_26.txt"
+```
+
+Expected result:
+
+- `201 Created`
+- response contains `id`, `file`, `uploaded_at`, and `message`
+
+What this proves:
+
+- the upload endpoint accepts TXT files
+- the file is stored under `backend/media/reports/`
+
+## 4. Persist The Bundled Sample Report
+
+The current MVP exposes upload and processed-data retrieval as separate
+capabilities. To demo the structured-data and dashboard flow, persist the
+bundled TXT sample with Django shell:
+
+```bash
+env DEBUG=True venv/bin/python backend/manage.py shell -c "from reports.models import UploadedReport; from reports.services.report_persistence import persist_report; uploaded = UploadedReport.objects.create(file='reports/carteira_06_04_26.txt'); parsed = persist_report(uploaded); print(parsed.id)"
+```
+
+Expected result:
+
+- the command prints a parsed report id, such as `8`
+
+Keep that id for the next step.
+
+## 5. Inspect The Retrieval API
+
+List parsed reports:
+
+```bash
+curl http://127.0.0.1:8000/api/reports/
+```
+
+Inspect the specific parsed report created in the previous step:
+
+```bash
+curl http://127.0.0.1:8000/api/reports/<parsed_report_id>/
+```
+
+Expected result:
+
+- list endpoint returns persisted parsed reports
+- detail endpoint returns the nested structured payload for one report
+
+## 6. Inspect The Dashboard
+
+Open in your browser:
+
+```text
+http://127.0.0.1:8000/dashboard/
+```
+
+Expected result:
+
+- the latest persisted parsed report renders as the operational dashboard
+- story flow includes:
+  - `Indicadores Principais`
+  - `Visao Operacional`
+  - `Excecoes Operacionais`
+  - `Fila de Prioridades`
+  - `Carteira em Foco`
+  - `Clientes em Evidencia`
+  - `Cliente 360`
+  - `Timeline de Entregas`
+
+## 7. Run One Validation Command
+
+From the project root:
+
+```bash
+env DEBUG=True venv/bin/python backend/manage.py test reports.tests.test_upload_api reports.tests.test_retrieval_api reports.tests.test_dashboard_view reports.tests.test_persistence
+```
+
+This validates the main MVP paths covered by:
+
+- upload behavior
+- retrieval behavior
+- dashboard rendering
+- persistence and rollback rules
+
+## Demo Notes
+
+- The included TXT sample is:
+  `backend/media/reports/carteira_06_04_26.txt`
+- The upload endpoint stores raw files only
+- Parsed structured data is created through the persistence service
+- Dashboard and retrieval operate on the latest persisted `ParsedReport`
+
+## Current MVP Limits
+
+- PDF upload is accepted, but advanced PDF parsing is not implemented
+- authentication is not part of the MVP
+- no async processing or background jobs
+- no deployment packaging or Docker workflow yet
