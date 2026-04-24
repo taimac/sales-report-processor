@@ -17,7 +17,7 @@ This demo path is intentionally simple:
 1. set up the local environment
 2. start the backend
 3. verify file upload
-4. persist the bundled TXT sample into structured data
+4. seed one minimal parsed report for public demo purposes
 5. inspect retrieval endpoints
 6. inspect the dashboard
 7. run one focused validation command
@@ -84,9 +84,15 @@ The app will be available at:
 
 In a second terminal, from the project root:
 
+Create a small local TXT file for the upload check:
+
+```bash
+printf "Sample TXT content\n" > /tmp/srp-demo-upload.txt
+```
+
 ```bash
 curl -X POST http://127.0.0.1:8000/api/reports/upload/ \
-  -F "file=@backend/media/reports/carteira_06_04_26.txt"
+  -F "file=@/tmp/srp-demo-upload.txt"
 ```
 
 Expected result:
@@ -99,14 +105,15 @@ What this proves:
 - the upload endpoint accepts TXT files
 - the file is stored under `backend/media/reports/`
 
-## 4. Persist The Bundled Sample Report
+## 4. Seed A Minimal Parsed Report
 
 The current MVP exposes upload and processed-data retrieval as separate
-capabilities. To demo the structured-data and dashboard flow, persist the
-bundled TXT sample with Django shell:
+capabilities, and the public repo does not yet ship a tracked supplier fixture
+for parser-driven persistence. To keep the public demo reproducible on a clean
+checkout, seed one minimal parsed report with Django shell:
 
 ```bash
-env DEBUG=True venv/bin/python backend/manage.py shell -c "from reports.models import UploadedReport; from reports.services.report_persistence import persist_report; uploaded = UploadedReport.objects.create(file='reports/carteira_06_04_26.txt'); parsed = persist_report(uploaded); print(parsed.id)"
+env DEBUG=True venv/bin/python backend/manage.py shell -c "from reports.models import UploadedReport, ParsedReport, ReportTotal; uploaded = UploadedReport.objects.create(file='reports/demo-seeded.txt'); parsed = ParsedReport.objects.create(uploaded_report=uploaded, generated_date='24/04/2026', generated_time='10:00:00'); ReportTotal.objects.create(parsed_report=parsed, total_ped='100', total_in_prod='60', total_fatur='20', total_sdo='20', total_valor='1000,00'); print(parsed.id)"
 ```
 
 Expected result:
@@ -172,10 +179,9 @@ This validates the main MVP paths covered by:
 
 ## Demo Notes
 
-- The included TXT sample is:
-  `backend/media/reports/carteira_06_04_26.txt`
 - The upload endpoint stores raw files only
-- Parsed structured data is created through the persistence service
+- The public demo seeds a minimal `ParsedReport` through Django shell so the
+  retrieval API and dashboard can be exercised on a clean checkout
 - Dashboard and retrieval operate on the latest persisted `ParsedReport`
 
 ## Current MVP Limits
