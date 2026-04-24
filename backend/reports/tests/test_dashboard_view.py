@@ -46,6 +46,22 @@ class DashboardViewTests(TestCase):
         self.assertContains(response, "reports/latest.txt")
         self.assertEqual(response.context["dashboard"]["report_meta"]["report_id"], latest.id)
 
+    def test_dashboard_returns_200_when_latest_report_has_no_total(self):
+        uploaded_report = UploadedReport.objects.create(file="reports/no-total.txt")
+        parsed_report = ParsedReport.objects.create(
+            uploaded_report=uploaded_report,
+            generated_date="13/04/2026",
+            generated_time="09:00:00",
+        )
+
+        response = self.client.get(self.dashboard_url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context["dashboard"]["report_meta"]["report_id"], parsed_report.id)
+        self.assertEqual(response.context["dashboard"]["summary"]["total_ordered"], "0")
+        self.assertEqual(response.context["dashboard"]["summary"]["total_report_value"], "-")
+        self.assertContains(response, "reports/no-total.txt")
+
     def test_dashboard_renders_summary_action_queue_and_tables(self):
         parsed_report = self._create_dashboard_report("actionable.txt", "13/04/2026", "09:00:00")
 
