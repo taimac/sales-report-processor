@@ -85,6 +85,7 @@ Run the backend:
 
 ```bash
 cd backend
+python manage.py migrate
 python manage.py runserver
 ```
 
@@ -93,6 +94,13 @@ with:
 
 ```bash
 env DEBUG=True python manage.py runserver
+```
+
+If needed, apply migrations explicitly with:
+
+```bash
+cd backend
+env DEBUG=True python manage.py migrate
 ```
 
 For the complete public setup-to-demo flow, use

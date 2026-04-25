@@ -64,6 +64,7 @@ From the project root:
 
 ```bash
 cd backend
+python manage.py migrate
 python manage.py runserver
 ```
 
@@ -71,6 +72,7 @@ If needed:
 
 ```bash
 cd backend
+env DEBUG=True python manage.py migrate
 env DEBUG=True python manage.py runserver
 ```
 
